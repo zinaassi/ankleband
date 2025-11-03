@@ -1,0 +1,39 @@
+{
+    "MODE": "regular",
+    "DATA": {
+        "PATH": "data/dataset",
+        "TRAIN_FILES": ["ID01_seating_all_gestures.h5","ID01_standing_all_gestures.h5",
+                        "ID02_seating_all_gestures.h5","ID02_standing_all_gestures.h5"],
+        "TEST_FILES":  [],
+        "APPEND": 60,
+        "STEP": 10,
+        "STRIDE": 5,
+        "CLASSES": 5,
+        "LABEL_PERCENTAGE": 0.5,
+        "LEAVE_SUBJECT_OUT": 1,
+        "SHUFFLE": false
+    },
+    "MODEL": {
+        "TYPE": "neuralnet",
+        "NUM_FC_LAYERS": 2
+    },
+    "TRAINING": {
+        "BATCH_SIZE": 32,
+        "EPOCHS": 3,
+        "CP_INTERVAL": 5,
+        "LEARNING_RATE": 1e-4,
+        "WEIGHT_DECAY": 5e-5,
+        "EPSILON": 1e-8,
+        "MOMENTUM": 0.999,
+        "SCHEDULER_STEPS": 10000000,
+        "GRADIENT_CLIP": 1.0,
+        "BATCH_NUM_WORKERS": 0,
+        "WEIGHTED_SAMPLING": false
+    },
+    "SYSTEM": {
+        "GPU": 0
+    },
+    "OUTPUT_DIR": "outputs/quick_test",
+    "RANDOM_SEED": 2,
+    "STORE_CSV": false
+}
