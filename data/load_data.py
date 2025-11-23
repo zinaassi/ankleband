@@ -5,6 +5,7 @@ import pandas as pd
 import numpy as np
 import torch
 from scipy.ndimage import convolve1d
+from scipy import signal
 from torch.utils.data import Dataset
 import random
 from fastdtw import fastdtw
@@ -21,6 +22,11 @@ class DataManagement(object):
 
         # load and preprocess data
         self.load_data()
+
+        # apply low-pass filter if enabled (before dilution and concatenation)
+        if hasattr(self.cfg.data, 'apply_filter') and self.cfg.data.apply_filter:
+            self.apply_lowpass_filter()
+
         self.dilute_data()
 
         # prepare concatenated samples
@@ -157,6 +163,47 @@ class DataManagement(object):
             if not self.cfg.data.single_test:
                 self.train_df = self.train_df.iloc[::self.cfg.data.stride,:]
             self.test_df = self.test_df.iloc[::self.cfg.data.stride,:]
+
+    # apply low-pass Butterworth filter to reduce sensor noise
+    def apply_lowpass_filter(self):
+        """
+        Apply Butterworth low-pass filter to reduce sensor noise.
+        Filters raw IMU data before normalization and windowing.
+        Based on the paper's approach to handling noisy IMU data.
+        """
+
+        print('Applying low-pass filter to sensor data...')
+
+        # Filter parameters
+        sampling_rate = 200  # Hz (from dataset collection at 200 Hz)
+        cutoff_frequency = self.cfg.data.filter_cutoff  # From config
+        filter_order = self.cfg.data.filter_order  # From config
+
+        print(f'Filter settings: Cutoff={cutoff_frequency}Hz, Order={filter_order}, Sampling={sampling_rate}Hz')
+
+        # Design Butterworth low-pass filter
+        nyquist_freq = sampling_rate / 2.0  # Nyquist frequency = 100 Hz
+        normalized_cutoff = cutoff_frequency / nyquist_freq  # Normalize to 0-1 range
+
+        # Create filter coefficients using Second-Order Sections (SOS) - best practice for numerical stability
+        sos = signal.butter(filter_order, normalized_cutoff, btype='low', output='sos')
+
+        # Sensor columns to filter (6-axis IMU: 3 accelerometer + 3 gyroscope)
+        sensor_columns = ['acc_x', 'acc_y', 'acc_z', 'gyro_x', 'gyro_y', 'gyro_z']
+
+        # Apply zero-phase filtering to training data
+        if not self.cfg.data.single_test:
+            print('Filtering training data...')
+            for col in sensor_columns:
+                # sosfiltfilt = zero-phase filtering (forward-backward filter, no time delay)
+                self.train_df[col] = signal.sosfiltfilt(sos, self.train_df[col].values)
+
+        # Apply zero-phase filtering to test data
+        print('Filtering test data...')
+        for col in sensor_columns:
+            self.test_df[col] = signal.sosfiltfilt(sos, self.test_df[col].values)
+
+        print('Low-pass filtering complete.')
 
     # remove columns irrelevant for training
     def remove_irrelevant_data(self):

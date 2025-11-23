@@ -137,12 +137,28 @@ class ConfigDataManager(object):
         else:
             self.dtw = False
 
+        # filter settings for noise reduction
+        if 'APPLY_FILTER' in cfg_dict['DATA']:
+            self.apply_filter = cfg_dict['DATA']['APPLY_FILTER']
+        else:
+            self.apply_filter = False
+
+        if 'FILTER_CUTOFF' in cfg_dict['DATA']:
+            self.filter_cutoff = cfg_dict['DATA']['FILTER_CUTOFF']
+        else:
+            self.filter_cutoff = 15  # Default cutoff frequency in Hz
+
+        if 'FILTER_ORDER' in cfg_dict['DATA']:
+            self.filter_order = cfg_dict['DATA']['FILTER_ORDER']
+        else:
+            self.filter_order = 4  # Default filter order
+
         # device related settings
         if 'CLASSES' in cfg_dict['DATA']:
             self.classes = cfg_dict['DATA']['CLASSES']
         else:
             self.classes = None
-            
+
 class ConfigModelManager(object):
 
     def __init__(self, cfg_dict):

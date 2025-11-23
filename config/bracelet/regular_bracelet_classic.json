@@ -1,7 +1,7 @@
 {
     "MODE": "regular",
     "DATA": {
-        "PATH": "/mnt/walkure_public/deanz/datasets/imugr/bracelet/prepared_data",
+        "PATH": "data/dataset",
         "TRAIN_FILES": ["ID06_seating_all_gestures.h5","ID06_standing_all_gestures.h5",
                         "ID09_seating_all_gestures.h5","ID09_standing_all_gestures.h5",
                         "ID02_seating_all_gestures.h5","ID02_standing_all_gestures.h5",
