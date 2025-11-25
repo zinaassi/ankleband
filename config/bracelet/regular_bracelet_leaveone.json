@@ -34,7 +34,7 @@
     "LABEL_PERCENTAGE": 0.5,
     "LEAVE_SUBJECT_OUT": 1,
     "APPLY_FILTER": true,
-    "FILTER_CUTOFF": 15,
+    "FILTER_CUTOFF": 12,
     "FILTER_ORDER": 4,
     "SHUFFLE": false,
     "SHARE_TRAIN": 0.0,
