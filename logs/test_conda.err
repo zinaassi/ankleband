@@ -1,0 +1,5 @@
+/var/spool/slurmd/job329743/slurm_script: 4: module: not found
+/var/spool/slurmd/job329743/slurm_script: 4: module: not found
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+ModuleNotFoundError: No module named 'fastdtw'

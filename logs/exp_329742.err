@@ -1,0 +1,9 @@
+environment: line 38: /usr/bin/tclsh8.6: No such file or directory
+environment: line 38: /usr/bin/tclsh8.6: No such file or directory
+/var/spool/slurmd/job329742/slurm_script: line 17: activate: No such file or directory
+Traceback (most recent call last):
+  File "/home/zina.assi/ankleband/trainer/train_conv.py", line 14, in <module>
+    from data.load_data import DataManagement, TorchDatasetManagement
+  File "/home/zina.assi/ankleband/./data/load_data.py", line 11, in <module>
+    from fastdtw import fastdtw
+ModuleNotFoundError: No module named 'fastdtw'

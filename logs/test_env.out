@@ -1,0 +1,22 @@
+==========================================
+Testing environment setup
+==========================================
+Loading modules...
+Initializing conda...
+Activating imugr environment...
+
+Environment check:
+  Python path: /home/zina.assi/miniconda3/envs/imugr/bin/python
+  Conda env: imugr
+
+Testing imports...
+Python version: 3.9.25 (main, Nov  3 2025, 22:33:05) 
+[GCC 11.2.0]
+✓ fastdtw imported successfully
+✓ torch imported successfully
+  CUDA available: True
+  GPU: NVIDIA GeForce RTX 2080 Ti
+
+==========================================
+Test complete!
+==========================================

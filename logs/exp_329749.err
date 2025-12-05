@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/home/zina.assi/ankleband/trainer/train_conv.py", line 14, in <module>
+    from data.load_data import DataManagement, TorchDatasetManagement
+  File "/home/zina.assi/ankleband/./data/load_data.py", line 13, in <module>
+    import swifter
+ModuleNotFoundError: No module named 'swifter'

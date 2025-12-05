@@ -1,0 +1,7 @@
+Config: hpc_baseline.json
+Starting at: Fri 05 Dec 2025 10:56:06 PM IST
+environment: line 38: /usr/bin/tclsh8.6: No such file or directory
+environment: line 38: /usr/bin/tclsh8.6: No such file or directory
+Python: /home/zina.assi/miniconda3/envs/imugr/bin/python
+Conda env: imugr
+Finished at: Fri 05 Dec 2025 10:56:14 PM IST

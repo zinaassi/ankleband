@@ -2,10 +2,9 @@ torch==2.6.0
 torchvision==0.21.0
 torchaudio==2.6.0
 pytorch-ignite==0.5.1
-open3d==0.9
-open3d-python
+open3d>=0.18.0
 tables==3.8.0
-tensorflow[and-cuda]==2.15.1
+tensorflow==2.15.1
 onnx==1.15.0
 onnx-tf==1.10.0
 protobuf==3.20.3
