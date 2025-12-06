@@ -19,3 +19,13 @@ Started training...
 Epoch: 1, Loss: 0.755, Test Loss: 0.506, Accuracy: 0.812, Recall: 0.503, Precision: 0.857.
 Epoch: 2, Loss: 0.260, Test Loss: 0.329, Accuracy: 0.880, Recall: 0.694, Precision: 0.916.
 Epoch: 3, Loss: 0.184, Test Loss: 0.294, Accuracy: 0.899, Recall: 0.748, Precision: 0.942.
+Epoch: 4, Loss: 0.159, Test Loss: 0.246, Accuracy: 0.921, Recall: 0.815, Precision: 0.948.
+Epoch: 5, Loss: 0.143, Test Loss: 0.240, Accuracy: 0.925, Recall: 0.824, Precision: 0.949.
+Saving weights to outputs/hpc_filter_18hz
+Epoch: 6, Loss: 0.131, Test Loss: 0.221, Accuracy: 0.930, Recall: 0.843, Precision: 0.948.
+Epoch: 7, Loss: 0.122, Test Loss: 0.199, Accuracy: 0.938, Recall: 0.867, Precision: 0.947.
+Epoch: 8, Loss: 0.115, Test Loss: 0.207, Accuracy: 0.936, Recall: 0.859, Precision: 0.951.
+Epoch: 9, Loss: 0.108, Test Loss: 0.192, Accuracy: 0.940, Recall: 0.874, Precision: 0.947.
+Epoch: 10, Loss: 0.104, Test Loss: 0.192, Accuracy: 0.939, Recall: 0.866, Precision: 0.953.
+Saving weights to outputs/hpc_filter_18hz
+Finished at: Sat 06 Dec 2025 09:55:50 AM IST
