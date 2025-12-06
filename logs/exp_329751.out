@@ -4,3 +4,23 @@ environment: line 38: /usr/bin/tclsh8.6: No such file or directory
 environment: line 38: /usr/bin/tclsh8.6: No such file or directory
 Python: /home/zina.assi/miniconda3/envs/imugr/bin/python
 Conda env: imugr
+Loading dataset...
+Removing irrelevant data...
+Concatenating samples...
+Normalizaing inputs...
+Total samples for train: 1128925.
+Total samples for test: 119418.
+Started training...
+Epoch: 1, Loss: 0.848, Test Loss: 0.544, Accuracy: 0.788, Recall: 0.441, Precision: 0.816.
+Epoch: 2, Loss: 0.284, Test Loss: 0.368, Accuracy: 0.863, Recall: 0.649, Precision: 0.897.
+Epoch: 3, Loss: 0.200, Test Loss: 0.307, Accuracy: 0.890, Recall: 0.726, Precision: 0.925.
+Epoch: 4, Loss: 0.169, Test Loss: 0.278, Accuracy: 0.905, Recall: 0.769, Precision: 0.936.
+Epoch: 5, Loss: 0.150, Test Loss: 0.267, Accuracy: 0.909, Recall: 0.783, Precision: 0.938.
+Saving weights to outputs/hpc_baseline
+Epoch: 6, Loss: 0.137, Test Loss: 0.268, Accuracy: 0.911, Recall: 0.791, Precision: 0.942.
+Epoch: 7, Loss: 0.128, Test Loss: 0.268, Accuracy: 0.912, Recall: 0.796, Precision: 0.942.
+Epoch: 8, Loss: 0.120, Test Loss: 0.267, Accuracy: 0.915, Recall: 0.805, Precision: 0.945.
+Epoch: 9, Loss: 0.114, Test Loss: 0.255, Accuracy: 0.920, Recall: 0.820, Precision: 0.944.
+Epoch: 10, Loss: 0.109, Test Loss: 0.248, Accuracy: 0.923, Recall: 0.825, Precision: 0.951.
+Saving weights to outputs/hpc_baseline
+Finished at: Sat 06 Dec 2025 01:23:24 AM IST

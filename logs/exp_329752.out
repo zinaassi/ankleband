@@ -1,0 +1,31 @@
+Config: hpc_filter_10hz.json
+Starting at: Sat 06 Dec 2025 01:23:24 AM IST
+environment: line 38: /usr/bin/tclsh8.6: No such file or directory
+environment: line 38: /usr/bin/tclsh8.6: No such file or directory
+Python: /home/zina.assi/miniconda3/envs/imugr/bin/python
+Conda env: imugr
+Loading dataset...
+Applying low-pass filter to sensor data...
+Filter settings: Cutoff=10Hz, Order=5, Sampling=200Hz
+Filtering training data...
+Filtering test data...
+Low-pass filtering complete.
+Removing irrelevant data...
+Concatenating samples...
+Normalizaing inputs...
+Total samples for train: 1128925.
+Total samples for test: 119418.
+Started training...
+Epoch: 1, Loss: 0.805, Test Loss: 0.530, Accuracy: 0.802, Recall: 0.484, Precision: 0.862.
+Epoch: 2, Loss: 0.253, Test Loss: 0.318, Accuracy: 0.889, Recall: 0.726, Precision: 0.930.
+Epoch: 3, Loss: 0.179, Test Loss: 0.306, Accuracy: 0.892, Recall: 0.726, Precision: 0.945.
+Epoch: 4, Loss: 0.153, Test Loss: 0.250, Accuracy: 0.920, Recall: 0.812, Precision: 0.949.
+Epoch: 5, Loss: 0.138, Test Loss: 0.260, Accuracy: 0.915, Recall: 0.796, Precision: 0.951.
+Saving weights to outputs/hpc_filter_10hz
+Epoch: 6, Loss: 0.127, Test Loss: 0.259, Accuracy: 0.919, Recall: 0.811, Precision: 0.951.
+Epoch: 7, Loss: 0.119, Test Loss: 0.244, Accuracy: 0.923, Recall: 0.824, Precision: 0.949.
+Epoch: 8, Loss: 0.113, Test Loss: 0.243, Accuracy: 0.926, Recall: 0.829, Precision: 0.952.
+Epoch: 9, Loss: 0.108, Test Loss: 0.225, Accuracy: 0.930, Recall: 0.842, Precision: 0.951.
+Epoch: 10, Loss: 0.104, Test Loss: 0.224, Accuracy: 0.931, Recall: 0.847, Precision: 0.947.
+Saving weights to outputs/hpc_filter_10hz
+Finished at: Sat 06 Dec 2025 03:43:13 AM IST
