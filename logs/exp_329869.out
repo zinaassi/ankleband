@@ -1,0 +1,29 @@
+Config: hpc_filter_20hz.json
+Starting at: Sat 06 Dec 2025 04:01:37 PM IST
+Python: /home/zina.assi/miniconda3/envs/imugr/bin/python
+Conda env: imugr
+Loading dataset...
+Applying low-pass filter to sensor data...
+Filter settings: Cutoff=20Hz, Order=5, Sampling=200Hz
+Filtering training data...
+Filtering test data...
+Low-pass filtering complete.
+Removing irrelevant data...
+Concatenating samples...
+Normalizaing inputs...
+Total samples for train: 1128925.
+Total samples for test: 119418.
+Started training...
+Epoch: 1, Loss: 0.793, Test Loss: 0.567, Accuracy: 0.770, Recall: 0.387, Precision: 0.792.
+Epoch: 2, Loss: 0.292, Test Loss: 0.410, Accuracy: 0.842, Recall: 0.589, Precision: 0.884.
+Epoch: 3, Loss: 0.208, Test Loss: 0.335, Accuracy: 0.877, Recall: 0.682, Precision: 0.919.
+Epoch: 4, Loss: 0.171, Test Loss: 0.288, Accuracy: 0.900, Recall: 0.749, Precision: 0.940.
+Epoch: 5, Loss: 0.149, Test Loss: 0.257, Accuracy: 0.916, Recall: 0.796, Precision: 0.949.
+Saving weights to outputs/hpc_filter_20hz
+Epoch: 6, Loss: 0.134, Test Loss: 0.244, Accuracy: 0.922, Recall: 0.814, Precision: 0.952.
+Epoch: 7, Loss: 0.123, Test Loss: 0.238, Accuracy: 0.924, Recall: 0.827, Precision: 0.949.
+Epoch: 8, Loss: 0.115, Test Loss: 0.217, Accuracy: 0.930, Recall: 0.848, Precision: 0.943.
+Epoch: 9, Loss: 0.110, Test Loss: 0.230, Accuracy: 0.925, Recall: 0.829, Precision: 0.949.
+Epoch: 10, Loss: 0.105, Test Loss: 0.234, Accuracy: 0.923, Recall: 0.829, Precision: 0.945.
+Saving weights to outputs/hpc_filter_20hz
+Finished at: Sat 06 Dec 2025 06:17:26 PM IST

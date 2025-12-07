@@ -23,6 +23,8 @@ EXPERIMENTS = {
     '12 Hz': 'outputs/hpc_filter_12hz',
     '15 Hz': 'outputs/hpc_filter_15hz',
     '18 Hz': 'outputs/hpc_filter_18hz',
+    '20 Hz': 'outputs/hpc_filter_20hz',
+    '25 Hz': 'outputs/hpc_filter_25hz',
 }
 
 def load_experiment_data(output_dir):
