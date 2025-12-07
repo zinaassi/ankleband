@@ -28,7 +28,7 @@
         "TEST_FILES": [],
         "APPEND": 60,
         "STEP": 2,
-        "STRIDE": 2,
+        "STRIDE": 1,
         "CLASSES": 5,
         "LABEL_PERCENTAGE": 0.5,
         "LEAVE_SUBJECT_OUT": 1,
@@ -51,7 +51,7 @@
         "MOMENTUM": 0.999,
         "SCHEDULER_STEPS": 10000000,
         "GRADIENT_CLIP": 1.0,
-        "BATCH_NUM_WORKERS": 4,
+        "BATCH_NUM_WORKERS": 32,
         "WEIGHTED_SAMPLING": false
     },
     "SYSTEM": {
