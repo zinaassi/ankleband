@@ -1,0 +1,977 @@
+================================================================================
+DETAILED FILTER METRICS - ID01_Seating
+Generated: 2025-12-10 16:44:13
+================================================================================
+
+================================================================================
+RANK 1: 5 Hz, Order 2
+================================================================================
+Composite Score: 1.5000
+
+PEAK METRICS:
+  Raw Peak Amplitude: 0.0000
+  Filtered Peak Amplitude: 0.0000
+  Peak Loss: 0.00%
+  Peak Preserved: 100.00%
+
+NOISE METRICS:
+  Raw Std Dev: 0.7130
+  Filtered Std Dev: 0.4610
+  Noise Std Dev: 0.8058
+  Noise Reduction: 113.02%
+  SNR: 8.49 dB
+
+CORRELATION:
+  Gesture Correlation: 1.0000
+
+RMS VALUES:
+  Raw RMS: 2.2267
+  Filtered RMS: 2.1411
+
+Output File: filter_analysis_results/ID01_Seating/individual_filters/filter_5Hz_order2_ID01_Seating.png
+
+================================================================================
+RANK 2: 5 Hz, Order 3
+================================================================================
+Composite Score: 1.5000
+
+PEAK METRICS:
+  Raw Peak Amplitude: 0.0000
+  Filtered Peak Amplitude: 0.0000
+  Peak Loss: 0.00%
+  Peak Preserved: 100.00%
+
+NOISE METRICS:
+  Raw Std Dev: 0.7130
+  Filtered Std Dev: 0.4729
+  Noise Std Dev: 0.9071
+  Noise Reduction: 127.23%
+  SNR: 7.44 dB
+
+CORRELATION:
+  Gesture Correlation: 1.0000
+
+RMS VALUES:
+  Raw RMS: 2.2267
+  Filtered RMS: 2.1362
+
+Output File: filter_analysis_results/ID01_Seating/individual_filters/filter_5Hz_order3_ID01_Seating.png
+
+================================================================================
+RANK 3: 5 Hz, Order 4
+================================================================================
+Composite Score: 1.5000
+
+PEAK METRICS:
+  Raw Peak Amplitude: 0.0000
+  Filtered Peak Amplitude: 0.0000
+  Peak Loss: 0.00%
+  Peak Preserved: 100.00%
+
+NOISE METRICS:
+  Raw Std Dev: 0.7130
+  Filtered Std Dev: 0.4867
+  Noise Std Dev: 0.9413
+  Noise Reduction: 132.03%
+  SNR: 7.09 dB
+
+CORRELATION:
+  Gesture Correlation: 1.0000
+
+RMS VALUES:
+  Raw RMS: 2.2267
+  Filtered RMS: 2.1314
+
+Output File: filter_analysis_results/ID01_Seating/individual_filters/filter_5Hz_order4_ID01_Seating.png
+
+================================================================================
+RANK 4: 5 Hz, Order 5
+================================================================================
+Composite Score: 1.5000
+
+PEAK METRICS:
+  Raw Peak Amplitude: 0.0000
+  Filtered Peak Amplitude: 0.0000
+  Peak Loss: 0.00%
+  Peak Preserved: 100.00%
+
+NOISE METRICS:
+  Raw Std Dev: 0.7130
+  Filtered Std Dev: 0.5012
+  Noise Std Dev: 0.9506
+  Noise Reduction: 133.33%
+  SNR: 6.99 dB
+
+CORRELATION:
+  Gesture Correlation: 1.0000
+
+RMS VALUES:
+  Raw RMS: 2.2267
+  Filtered RMS: 2.1268
+
+Output File: filter_analysis_results/ID01_Seating/individual_filters/filter_5Hz_order5_ID01_Seating.png
+
+================================================================================
+RANK 5: 8 Hz, Order 2
+================================================================================
+Composite Score: 1.5000
+
+PEAK METRICS:
+  Raw Peak Amplitude: 0.0000
+  Filtered Peak Amplitude: 0.0000
+  Peak Loss: 0.00%
+  Peak Preserved: 100.00%
+
+NOISE METRICS:
+  Raw Std Dev: 0.7130
+  Filtered Std Dev: 0.5555
+  Noise Std Dev: 0.7298
+  Noise Reduction: 102.36%
+  SNR: 9.47 dB
+
+CORRELATION:
+  Gesture Correlation: 1.0000
+
+RMS VALUES:
+  Raw RMS: 2.2267
+  Filtered RMS: 2.1702
+
+Output File: filter_analysis_results/ID01_Seating/individual_filters/filter_8Hz_order2_ID01_Seating.png
+
+================================================================================
+RANK 6: 8 Hz, Order 3
+================================================================================
+Composite Score: 1.5000
+
+PEAK METRICS:
+  Raw Peak Amplitude: 0.0000
+  Filtered Peak Amplitude: 0.0000
+  Peak Loss: 0.00%
+  Peak Preserved: 100.00%
+
+NOISE METRICS:
+  Raw Std Dev: 0.7130
+  Filtered Std Dev: 0.5697
+  Noise Std Dev: 0.8741
+  Noise Reduction: 122.60%
+  SNR: 7.89 dB
+
+CORRELATION:
+  Gesture Correlation: 1.0000
+
+RMS VALUES:
+  Raw RMS: 2.2267
+  Filtered RMS: 2.1693
+
+Output File: filter_analysis_results/ID01_Seating/individual_filters/filter_8Hz_order3_ID01_Seating.png
+
+================================================================================
+RANK 7: 8 Hz, Order 4
+================================================================================
+Composite Score: 1.5000
+
+PEAK METRICS:
+  Raw Peak Amplitude: 0.0000
+  Filtered Peak Amplitude: 0.0000
+  Peak Loss: 0.00%
+  Peak Preserved: 100.00%
+
+NOISE METRICS:
+  Raw Std Dev: 0.7130
+  Filtered Std Dev: 0.5822
+  Noise Std Dev: 0.9622
+  Noise Reduction: 134.96%
+  SNR: 7.05 dB
+
+CORRELATION:
+  Gesture Correlation: 1.0000
+
+RMS VALUES:
+  Raw RMS: 2.2267
+  Filtered RMS: 2.1678
+
+Output File: filter_analysis_results/ID01_Seating/individual_filters/filter_8Hz_order4_ID01_Seating.png
+
+================================================================================
+RANK 8: 8 Hz, Order 5
+================================================================================
+Composite Score: 1.5000
+
+PEAK METRICS:
+  Raw Peak Amplitude: 0.0000
+  Filtered Peak Amplitude: 0.0000
+  Peak Loss: 0.00%
+  Peak Preserved: 100.00%
+
+NOISE METRICS:
+  Raw Std Dev: 0.7130
+  Filtered Std Dev: 0.5935
+  Noise Std Dev: 1.0139
+  Noise Reduction: 142.21%
+  SNR: 6.59 dB
+
+CORRELATION:
+  Gesture Correlation: 1.0000
+
+RMS VALUES:
+  Raw RMS: 2.2267
+  Filtered RMS: 2.1659
+
+Output File: filter_analysis_results/ID01_Seating/individual_filters/filter_8Hz_order5_ID01_Seating.png
+
+================================================================================
+RANK 9: 10 Hz, Order 2
+================================================================================
+Composite Score: 1.5000
+
+PEAK METRICS:
+  Raw Peak Amplitude: 0.0000
+  Filtered Peak Amplitude: 0.0000
+  Peak Loss: 0.00%
+  Peak Preserved: 100.00%
+
+NOISE METRICS:
+  Raw Std Dev: 0.7130
+  Filtered Std Dev: 0.5933
+  Noise Std Dev: 0.6778
+  Noise Reduction: 95.07%
+  SNR: 10.16 dB
+
+CORRELATION:
+  Gesture Correlation: 1.0000
+
+RMS VALUES:
+  Raw RMS: 2.2267
+  Filtered RMS: 2.1825
+
+Output File: filter_analysis_results/ID01_Seating/individual_filters/filter_10Hz_order2_ID01_Seating.png
+
+================================================================================
+RANK 10: 10 Hz, Order 3
+================================================================================
+Composite Score: 1.5000
+
+PEAK METRICS:
+  Raw Peak Amplitude: 0.0000
+  Filtered Peak Amplitude: 0.0000
+  Peak Loss: 0.00%
+  Peak Preserved: 100.00%
+
+NOISE METRICS:
+  Raw Std Dev: 0.7130
+  Filtered Std Dev: 0.6060
+  Noise Std Dev: 0.8254
+  Noise Reduction: 115.77%
+  SNR: 8.44 dB
+
+CORRELATION:
+  Gesture Correlation: 1.0000
+
+RMS VALUES:
+  Raw RMS: 2.2267
+  Filtered RMS: 2.1823
+
+Output File: filter_analysis_results/ID01_Seating/individual_filters/filter_10Hz_order3_ID01_Seating.png
+
+================================================================================
+RANK 11: 10 Hz, Order 4
+================================================================================
+Composite Score: 1.5000
+
+PEAK METRICS:
+  Raw Peak Amplitude: 0.0000
+  Filtered Peak Amplitude: 0.0000
+  Peak Loss: 0.00%
+  Peak Preserved: 100.00%
+
+NOISE METRICS:
+  Raw Std Dev: 0.7130
+  Filtered Std Dev: 0.6154
+  Noise Std Dev: 0.9204
+  Noise Reduction: 129.10%
+  SNR: 7.49 dB
+
+CORRELATION:
+  Gesture Correlation: 1.0000
+
+RMS VALUES:
+  Raw RMS: 2.2267
+  Filtered RMS: 2.1811
+
+Output File: filter_analysis_results/ID01_Seating/individual_filters/filter_10Hz_order4_ID01_Seating.png
+
+================================================================================
+RANK 12: 10 Hz, Order 5
+================================================================================
+Composite Score: 1.5000
+
+PEAK METRICS:
+  Raw Peak Amplitude: 0.0000
+  Filtered Peak Amplitude: 0.0000
+  Peak Loss: 0.00%
+  Peak Preserved: 100.00%
+
+NOISE METRICS:
+  Raw Std Dev: 0.7130
+  Filtered Std Dev: 0.6235
+  Noise Std Dev: 0.9861
+  Noise Reduction: 138.31%
+  SNR: 6.89 dB
+
+CORRELATION:
+  Gesture Correlation: 1.0000
+
+RMS VALUES:
+  Raw RMS: 2.2267
+  Filtered RMS: 2.1795
+
+Output File: filter_analysis_results/ID01_Seating/individual_filters/filter_10Hz_order5_ID01_Seating.png
+
+================================================================================
+RANK 13: 12 Hz, Order 2
+================================================================================
+Composite Score: 1.5000
+
+PEAK METRICS:
+  Raw Peak Amplitude: 0.0000
+  Filtered Peak Amplitude: 0.0000
+  Peak Loss: 0.00%
+  Peak Preserved: 100.00%
+
+NOISE METRICS:
+  Raw Std Dev: 0.7130
+  Filtered Std Dev: 0.6194
+  Noise Std Dev: 0.6311
+  Noise Reduction: 88.52%
+  SNR: 10.81 dB
+
+CORRELATION:
+  Gesture Correlation: 1.0000
+
+RMS VALUES:
+  Raw RMS: 2.2267
+  Filtered RMS: 2.1912
+
+Output File: filter_analysis_results/ID01_Seating/individual_filters/filter_12Hz_order2_ID01_Seating.png
+
+================================================================================
+RANK 14: 12 Hz, Order 3
+================================================================================
+Composite Score: 1.5000
+
+PEAK METRICS:
+  Raw Peak Amplitude: 0.0000
+  Filtered Peak Amplitude: 0.0000
+  Peak Loss: 0.00%
+  Peak Preserved: 100.00%
+
+NOISE METRICS:
+  Raw Std Dev: 0.7130
+  Filtered Std Dev: 0.6304
+  Noise Std Dev: 0.7807
+  Noise Reduction: 109.50%
+  SNR: 8.96 dB
+
+CORRELATION:
+  Gesture Correlation: 1.0000
+
+RMS VALUES:
+  Raw RMS: 2.2267
+  Filtered RMS: 2.1913
+
+Output File: filter_analysis_results/ID01_Seating/individual_filters/filter_12Hz_order3_ID01_Seating.png
+
+================================================================================
+RANK 15: 12 Hz, Order 4
+================================================================================
+Composite Score: 1.5000
+
+PEAK METRICS:
+  Raw Peak Amplitude: 0.0000
+  Filtered Peak Amplitude: 0.0000
+  Peak Loss: 0.00%
+  Peak Preserved: 100.00%
+
+NOISE METRICS:
+  Raw Std Dev: 0.7130
+  Filtered Std Dev: 0.6375
+  Noise Std Dev: 0.8789
+  Noise Reduction: 123.27%
+  SNR: 7.93 dB
+
+CORRELATION:
+  Gesture Correlation: 1.0000
+
+RMS VALUES:
+  Raw RMS: 2.2267
+  Filtered RMS: 2.1902
+
+Output File: filter_analysis_results/ID01_Seating/individual_filters/filter_12Hz_order4_ID01_Seating.png
+
+================================================================================
+RANK 16: 12 Hz, Order 5
+================================================================================
+Composite Score: 1.5000
+
+PEAK METRICS:
+  Raw Peak Amplitude: 0.0000
+  Filtered Peak Amplitude: 0.0000
+  Peak Loss: 0.00%
+  Peak Preserved: 100.00%
+
+NOISE METRICS:
+  Raw Std Dev: 0.7130
+  Filtered Std Dev: 0.6435
+  Noise Std Dev: 0.9467
+  Noise Reduction: 132.79%
+  SNR: 7.28 dB
+
+CORRELATION:
+  Gesture Correlation: 1.0000
+
+RMS VALUES:
+  Raw RMS: 2.2267
+  Filtered RMS: 2.1887
+
+Output File: filter_analysis_results/ID01_Seating/individual_filters/filter_12Hz_order5_ID01_Seating.png
+
+================================================================================
+RANK 17: 15 Hz, Order 2
+================================================================================
+Composite Score: 1.5000
+
+PEAK METRICS:
+  Raw Peak Amplitude: 0.0000
+  Filtered Peak Amplitude: 0.0000
+  Peak Loss: 0.00%
+  Peak Preserved: 100.00%
+
+NOISE METRICS:
+  Raw Std Dev: 0.7130
+  Filtered Std Dev: 0.6463
+  Noise Std Dev: 0.5694
+  Noise Reduction: 79.87%
+  SNR: 11.74 dB
+
+CORRELATION:
+  Gesture Correlation: 1.0000
+
+RMS VALUES:
+  Raw RMS: 2.2267
+  Filtered RMS: 2.2005
+
+Output File: filter_analysis_results/ID01_Seating/individual_filters/filter_15Hz_order2_ID01_Seating.png
+
+================================================================================
+RANK 18: 15 Hz, Order 3
+================================================================================
+Composite Score: 1.5000
+
+PEAK METRICS:
+  Raw Peak Amplitude: 0.0000
+  Filtered Peak Amplitude: 0.0000
+  Peak Loss: 0.00%
+  Peak Preserved: 100.00%
+
+NOISE METRICS:
+  Raw Std Dev: 0.7130
+  Filtered Std Dev: 0.6562
+  Noise Std Dev: 0.7212
+  Noise Reduction: 101.15%
+  SNR: 9.69 dB
+
+CORRELATION:
+  Gesture Correlation: 1.0000
+
+RMS VALUES:
+  Raw RMS: 2.2267
+  Filtered RMS: 2.2010
+
+Output File: filter_analysis_results/ID01_Seating/individual_filters/filter_15Hz_order3_ID01_Seating.png
+
+================================================================================
+RANK 19: 15 Hz, Order 4
+================================================================================
+Composite Score: 1.5000
+
+PEAK METRICS:
+  Raw Peak Amplitude: 0.0000
+  Filtered Peak Amplitude: 0.0000
+  Peak Loss: 0.00%
+  Peak Preserved: 100.00%
+
+NOISE METRICS:
+  Raw Std Dev: 0.7130
+  Filtered Std Dev: 0.6625
+  Noise Std Dev: 0.8271
+  Noise Reduction: 116.01%
+  SNR: 8.50 dB
+
+CORRELATION:
+  Gesture Correlation: 1.0000
+
+RMS VALUES:
+  Raw RMS: 2.2267
+  Filtered RMS: 2.2003
+
+Output File: filter_analysis_results/ID01_Seating/individual_filters/filter_15Hz_order4_ID01_Seating.png
+
+================================================================================
+RANK 20: 15 Hz, Order 5
+================================================================================
+Composite Score: 1.5000
+
+PEAK METRICS:
+  Raw Peak Amplitude: 0.0000
+  Filtered Peak Amplitude: 0.0000
+  Peak Loss: 0.00%
+  Peak Preserved: 100.00%
+
+NOISE METRICS:
+  Raw Std Dev: 0.7130
+  Filtered Std Dev: 0.6676
+  Noise Std Dev: 0.9006
+  Noise Reduction: 126.32%
+  SNR: 7.75 dB
+
+CORRELATION:
+  Gesture Correlation: 1.0000
+
+RMS VALUES:
+  Raw RMS: 2.2267
+  Filtered RMS: 2.1993
+
+Output File: filter_analysis_results/ID01_Seating/individual_filters/filter_15Hz_order5_ID01_Seating.png
+
+================================================================================
+RANK 21: 18 Hz, Order 2
+================================================================================
+Composite Score: 1.5000
+
+PEAK METRICS:
+  Raw Peak Amplitude: 0.0000
+  Filtered Peak Amplitude: 0.0000
+  Peak Loss: 0.00%
+  Peak Preserved: 100.00%
+
+NOISE METRICS:
+  Raw Std Dev: 0.7130
+  Filtered Std Dev: 0.6642
+  Noise Std Dev: 0.5154
+  Noise Reduction: 72.30%
+  SNR: 12.63 dB
+
+CORRELATION:
+  Gesture Correlation: 1.0000
+
+RMS VALUES:
+  Raw RMS: 2.2267
+  Filtered RMS: 2.2068
+
+Output File: filter_analysis_results/ID01_Seating/individual_filters/filter_18Hz_order2_ID01_Seating.png
+
+================================================================================
+RANK 22: 18 Hz, Order 3
+================================================================================
+Composite Score: 1.5000
+
+PEAK METRICS:
+  Raw Peak Amplitude: 0.0000
+  Filtered Peak Amplitude: 0.0000
+  Peak Loss: 0.00%
+  Peak Preserved: 100.00%
+
+NOISE METRICS:
+  Raw Std Dev: 0.7130
+  Filtered Std Dev: 0.6738
+  Noise Std Dev: 0.6645
+  Noise Reduction: 93.21%
+  SNR: 10.43 dB
+
+CORRELATION:
+  Gesture Correlation: 1.0000
+
+RMS VALUES:
+  Raw RMS: 2.2267
+  Filtered RMS: 2.2077
+
+Output File: filter_analysis_results/ID01_Seating/individual_filters/filter_18Hz_order3_ID01_Seating.png
+
+================================================================================
+RANK 23: 18 Hz, Order 4
+================================================================================
+Composite Score: 1.5000
+
+PEAK METRICS:
+  Raw Peak Amplitude: 0.0000
+  Filtered Peak Amplitude: 0.0000
+  Peak Loss: 0.00%
+  Peak Preserved: 100.00%
+
+NOISE METRICS:
+  Raw Std Dev: 0.7130
+  Filtered Std Dev: 0.6798
+  Noise Std Dev: 0.7768
+  Noise Reduction: 108.96%
+  SNR: 9.07 dB
+
+CORRELATION:
+  Gesture Correlation: 1.0000
+
+RMS VALUES:
+  Raw RMS: 2.2267
+  Filtered RMS: 2.2075
+
+Output File: filter_analysis_results/ID01_Seating/individual_filters/filter_18Hz_order4_ID01_Seating.png
+
+================================================================================
+RANK 24: 18 Hz, Order 5
+================================================================================
+Composite Score: 1.5000
+
+PEAK METRICS:
+  Raw Peak Amplitude: 0.0000
+  Filtered Peak Amplitude: 0.0000
+  Peak Loss: 0.00%
+  Peak Preserved: 100.00%
+
+NOISE METRICS:
+  Raw Std Dev: 0.7130
+  Filtered Std Dev: 0.6845
+  Noise Std Dev: 0.8578
+  Noise Reduction: 120.31%
+  SNR: 8.21 dB
+
+CORRELATION:
+  Gesture Correlation: 1.0000
+
+RMS VALUES:
+  Raw RMS: 2.2267
+  Filtered RMS: 2.2068
+
+Output File: filter_analysis_results/ID01_Seating/individual_filters/filter_18Hz_order5_ID01_Seating.png
+
+================================================================================
+RANK 25: 20 Hz, Order 2
+================================================================================
+Composite Score: 1.5000
+
+PEAK METRICS:
+  Raw Peak Amplitude: 0.0000
+  Filtered Peak Amplitude: 0.0000
+  Peak Loss: 0.00%
+  Peak Preserved: 100.00%
+
+NOISE METRICS:
+  Raw Std Dev: 0.7130
+  Filtered Std Dev: 0.6728
+  Noise Std Dev: 0.4831
+  Noise Reduction: 67.76%
+  SNR: 13.21 dB
+
+CORRELATION:
+  Gesture Correlation: 1.0000
+
+RMS VALUES:
+  Raw RMS: 2.2267
+  Filtered RMS: 2.2099
+
+Output File: filter_analysis_results/ID01_Seating/individual_filters/filter_20Hz_order2_ID01_Seating.png
+
+================================================================================
+RANK 26: 20 Hz, Order 3
+================================================================================
+Composite Score: 1.5000
+
+PEAK METRICS:
+  Raw Peak Amplitude: 0.0000
+  Filtered Peak Amplitude: 0.0000
+  Peak Loss: 0.00%
+  Peak Preserved: 100.00%
+
+NOISE METRICS:
+  Raw Std Dev: 0.7130
+  Filtered Std Dev: 0.6821
+  Noise Std Dev: 0.6277
+  Noise Reduction: 88.04%
+  SNR: 10.94 dB
+
+CORRELATION:
+  Gesture Correlation: 1.0000
+
+RMS VALUES:
+  Raw RMS: 2.2267
+  Filtered RMS: 2.2110
+
+Output File: filter_analysis_results/ID01_Seating/individual_filters/filter_20Hz_order3_ID01_Seating.png
+
+================================================================================
+RANK 27: 20 Hz, Order 4
+================================================================================
+Composite Score: 1.5000
+
+PEAK METRICS:
+  Raw Peak Amplitude: 0.0000
+  Filtered Peak Amplitude: 0.0000
+  Peak Loss: 0.00%
+  Peak Preserved: 100.00%
+
+NOISE METRICS:
+  Raw Std Dev: 0.7130
+  Filtered Std Dev: 0.6878
+  Noise Std Dev: 0.7420
+  Noise Reduction: 104.08%
+  SNR: 9.48 dB
+
+CORRELATION:
+  Gesture Correlation: 1.0000
+
+RMS VALUES:
+  Raw RMS: 2.2267
+  Filtered RMS: 2.2109
+
+Output File: filter_analysis_results/ID01_Seating/individual_filters/filter_20Hz_order4_ID01_Seating.png
+
+================================================================================
+RANK 28: 20 Hz, Order 5
+================================================================================
+Composite Score: 1.5000
+
+PEAK METRICS:
+  Raw Peak Amplitude: 0.0000
+  Filtered Peak Amplitude: 0.0000
+  Peak Loss: 0.00%
+  Peak Preserved: 100.00%
+
+NOISE METRICS:
+  Raw Std Dev: 0.7130
+  Filtered Std Dev: 0.6923
+  Noise Std Dev: 0.8283
+  Noise Reduction: 116.17%
+  SNR: 8.53 dB
+
+CORRELATION:
+  Gesture Correlation: 1.0000
+
+RMS VALUES:
+  Raw RMS: 2.2267
+  Filtered RMS: 2.2104
+
+Output File: filter_analysis_results/ID01_Seating/individual_filters/filter_20Hz_order5_ID01_Seating.png
+
+================================================================================
+RANK 29: 25 Hz, Order 2
+================================================================================
+Composite Score: 1.5000
+
+PEAK METRICS:
+  Raw Peak Amplitude: 0.0000
+  Filtered Peak Amplitude: 0.0000
+  Peak Loss: 0.00%
+  Peak Preserved: 100.00%
+
+NOISE METRICS:
+  Raw Std Dev: 0.7130
+  Filtered Std Dev: 0.6867
+  Noise Std Dev: 0.4138
+  Noise Reduction: 58.03%
+  SNR: 14.57 dB
+
+CORRELATION:
+  Gesture Correlation: 1.0000
+
+RMS VALUES:
+  Raw RMS: 2.2267
+  Filtered RMS: 2.2151
+
+Output File: filter_analysis_results/ID01_Seating/individual_filters/filter_25Hz_order2_ID01_Seating.png
+
+================================================================================
+RANK 30: 25 Hz, Order 3
+================================================================================
+Composite Score: 1.5000
+
+PEAK METRICS:
+  Raw Peak Amplitude: 0.0000
+  Filtered Peak Amplitude: 0.0000
+  Peak Loss: 0.00%
+  Peak Preserved: 100.00%
+
+NOISE METRICS:
+  Raw Std Dev: 0.7130
+  Filtered Std Dev: 0.6943
+  Noise Std Dev: 0.5418
+  Noise Reduction: 76.00%
+  SNR: 12.23 dB
+
+CORRELATION:
+  Gesture Correlation: 1.0000
+
+RMS VALUES:
+  Raw RMS: 2.2267
+  Filtered RMS: 2.2161
+
+Output File: filter_analysis_results/ID01_Seating/individual_filters/filter_25Hz_order3_ID01_Seating.png
+
+================================================================================
+RANK 31: 25 Hz, Order 4
+================================================================================
+Composite Score: 1.5000
+
+PEAK METRICS:
+  Raw Peak Amplitude: 0.0000
+  Filtered Peak Amplitude: 0.0000
+  Peak Loss: 0.00%
+  Peak Preserved: 100.00%
+
+NOISE METRICS:
+  Raw Std Dev: 0.7130
+  Filtered Std Dev: 0.6988
+  Noise Std Dev: 0.6520
+  Noise Reduction: 91.44%
+  SNR: 10.63 dB
+
+CORRELATION:
+  Gesture Correlation: 1.0000
+
+RMS VALUES:
+  Raw RMS: 2.2267
+  Filtered RMS: 2.2161
+
+Output File: filter_analysis_results/ID01_Seating/individual_filters/filter_25Hz_order4_ID01_Seating.png
+
+================================================================================
+RANK 32: 25 Hz, Order 5
+================================================================================
+Composite Score: 1.5000
+
+PEAK METRICS:
+  Raw Peak Amplitude: 0.0000
+  Filtered Peak Amplitude: 0.0000
+  Peak Loss: 0.00%
+  Peak Preserved: 100.00%
+
+NOISE METRICS:
+  Raw Std Dev: 0.7130
+  Filtered Std Dev: 0.7022
+  Noise Std Dev: 0.7435
+  Noise Reduction: 104.28%
+  SNR: 9.48 dB
+
+CORRELATION:
+  Gesture Correlation: 1.0000
+
+RMS VALUES:
+  Raw RMS: 2.2267
+  Filtered RMS: 2.2157
+
+Output File: filter_analysis_results/ID01_Seating/individual_filters/filter_25Hz_order5_ID01_Seating.png
+
+================================================================================
+RANK 33: 30 Hz, Order 2
+================================================================================
+Composite Score: 1.5000
+
+PEAK METRICS:
+  Raw Peak Amplitude: 0.0000
+  Filtered Peak Amplitude: 0.0000
+  Peak Loss: 0.00%
+  Peak Preserved: 100.00%
+
+NOISE METRICS:
+  Raw Std Dev: 0.7130
+  Filtered Std Dev: 0.6942
+  Noise Std Dev: 0.3590
+  Noise Reduction: 50.35%
+  SNR: 15.82 dB
+
+CORRELATION:
+  Gesture Correlation: 1.0000
+
+RMS VALUES:
+  Raw RMS: 2.2267
+  Filtered RMS: 2.2181
+
+Output File: filter_analysis_results/ID01_Seating/individual_filters/filter_30Hz_order2_ID01_Seating.png
+
+================================================================================
+RANK 34: 30 Hz, Order 3
+================================================================================
+Composite Score: 1.5000
+
+PEAK METRICS:
+  Raw Peak Amplitude: 0.0000
+  Filtered Peak Amplitude: 0.0000
+  Peak Loss: 0.00%
+  Peak Preserved: 100.00%
+
+NOISE METRICS:
+  Raw Std Dev: 0.7130
+  Filtered Std Dev: 0.6999
+  Noise Std Dev: 0.4698
+  Noise Reduction: 65.89%
+  SNR: 13.48 dB
+
+CORRELATION:
+  Gesture Correlation: 1.0000
+
+RMS VALUES:
+  Raw RMS: 2.2267
+  Filtered RMS: 2.2187
+
+Output File: filter_analysis_results/ID01_Seating/individual_filters/filter_30Hz_order3_ID01_Seating.png
+
+================================================================================
+RANK 35: 30 Hz, Order 4
+================================================================================
+Composite Score: 1.5000
+
+PEAK METRICS:
+  Raw Peak Amplitude: 0.0000
+  Filtered Peak Amplitude: 0.0000
+  Peak Loss: 0.00%
+  Peak Preserved: 100.00%
+
+NOISE METRICS:
+  Raw Std Dev: 0.7130
+  Filtered Std Dev: 0.7032
+  Noise Std Dev: 0.5701
+  Noise Reduction: 79.97%
+  SNR: 11.80 dB
+
+CORRELATION:
+  Gesture Correlation: 1.0000
+
+RMS VALUES:
+  Raw RMS: 2.2267
+  Filtered RMS: 2.2186
+
+Output File: filter_analysis_results/ID01_Seating/individual_filters/filter_30Hz_order4_ID01_Seating.png
+
+================================================================================
+RANK 36: 30 Hz, Order 5
+================================================================================
+Composite Score: 1.5000
+
+PEAK METRICS:
+  Raw Peak Amplitude: 0.0000
+  Filtered Peak Amplitude: 0.0000
+  Peak Loss: 0.00%
+  Peak Preserved: 100.00%
+
+NOISE METRICS:
+  Raw Std Dev: 0.7130
+  Filtered Std Dev: 0.7056
+  Noise Std Dev: 0.6582
+  Noise Reduction: 92.32%
+  SNR: 10.55 dB
+
+CORRELATION:
+  Gesture Correlation: 1.0000
+
+RMS VALUES:
+  Raw RMS: 2.2267
+  Filtered RMS: 2.2182
+
+Output File: filter_analysis_results/ID01_Seating/individual_filters/filter_30Hz_order5_ID01_Seating.png
+

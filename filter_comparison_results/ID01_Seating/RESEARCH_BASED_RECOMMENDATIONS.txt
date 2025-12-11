@@ -1,0 +1,406 @@
+================================================================================
+FILTER RECOMMENDATIONS BASED ON RESEARCH PAPER ANALYSIS
+Subject: ID01_Seating
+Paper: "Smart Ankleband for Plug-and-Play Hand-Prosthetic Control"
+================================================================================
+
+KEY FINDINGS FROM THE PAPER:
+================================================================================
+
+1. SYSTEM CONSTRAINTS:
+   - ESP32 microcontroller with 90 kB memory limit
+   - Adafruit BNO08X IMU sensor (noisy, low-cost)
+   - Target: 100 Hz sampling rate (chosen for balance)
+   - Real-time inference: ~75 Hz model execution frequency
+   - Battery: 950 mAh (power efficiency critical)
+
+2. IMU WINDOW CHARACTERISTICS:
+   - Window size k = 60 samples (0.6 seconds at 100 Hz)
+   - Gestures last 0.5-1.0 seconds
+   - Input: x̄t = [acc_x, acc_y, acc_z, gyro_roll, gyro_pitch, gyro_yaw]
+   - Normalization: accelerations ÷ 10, angular velocities ÷ 2
+
+3. CNN ARCHITECTURE:
+   - 1D Convolutional layer for temporal feature extraction
+   - Batch normalization (critical for unseen users!)
+   - Multi-layer perceptron for classification
+   - Total parameters: 14,425
+   - Loss function: Cross-Entropy Loss
+
+4. PAPER'S KEY STATEMENT ON FILTERING:
+   "Our IMU sensor produces noisy data, requiring denoising capabilities
+   which DL methods excel at" (Page 3, Section III-A)
+
+   This means: The CNN itself acts as a denoiser!
+
+5. PERFORMANCE PRIORITIES (from paper):
+   - Subject generalization: 95%+ accuracy on unseen users
+   - Minimize false positives (safety critical)
+   - Low latency for real-time control
+   - Robust to sensor noise
+
+6. SENSOR FREQUENCY TRADE-OFF (Appendix, Fig 5a):
+   - Tested 20 Hz to 200 Hz
+   - Performance improves gradually with frequency
+   - 100 Hz chosen for balance (cost vs. performance)
+
+   KEY INSIGHT: Lower frequencies (20-50 Hz) still achieve ~85% accuracy
+                This suggests aggressive filtering is acceptable!
+
+================================================================================
+RE-EVALUATION OF FILTERS BASED ON PAPER INSIGHTS
+================================================================================
+
+The paper reveals THREE CRITICAL INSIGHTS that change our filter selection:
+
+INSIGHT 1: "Noisy IMU sensor" is INTENTIONAL design choice
+   → Low-cost sensor (BNO08X) produces noisy data by design
+   → CNN is trained to handle this noise
+   → Too much denoising may REMOVE features the CNN learned on!
+
+INSIGHT 2: Batch Normalization is critical for generalization
+   → Normalization happens AFTER filtering in the pipeline
+   → Filter must preserve signal distribution characteristics
+   → Extreme filtering may hurt batch norm effectiveness
+
+INSIGHT 3: 100 Hz sampling shows aggressive downsampling is OK
+   → Original sensor can do 1000 Hz (1 kHz)
+   → They use 100 Hz (10× downsampling)
+   → This is essentially a 100 Hz low-pass filter!
+
+================================================================================
+REVISED FILTER RANKING BASED ON PAPER
+================================================================================
+
+Criteria for re-ranking:
+1. Preserves signal characteristics for CNN feature extraction
+2. Minimal delay (real-time control requirement)
+3. Compatible with batch normalization (distribution preservation)
+4. Removes high-frequency noise ABOVE gesture frequency band (5-25 Hz)
+5. ESP32 efficiency (power consumption matters for 950 mAh battery)
+6. Doesn't over-smooth (CNN needs to learn from noise patterns)
+
+--------------------------------------------------------------------------------
+
+NEW RANKING:
+
+Rank 1: MOVING AVERAGE (window=5) ⭐⭐⭐ BEST FOR THIS PROJECT
+   Score: 0.717
+   Peak Preserved: 99.1%
+   Noise Reduction: 9.9%
+   Delay: 0ms
+
+   WHY IT'S BEST FOR THIS PAPER'S SYSTEM:
+   ✓ Preserves 99.1% of peaks (CNN trained on similar signal distribution)
+   ✓ Minimal noise reduction (9.9%) = doesn't over-filter
+   ✓ Zero delay = critical for real-time prosthetic control
+   ✓ Simplest implementation = lowest power consumption
+   ✓ Window=5 at 100Hz = 50ms smoothing (matches gesture timescale)
+   ✓ Acts like gentle anti-aliasing filter (removes sensor jitter)
+   ✓ Preserves temporal features for 1D Conv layer
+
+   MATCHES PAPER'S APPROACH:
+   - Paper downsamples 1000Hz → 100Hz (10× reduction)
+   - Moving Average window=5 is gentle smoothing (5× reduction equivalent)
+   - Both preserve signal characteristics while reducing noise
+
+   ESP32 EFFICIENCY:
+   - Operations: 2 per sample (add + divide)
+   - Memory: 20 bytes (5 float buffer)
+   - Power: LOWEST (minimal computation)
+
+--------------------------------------------------------------------------------
+
+Rank 2: SINGLE-POLE IIR (α=0.40) ⭐⭐⭐ SECOND BEST
+   Score: 0.694
+   Peak Preserved: 94.6%
+   Noise Reduction: 12.1% (BEST noise reduction!)
+   Delay: 5ms
+
+   WHY IT'S GOOD:
+   ✓ Simple exponential smoothing
+   ✓ Better noise reduction than Moving Average
+   ✓ Low delay (5ms acceptable for prosthetic control)
+   ✓ Used in "almost every IMU project" (industry standard)
+   ✓ Single line of code = very low power
+
+   TRADE-OFF:
+   ✗ 5.4% peak loss (CNN may need to re-learn slightly)
+   ✗ Introduces phase lag (5ms)
+
+   USE IF: Noise reduction is more important than peak preservation
+
+--------------------------------------------------------------------------------
+
+Rank 3: KALMAN FILTER (Q=0.050, R=0.1) ⭐⭐ THIRD
+   Score: 0.707
+   Peak Preserved: 99.4% (EXCELLENT!)
+   Correlation: 0.981 (BEST waveform preservation!)
+   Delay: 0ms
+
+   WHY IT'S GOOD:
+   ✓ Best waveform similarity (0.981 correlation)
+   ✓ Mathematically optimal for Gaussian noise
+   ✓ Zero delay
+   ✓ Adaptive behavior
+
+   TRADE-OFF:
+   ✗ More complex (6 operations per sample)
+   ✗ Higher power consumption
+   ✗ Requires tuning Q and R parameters for deployment
+
+   USE IF: You want mathematically optimal filtering and can afford complexity
+
+--------------------------------------------------------------------------------
+
+Rank 4: BUTTERWORTH 40Hz O1 ⭐ ACCEPTABLE
+   Score: 0.698
+   Peak Preserved: 99.8%
+   Delay: 5ms
+
+   WHY IT'S OK:
+   ✓ Standard filter design
+   ✓ 40 Hz cutoff preserves gesture content (5-25 Hz)
+   ✓ Order 1 = minimal delay
+
+   TRADE-OFF:
+   ✗ Only 3.5% noise reduction (less effective than IIR/MAF)
+   ✗ More complex than Moving Average
+   ✗ 40 Hz might be too high (gesture band is 5-25 Hz)
+
+--------------------------------------------------------------------------------
+
+Rank 5: BIQUAD 30Hz Q=1.50 ❌ NOT RECOMMENDED FOR THIS PAPER
+   Score: 0.735 (HIGHEST composite score)
+   Peak Preserved: 121.6% (AMPLIFICATION!)
+   Noise Reduction: -7.7% (NEGATIVE!)
+
+   WHY IT'S BAD FOR THIS PROJECT:
+   ✗ Amplifies signal by 21.6% (changes signal distribution!)
+   ✗ Q=1.5 creates resonance peak (artificial signal boost)
+   ✗ NEGATIVE noise reduction (amplifies noise near cutoff!)
+   ✗ CNN was trained on raw noisy data, not amplified data
+   ✗ Batch normalization expects original signal distribution
+   ✗ Resonance may create false peaks that confuse gesture detection
+
+   CRITICAL ISSUE:
+   The paper's CNN was trained on data with specific noise characteristics.
+   Biquad Q=1.5 CHANGES these characteristics by amplifying certain
+   frequencies. This violates the assumption of consistent input distribution!
+
+   WHY IT SCORED HIGHEST:
+   The composite score weights peak preservation highly, and 121.6% looks
+   "better" than 99%. But for CNN input, this is WORSE because it changes
+   the signal distribution the CNN was trained on.
+
+--------------------------------------------------------------------------------
+
+Rank 6: COMPLEMENTARY FILTER ❌ NOT SUITABLE
+   Score: 0.632
+   Peak Loss: 21.1% (TOO MUCH!)
+
+   Designed for sensor fusion (acc + gyro), not single-axis denoising.
+
+================================================================================
+🎯 FINAL RECOMMENDATION BASED ON RESEARCH PAPER
+================================================================================
+
+USE: MOVING AVERAGE (window=5)
+
+REASONING FROM PAPER:
+
+1. MATCHES PAPER'S DESIGN PHILOSOPHY:
+   - Paper uses low-cost, noisy sensor BY DESIGN
+   - CNN is trained to handle noise
+   - Aggressive filtering would remove features CNN learned from
+   - Moving Average provides gentle smoothing without over-filtering
+
+2. PRESERVES CNN INPUT CHARACTERISTICS:
+   - 99.1% peak preservation ≈ minimal distribution change
+   - Batch normalization will work as expected
+   - 1D Conv layer can still extract temporal features
+   - Similar to paper's approach: downsample but preserve features
+
+3. REAL-TIME CONTROL REQUIREMENT:
+   - Zero delay = instant response
+   - Critical for prosthetic hand control (user experience)
+   - Paper emphasizes "plug-and-play" and "intuitive control"
+
+4. HARDWARE EFFICIENCY:
+   - Simplest implementation = lowest power consumption
+   - 950 mAh battery benefits from minimal computation
+   - ESP32 can run at lower frequency = more battery life
+
+5. MATCHES GESTURE TIMESCALE:
+   - Window=5 at 100Hz = 50ms smoothing
+   - Gestures last 500-1000ms
+   - Smoothing is 5-10% of gesture duration (appropriate)
+
+6. SENSOR NOISE CHARACTERISTICS:
+   - Paper states: "noisy data" from BNO08X
+   - Moving Average removes high-frequency sensor jitter
+   - Preserves gesture frequency content (5-25 Hz)
+
+================================================================================
+IMPLEMENTATION RECOMMENDATION
+================================================================================
+
+STEP 1: Update data/load_data.py
+
+Replace current Butterworth filter with Moving Average:
+
+```python
+def apply_lowpass_filter(self):
+    """
+    Apply Moving Average filter (window=5)
+    Based on research paper analysis - preserves CNN input characteristics
+    """
+    sampling_rate = 200  # Hz (training data)
+    window_size = 10     # 10 samples at 200Hz = 50ms (equivalent to 5 at 100Hz)
+
+    sensor_columns = ['acc_x', 'acc_y', 'acc_z', 'gyro_x', 'gyro_y', 'gyro_z']
+
+    for col in sensor_columns:
+        # Simple moving average - preserves signal distribution
+        kernel = np.ones(window_size) / window_size
+        self.train_df[col] = np.convolve(
+            self.train_df[col].values,
+            kernel,
+            mode='same'
+        )
+```
+
+STEP 2: Update ESP32 rt_code/execute_imu_gestures.ino
+
+```cpp
+// Moving Average Filter (window=5)
+#define FILTER_WINDOW 5
+
+float acc_x_buffer[FILTER_WINDOW] = {0};
+float acc_y_buffer[FILTER_WINDOW] = {0};
+float acc_z_buffer[FILTER_WINDOW] = {0};
+float gyro_x_buffer[FILTER_WINDOW] = {0};
+float gyro_y_buffer[FILTER_WINDOW] = {0};
+float gyro_z_buffer[FILTER_WINDOW] = {0};
+
+int buffer_idx = 0;
+float sums[6] = {0};  // Maintain running sums
+
+void apply_moving_average_filter(float acc_x, float acc_y, float acc_z,
+                                 float gyro_x, float gyro_y, float gyro_z,
+                                 float* filtered_values) {
+    // Update sums (remove old, add new)
+    sums[0] = sums[0] - acc_x_buffer[buffer_idx] + acc_x;
+    sums[1] = sums[1] - acc_y_buffer[buffer_idx] + acc_y;
+    sums[2] = sums[2] - acc_z_buffer[buffer_idx] + acc_z;
+    sums[3] = sums[3] - gyro_x_buffer[buffer_idx] + gyro_x;
+    sums[4] = sums[4] - gyro_y_buffer[buffer_idx] + gyro_y;
+    sums[5] = sums[5] - gyro_z_buffer[buffer_idx] + gyro_z;
+
+    // Update buffers
+    acc_x_buffer[buffer_idx] = acc_x;
+    acc_y_buffer[buffer_idx] = acc_y;
+    acc_z_buffer[buffer_idx] = acc_z;
+    gyro_x_buffer[buffer_idx] = gyro_x;
+    gyro_y_buffer[buffer_idx] = gyro_y;
+    gyro_z_buffer[buffer_idx] = gyro_z;
+
+    buffer_idx = (buffer_idx + 1) % FILTER_WINDOW;
+
+    // Output averaged values
+    for (int i = 0; i < 6; i++) {
+        filtered_values[i] = sums[i] / FILTER_WINDOW;
+    }
+}
+```
+
+STEP 3: Retrain model with new filter
+
+```bash
+# Update config
+vim config/bracelet/regular_bracelet_leaveone.json
+# Change: "FILTER_CUTOFF": 12 → Remove (not used for MAF)
+# Change: "FILTER_ORDER": 4 → Remove (not used for MAF)
+# Add: "FILTER_TYPE": "moving_average"
+# Add: "FILTER_WINDOW": 10  # 50ms at 200Hz
+
+# Retrain
+python trainer/train_model.py --config config/bracelet/regular_bracelet_leaveone.json
+```
+
+================================================================================
+ALTERNATIVE OPTION: SINGLE-POLE IIR (if you need more noise reduction)
+================================================================================
+
+If sensor noise is problematic in real-world testing, use Single-Pole IIR:
+
+Python (training):
+```python
+def apply_single_pole_iir(self):
+    alpha = 0.40  # 40% new data, 60% previous
+    sensor_columns = ['acc_x', 'acc_y', 'acc_z', 'gyro_x', 'gyro_y', 'gyro_z']
+
+    for col in sensor_columns:
+        filtered = np.zeros_like(self.train_df[col].values)
+        filtered[0] = self.train_df[col].values[0]
+
+        for i in range(1, len(filtered)):
+            filtered[i] = alpha * self.train_df[col].values[i] + (1 - alpha) * filtered[i-1]
+
+        self.train_df[col] = filtered
+```
+
+ESP32 (real-time):
+```cpp
+float prev_acc_x = 0, prev_acc_y = 0, prev_acc_z = 0;
+float prev_gyro_x = 0, prev_gyro_y = 0, prev_gyro_z = 0;
+const float alpha = 0.40;
+
+void apply_single_pole_iir(float acc_x, float acc_y, float acc_z,
+                          float gyro_x, float gyro_y, float gyro_z,
+                          float* filtered_values) {
+    prev_acc_x = alpha * acc_x + (1 - alpha) * prev_acc_x;
+    prev_acc_y = alpha * acc_y + (1 - alpha) * prev_acc_y;
+    prev_acc_z = alpha * acc_z + (1 - alpha) * prev_acc_z;
+    prev_gyro_x = alpha * gyro_x + (1 - alpha) * prev_gyro_x;
+    prev_gyro_y = alpha * gyro_y + (1 - alpha) * prev_gyro_y;
+    prev_gyro_z = alpha * gyro_z + (1 - alpha) * prev_gyro_z;
+
+    filtered_values[0] = prev_acc_x;
+    filtered_values[1] = prev_acc_y;
+    filtered_values[2] = prev_acc_z;
+    filtered_values[3] = prev_gyro_x;
+    filtered_values[4] = prev_gyro_y;
+    filtered_values[5] = prev_gyro_z;
+}
+```
+
+================================================================================
+SUMMARY
+================================================================================
+
+Based on the research paper analysis:
+
+1. ✅ RECOMMENDED: Moving Average (window=5)
+   - Best match for paper's CNN architecture
+   - Preserves signal characteristics for batch normalization
+   - Zero delay for real-time control
+   - Lowest power consumption (battery efficiency)
+   - Matches paper's philosophy: gentle smoothing, not aggressive filtering
+
+2. ✅ ALTERNATIVE: Single-Pole IIR (α=0.40)
+   - Use if noise reduction is priority
+   - Still preserves most peaks (94.6%)
+   - Very simple, low power
+
+3. ❌ NOT RECOMMENDED: Biquad 30Hz Q=1.50
+   - Despite highest composite score (0.735)
+   - Amplifies signals (changes distribution)
+   - Negative noise reduction
+   - Violates CNN's training assumptions
+
+The key insight: The CNN was trained on noisy data. Matching that noise
+profile during deployment is more important than maximizing a composite
+score that doesn't account for distribution matching.
+
+================================================================================

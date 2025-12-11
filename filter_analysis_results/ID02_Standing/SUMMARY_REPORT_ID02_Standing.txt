@@ -1,0 +1,27 @@
+================================================================================
+FILTER ANALYSIS SUMMARY REPORT - ID02_Standing
+================================================================================
+
+BEST FILTER CONFIGURATION:
+  Cutoff: 30 Hz
+  Order: 2
+  Peak Preserved: 90.2%
+  Noise Reduction: 92.1%
+  SNR: -0.58 dB
+  Correlation: 0.551
+  Composite Score: 1.3546
+
+TOP 5 CONFIGURATIONS:
+  1. 30 Hz, Order 2 (Score: 1.355, Peak: 90.2%, Noise: 92.1%)
+  2. 30 Hz, Order 3 (Score: 1.099, Peak: 90.1%, Noise: 115.7%)
+  3. 25 Hz, Order 2 (Score: 1.089, Peak: 81.8%, Noise: 99.7%)
+  4. 20 Hz, Order 2 (Score: 0.849, Peak: 75.2%, Noise: 106.2%)
+  5. 25 Hz, Order 3 (Score: 0.815, Peak: 81.5%, Noise: 122.0%)
+
+FILES GENERATED:
+  - 36 individual filter plots in 'individual_filters/'
+  - Heatmaps in 'heatmaps/'
+  - Comparison plots in 'comparisons/'
+  - Detailed calculations in 'calculations/'
+
+================================================================================

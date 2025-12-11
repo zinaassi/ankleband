@@ -1,0 +1,54 @@
+================================================================================
+FILTER COMPARISON - QUICK SUMMARY
+================================================================================
+
+🏆 WINNER: Biquad 30Hz Q=1.50
+   Score: 0.735 | Peak: 121.6% | Delay: 5ms
+
+🥈 RUNNER-UP: Moving Average (window=5)
+   Score: 0.717 | Peak: 99.1% | Delay: 0ms
+
+🥉 THIRD: Kalman (Q=0.050, R=0.1)
+   Score: 0.707 | Peak: 99.4% | Delay: 0ms
+
+================================================================================
+RANKING OF ALL 6 FILTER TYPES:
+================================================================================
+
+1. Biquad            → Score: 0.735 ⭐⭐⭐ BEST OVERALL
+2. Moving Average    → Score: 0.717 ⭐⭐⭐ SIMPLEST
+3. Kalman            → Score: 0.707 ⭐⭐ BEST CORRELATION  
+4. Butterworth       → Score: 0.698 ⭐⭐ STANDARD
+5. Single-Pole IIR   → Score: 0.694 ⭐⭐ BEST NOISE REDUCTION
+6. Complementary     → Score: 0.632 ❌ TOO MUCH PEAK LOSS
+
+================================================================================
+MY RECOMMENDATION:
+================================================================================
+
+Use: Biquad 30Hz Q=1.50
+
+Why:
+✓ Best performance (0.735 score)
+✓ Amplifies gestures by ~20% (helps detection!)
+✓ Low delay (5ms)
+✓ Efficient on ESP32 (5 operations per sample)
+✓ Standard in DSP applications
+
+Alternative (if you want simplicity):
+→ Moving Average (window=5)
+  - Dead simple to implement
+  - Near-zero delay
+  - 99.1% peak preservation
+
+================================================================================
+FILES GENERATED:
+================================================================================
+
+✓ all_filters_comparison.csv           → All 73 configurations tested
+✓ FILTER_COMPARISON_SUMMARY.txt        → Detailed metrics
+✓ FINAL_RECOMMENDATIONS.txt            → Full analysis + ESP32 code
+✓ filter_type_comparison_visual.png    → Visual comparison plots
+✓ filter_metrics_comparison.png        → Bar charts
+
+================================================================================

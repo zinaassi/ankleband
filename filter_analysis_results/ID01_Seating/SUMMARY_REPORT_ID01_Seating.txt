@@ -1,0 +1,27 @@
+================================================================================
+FILTER ANALYSIS SUMMARY REPORT - ID01_Seating
+================================================================================
+
+BEST FILTER CONFIGURATION:
+  Cutoff: 5 Hz
+  Order: 2
+  Peak Preserved: 100.0%
+  Noise Reduction: 113.0%
+  SNR: 8.49 dB
+  Correlation: 1.000
+  Composite Score: 1.5000
+
+TOP 5 CONFIGURATIONS:
+  1. 5 Hz, Order 2 (Score: 1.500, Peak: 100.0%, Noise: 113.0%)
+  2. 5 Hz, Order 3 (Score: 1.500, Peak: 100.0%, Noise: 127.2%)
+  3. 5 Hz, Order 4 (Score: 1.500, Peak: 100.0%, Noise: 132.0%)
+  4. 5 Hz, Order 5 (Score: 1.500, Peak: 100.0%, Noise: 133.3%)
+  5. 8 Hz, Order 2 (Score: 1.500, Peak: 100.0%, Noise: 102.4%)
+
+FILES GENERATED:
+  - 36 individual filter plots in 'individual_filters/'
+  - Heatmaps in 'heatmaps/'
+  - Comparison plots in 'comparisons/'
+  - Detailed calculations in 'calculations/'
+
+================================================================================

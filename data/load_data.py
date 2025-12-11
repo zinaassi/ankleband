@@ -190,18 +190,18 @@ class DataManagement(object):
 
         # Sensor columns to filter (6-axis IMU: 3 accelerometer + 3 gyroscope)
         sensor_columns = ['acc_x', 'acc_y', 'acc_z', 'gyro_x', 'gyro_y', 'gyro_z']
-
+        # 9 8 8 6 6 5 4 3 2 1 0
         # Apply zero-phase filtering to training data
         if not self.cfg.data.single_test:
             print('Filtering training data...')
             for col in sensor_columns:
-                # sosfiltfilt = zero-phase filtering (forward-backward filter, no time delay)
-                self.train_df[col] = signal.sosfiltfilt(sos, self.train_df[col].values)
+                # sosfilt = causal filtering (forward-only filter, compatible with real-time ESP32)
+                self.train_df[col] = signal.sosfilt(sos, self.train_df[col].values)
 
-        # Apply zero-phase filtering to test data
+        # Apply causal filtering to test data
         print('Filtering test data...')
         for col in sensor_columns:
-            self.test_df[col] = signal.sosfiltfilt(sos, self.test_df[col].values)
+            self.test_df[col] = signal.sosfilt(sos, self.test_df[col].values)
 
         print('Low-pass filtering complete.')
 

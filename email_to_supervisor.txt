@@ -1,0 +1,19 @@
+Subject: Question about filter selection criteria
+
+Hi [Supervisor Name],
+
+We're testing different low-pass filters on the IMU data and trying to figure out which one to use. So far we've looked at:
+- Peak preservation
+- Noise reduction
+- Signal delay
+- Distribution similarity (for batch norm)
+- Waveform correlation
+
+But we're not sure which of these actually matter most for our case. Should we prioritize keeping the peaks intact for gesture detection, or is it more important to preserve the signal distribution so batch norm works better on new users?
+
+Right now Kalman and Moving Average are performing best in our tests, but we want to make sure we're using the right criteria before deciding.
+
+Do you have any advice on what we should focus on?
+
+Thanks,
+[Your Name]

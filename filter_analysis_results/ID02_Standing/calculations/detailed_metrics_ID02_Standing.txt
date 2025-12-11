@@ -1,0 +1,977 @@
+================================================================================
+DETAILED FILTER METRICS - ID02_Standing
+Generated: 2025-12-10 16:44:20
+================================================================================
+
+================================================================================
+RANK 1: 30 Hz, Order 2
+================================================================================
+Composite Score: 1.3546
+
+PEAK METRICS:
+  Raw Peak Amplitude: 44.7070
+  Filtered Peak Amplitude: 40.3232
+  Peak Loss: 9.81%
+  Peak Preserved: 90.19%
+
+NOISE METRICS:
+  Raw Std Dev: 5.1329
+  Filtered Std Dev: 4.2784
+  Noise Std Dev: 4.7289
+  Noise Reduction: 92.13%
+  SNR: -0.58 dB
+
+CORRELATION:
+  Gesture Correlation: 0.5507
+
+RMS VALUES:
+  Raw RMS: 5.2557
+  Filtered RMS: 4.4246
+
+Output File: filter_analysis_results/ID02_Standing/individual_filters/filter_30Hz_order2_ID02_Standing.png
+
+================================================================================
+RANK 2: 30 Hz, Order 3
+================================================================================
+Composite Score: 1.0993
+
+PEAK METRICS:
+  Raw Peak Amplitude: 44.7070
+  Filtered Peak Amplitude: 40.2859
+  Peak Loss: 9.89%
+  Peak Preserved: 90.11%
+
+NOISE METRICS:
+  Raw Std Dev: 5.1329
+  Filtered Std Dev: 4.3481
+  Noise Std Dev: 5.9381
+  Noise Reduction: 115.69%
+  SNR: -2.42 dB
+
+CORRELATION:
+  Gesture Correlation: 0.2971
+
+RMS VALUES:
+  Raw RMS: 5.2557
+  Filtered RMS: 4.4919
+
+Output File: filter_analysis_results/ID02_Standing/individual_filters/filter_30Hz_order3_ID02_Standing.png
+
+================================================================================
+RANK 3: 25 Hz, Order 2
+================================================================================
+Composite Score: 1.0894
+
+PEAK METRICS:
+  Raw Peak Amplitude: 44.7070
+  Filtered Peak Amplitude: 36.5686
+  Peak Loss: 18.20%
+  Peak Preserved: 81.80%
+
+NOISE METRICS:
+  Raw Std Dev: 5.1329
+  Filtered Std Dev: 3.9834
+  Noise Std Dev: 5.1193
+  Noise Reduction: 99.74%
+  SNR: -1.84 dB
+
+CORRELATION:
+  Gesture Correlation: 0.4535
+
+RMS VALUES:
+  Raw RMS: 5.2557
+  Filtered RMS: 4.1399
+
+Output File: filter_analysis_results/ID02_Standing/individual_filters/filter_25Hz_order2_ID02_Standing.png
+
+================================================================================
+RANK 4: 20 Hz, Order 2
+================================================================================
+Composite Score: 0.8487
+
+PEAK METRICS:
+  Raw Peak Amplitude: 44.7070
+  Filtered Peak Amplitude: 33.6124
+  Peak Loss: 24.82%
+  Peak Preserved: 75.18%
+
+NOISE METRICS:
+  Raw Std Dev: 5.1329
+  Filtered Std Dev: 3.5713
+  Noise Std Dev: 5.4520
+  Noise Reduction: 106.22%
+  SNR: -3.26 dB
+
+CORRELATION:
+  Gesture Correlation: 0.3451
+
+RMS VALUES:
+  Raw RMS: 5.2557
+  Filtered RMS: 3.7449
+
+Output File: filter_analysis_results/ID02_Standing/individual_filters/filter_20Hz_order2_ID02_Standing.png
+
+================================================================================
+RANK 5: 25 Hz, Order 3
+================================================================================
+Composite Score: 0.8146
+
+PEAK METRICS:
+  Raw Peak Amplitude: 44.7070
+  Filtered Peak Amplitude: 36.4288
+  Peak Loss: 18.52%
+  Peak Preserved: 81.48%
+
+NOISE METRICS:
+  Raw Std Dev: 5.1329
+  Filtered Std Dev: 4.0205
+  Noise Std Dev: 6.2622
+  Noise Reduction: 122.00%
+  SNR: -3.52 dB
+
+CORRELATION:
+  Gesture Correlation: 0.1850
+
+RMS VALUES:
+  Raw RMS: 5.2557
+  Filtered RMS: 4.1754
+
+Output File: filter_analysis_results/ID02_Standing/individual_filters/filter_25Hz_order3_ID02_Standing.png
+
+================================================================================
+RANK 6: 30 Hz, Order 4
+================================================================================
+Composite Score: 0.8124
+
+PEAK METRICS:
+  Raw Peak Amplitude: 44.7070
+  Filtered Peak Amplitude: 38.2329
+  Peak Loss: 14.48%
+  Peak Preserved: 85.52%
+
+NOISE METRICS:
+  Raw Std Dev: 5.1329
+  Filtered Std Dev: 4.3844
+  Noise Std Dev: 6.7482
+  Noise Reduction: 131.47%
+  SNR: -3.47 dB
+
+CORRELATION:
+  Gesture Correlation: 0.1020
+
+RMS VALUES:
+  Raw RMS: 5.2557
+  Filtered RMS: 4.5268
+
+Output File: filter_analysis_results/ID02_Standing/individual_filters/filter_30Hz_order4_ID02_Standing.png
+
+================================================================================
+RANK 7: 30 Hz, Order 5
+================================================================================
+Composite Score: 0.7176
+
+PEAK METRICS:
+  Raw Peak Amplitude: 44.7070
+  Filtered Peak Amplitude: 38.7375
+  Peak Loss: 13.35%
+  Peak Preserved: 86.65%
+
+NOISE METRICS:
+  Raw Std Dev: 5.1329
+  Filtered Std Dev: 4.4059
+  Noise Std Dev: 7.2213
+  Noise Reduction: 140.68%
+  SNR: -4.02 dB
+
+CORRELATION:
+  Gesture Correlation: -0.0154
+
+RMS VALUES:
+  Raw RMS: 5.2557
+  Filtered RMS: 4.5475
+
+Output File: filter_analysis_results/ID02_Standing/individual_filters/filter_30Hz_order5_ID02_Standing.png
+
+================================================================================
+RANK 8: 18 Hz, Order 2
+================================================================================
+Composite Score: 0.7170
+
+PEAK METRICS:
+  Raw Peak Amplitude: 44.7070
+  Filtered Peak Amplitude: 31.6905
+  Peak Loss: 29.12%
+  Peak Preserved: 70.88%
+
+NOISE METRICS:
+  Raw Std Dev: 5.1329
+  Filtered Std Dev: 3.3677
+  Noise Std Dev: 5.5549
+  Noise Reduction: 108.22%
+  SNR: -3.89 dB
+
+CORRELATION:
+  Gesture Correlation: 0.2993
+
+RMS VALUES:
+  Raw RMS: 5.2557
+  Filtered RMS: 3.5512
+
+Output File: filter_analysis_results/ID02_Standing/individual_filters/filter_18Hz_order2_ID02_Standing.png
+
+================================================================================
+RANK 9: 25 Hz, Order 4
+================================================================================
+Composite Score: 0.6171
+
+PEAK METRICS:
+  Raw Peak Amplitude: 44.7070
+  Filtered Peak Amplitude: 35.5827
+  Peak Loss: 20.41%
+  Peak Preserved: 79.59%
+
+NOISE METRICS:
+  Raw Std Dev: 5.1329
+  Filtered Std Dev: 4.0377
+  Noise Std Dev: 6.8785
+  Noise Reduction: 134.01%
+  SNR: -4.30 dB
+
+CORRELATION:
+  Gesture Correlation: 0.0253
+
+RMS VALUES:
+  Raw RMS: 5.2557
+  Filtered RMS: 4.1918
+
+Output File: filter_analysis_results/ID02_Standing/individual_filters/filter_25Hz_order4_ID02_Standing.png
+
+================================================================================
+RANK 10: 20 Hz, Order 3
+================================================================================
+Composite Score: 0.5174
+
+PEAK METRICS:
+  Raw Peak Amplitude: 44.7070
+  Filtered Peak Amplitude: 31.7907
+  Peak Loss: 28.89%
+  Peak Preserved: 71.11%
+
+NOISE METRICS:
+  Raw Std Dev: 5.1329
+  Filtered Std Dev: 3.5507
+  Noise Std Dev: 6.3763
+  Noise Reduction: 124.22%
+  SNR: -4.67 dB
+
+CORRELATION:
+  Gesture Correlation: 0.0952
+
+RMS VALUES:
+  Raw RMS: 5.2557
+  Filtered RMS: 3.7250
+
+Output File: filter_analysis_results/ID02_Standing/individual_filters/filter_20Hz_order3_ID02_Standing.png
+
+================================================================================
+RANK 11: 25 Hz, Order 5
+================================================================================
+Composite Score: 0.5120
+
+PEAK METRICS:
+  Raw Peak Amplitude: 44.7070
+  Filtered Peak Amplitude: 34.5733
+  Peak Loss: 22.67%
+  Peak Preserved: 77.33%
+
+NOISE METRICS:
+  Raw Std Dev: 5.1329
+  Filtered Std Dev: 4.0467
+  Noise Std Dev: 7.1051
+  Noise Reduction: 138.42%
+  SNR: -4.57 dB
+
+CORRELATION:
+  Gesture Correlation: -0.0346
+
+RMS VALUES:
+  Raw RMS: 5.2557
+  Filtered RMS: 4.2002
+
+Output File: filter_analysis_results/ID02_Standing/individual_filters/filter_25Hz_order5_ID02_Standing.png
+
+================================================================================
+RANK 12: 15 Hz, Order 2
+================================================================================
+Composite Score: 0.4575
+
+PEAK METRICS:
+  Raw Peak Amplitude: 44.7070
+  Filtered Peak Amplitude: 27.4844
+  Peak Loss: 38.52%
+  Peak Preserved: 61.48%
+
+NOISE METRICS:
+  Raw Std Dev: 5.1329
+  Filtered Std Dev: 3.0161
+  Noise Std Dev: 5.6634
+  Noise Reduction: 110.33%
+  SNR: -4.91 dB
+
+CORRELATION:
+  Gesture Correlation: 0.2279
+
+RMS VALUES:
+  Raw RMS: 5.2557
+  Filtered RMS: 3.2195
+
+Output File: filter_analysis_results/ID02_Standing/individual_filters/filter_15Hz_order2_ID02_Standing.png
+
+================================================================================
+RANK 13: 18 Hz, Order 3
+================================================================================
+Composite Score: 0.3761
+
+PEAK METRICS:
+  Raw Peak Amplitude: 44.7070
+  Filtered Peak Amplitude: 29.3067
+  Peak Loss: 34.45%
+  Peak Preserved: 65.55%
+
+NOISE METRICS:
+  Raw Std Dev: 5.1329
+  Filtered Std Dev: 3.3227
+  Noise Std Dev: 6.3522
+  Noise Reduction: 123.75%
+  SNR: -5.16 dB
+
+CORRELATION:
+  Gesture Correlation: 0.0650
+
+RMS VALUES:
+  Raw RMS: 5.2557
+  Filtered RMS: 3.5081
+
+Output File: filter_analysis_results/ID02_Standing/individual_filters/filter_18Hz_order3_ID02_Standing.png
+
+================================================================================
+RANK 14: 20 Hz, Order 4
+================================================================================
+Composite Score: 0.3455
+
+PEAK METRICS:
+  Raw Peak Amplitude: 44.7070
+  Filtered Peak Amplitude: 30.2684
+  Peak Loss: 32.30%
+  Peak Preserved: 67.70%
+
+NOISE METRICS:
+  Raw Std Dev: 5.1329
+  Filtered Std Dev: 3.5357
+  Noise Std Dev: 6.7003
+  Noise Reduction: 130.54%
+  SNR: -5.13 dB
+
+CORRELATION:
+  Gesture Correlation: -0.0086
+
+RMS VALUES:
+  Raw RMS: 5.2557
+  Filtered RMS: 3.7104
+
+Output File: filter_analysis_results/ID02_Standing/individual_filters/filter_20Hz_order4_ID02_Standing.png
+
+================================================================================
+RANK 15: 20 Hz, Order 5
+================================================================================
+Composite Score: 0.2622
+
+PEAK METRICS:
+  Raw Peak Amplitude: 44.7070
+  Filtered Peak Amplitude: 28.9892
+  Peak Loss: 35.16%
+  Peak Preserved: 64.84%
+
+NOISE METRICS:
+  Raw Std Dev: 5.1329
+  Filtered Std Dev: 3.5254
+  Noise Std Dev: 6.7042
+  Noise Reduction: 130.61%
+  SNR: -5.16 dB
+
+CORRELATION:
+  Gesture Correlation: -0.0347
+
+RMS VALUES:
+  Raw RMS: 5.2557
+  Filtered RMS: 3.7002
+
+Output File: filter_analysis_results/ID02_Standing/individual_filters/filter_20Hz_order5_ID02_Standing.png
+
+================================================================================
+RANK 16: 18 Hz, Order 4
+================================================================================
+Composite Score: 0.1984
+
+PEAK METRICS:
+  Raw Peak Amplitude: 44.7070
+  Filtered Peak Amplitude: 27.2742
+  Peak Loss: 38.99%
+  Peak Preserved: 61.01%
+
+NOISE METRICS:
+  Raw Std Dev: 5.1329
+  Filtered Std Dev: 3.2972
+  Noise Std Dev: 6.5624
+  Noise Reduction: 127.85%
+  SNR: -5.50 dB
+
+CORRELATION:
+  Gesture Correlation: -0.0218
+
+RMS VALUES:
+  Raw RMS: 5.2557
+  Filtered RMS: 3.4837
+
+Output File: filter_analysis_results/ID02_Standing/individual_filters/filter_18Hz_order4_ID02_Standing.png
+
+================================================================================
+RANK 17: 12 Hz, Order 2
+================================================================================
+Composite Score: 0.1503
+
+PEAK METRICS:
+  Raw Peak Amplitude: 44.7070
+  Filtered Peak Amplitude: 22.3209
+  Peak Loss: 50.07%
+  Peak Preserved: 49.93%
+
+NOISE METRICS:
+  Raw Std Dev: 5.1329
+  Filtered Std Dev: 2.6038
+  Noise Std Dev: 5.7045
+  Noise Reduction: 111.13%
+  SNR: -6.07 dB
+
+CORRELATION:
+  Gesture Correlation: 0.1518
+
+RMS VALUES:
+  Raw RMS: 5.2557
+  Filtered RMS: 2.8366
+
+Output File: filter_analysis_results/ID02_Standing/individual_filters/filter_12Hz_order2_ID02_Standing.png
+
+================================================================================
+RANK 18: 15 Hz, Order 3
+================================================================================
+Composite Score: 0.1375
+
+PEAK METRICS:
+  Raw Peak Amplitude: 44.7070
+  Filtered Peak Amplitude: 24.9787
+  Peak Loss: 44.13%
+  Peak Preserved: 55.87%
+
+NOISE METRICS:
+  Raw Std Dev: 5.1329
+  Filtered Std Dev: 2.9385
+  Noise Std Dev: 6.2432
+  Noise Reduction: 121.63%
+  SNR: -5.95 dB
+
+CORRELATION:
+  Gesture Correlation: 0.0200
+
+RMS VALUES:
+  Raw RMS: 5.2557
+  Filtered RMS: 3.1464
+
+Output File: filter_analysis_results/ID02_Standing/individual_filters/filter_15Hz_order3_ID02_Standing.png
+
+================================================================================
+RANK 19: 18 Hz, Order 5
+================================================================================
+Composite Score: 0.1333
+
+PEAK METRICS:
+  Raw Peak Amplitude: 44.7070
+  Filtered Peak Amplitude: 26.4080
+  Peak Loss: 40.93%
+  Peak Preserved: 59.07%
+
+NOISE METRICS:
+  Raw Std Dev: 5.1329
+  Filtered Std Dev: 3.2826
+  Noise Std Dev: 6.5145
+  Noise Reduction: 126.92%
+  SNR: -5.47 dB
+
+CORRELATION:
+  Gesture Correlation: -0.0481
+
+RMS VALUES:
+  Raw RMS: 5.2557
+  Filtered RMS: 3.4695
+
+Output File: filter_analysis_results/ID02_Standing/individual_filters/filter_18Hz_order5_ID02_Standing.png
+
+================================================================================
+RANK 20: 15 Hz, Order 4
+================================================================================
+Composite Score: -0.0036
+
+PEAK METRICS:
+  Raw Peak Amplitude: 44.7070
+  Filtered Peak Amplitude: 23.3771
+  Peak Loss: 47.71%
+  Peak Preserved: 52.29%
+
+NOISE METRICS:
+  Raw Std Dev: 5.1329
+  Filtered Std Dev: 2.9011
+  Noise Std Dev: 6.3061
+  Noise Reduction: 122.85%
+  SNR: -6.14 dB
+
+CORRELATION:
+  Gesture Correlation: -0.0494
+
+RMS VALUES:
+  Raw RMS: 5.2557
+  Filtered RMS: 3.1110
+
+Output File: filter_analysis_results/ID02_Standing/individual_filters/filter_15Hz_order4_ID02_Standing.png
+
+================================================================================
+RANK 21: 15 Hz, Order 5
+================================================================================
+Composite Score: -0.0595
+
+PEAK METRICS:
+  Raw Peak Amplitude: 44.7070
+  Filtered Peak Amplitude: 22.6862
+  Peak Loss: 49.26%
+  Peak Preserved: 50.74%
+
+NOISE METRICS:
+  Raw Std Dev: 5.1329
+  Filtered Std Dev: 2.8810
+  Noise Std Dev: 6.2094
+  Noise Reduction: 120.97%
+  SNR: -6.06 dB
+
+CORRELATION:
+  Gesture Correlation: -0.0743
+
+RMS VALUES:
+  Raw RMS: 5.2557
+  Filtered RMS: 3.0918
+
+Output File: filter_analysis_results/ID02_Standing/individual_filters/filter_15Hz_order5_ID02_Standing.png
+
+================================================================================
+RANK 22: 10 Hz, Order 2
+================================================================================
+Composite Score: -0.0754
+
+PEAK METRICS:
+  Raw Peak Amplitude: 44.7070
+  Filtered Peak Amplitude: 18.4719
+  Peak Loss: 58.68%
+  Peak Preserved: 41.32%
+
+NOISE METRICS:
+  Raw Std Dev: 5.1329
+  Filtered Std Dev: 2.2917
+  Noise Std Dev: 5.6868
+  Noise Reduction: 110.79%
+  SNR: -6.96 dB
+
+CORRELATION:
+  Gesture Correlation: 0.0983
+
+RMS VALUES:
+  Raw RMS: 5.2557
+  Filtered RMS: 2.5528
+
+Output File: filter_analysis_results/ID02_Standing/individual_filters/filter_10Hz_order2_ID02_Standing.png
+
+================================================================================
+RANK 23: 12 Hz, Order 3
+================================================================================
+Composite Score: -0.1429
+
+PEAK METRICS:
+  Raw Peak Amplitude: 44.7070
+  Filtered Peak Amplitude: 19.8024
+  Peak Loss: 55.71%
+  Peak Preserved: 44.29%
+
+NOISE METRICS:
+  Raw Std Dev: 5.1329
+  Filtered Std Dev: 2.5037
+  Noise Std Dev: 6.0565
+  Noise Reduction: 117.99%
+  SNR: -6.88 dB
+
+CORRELATION:
+  Gesture Correlation: -0.0288
+
+RMS VALUES:
+  Raw RMS: 5.2557
+  Filtered RMS: 2.7443
+
+Output File: filter_analysis_results/ID02_Standing/individual_filters/filter_12Hz_order3_ID02_Standing.png
+
+================================================================================
+RANK 24: 12 Hz, Order 4
+================================================================================
+Composite Score: -0.2460
+
+PEAK METRICS:
+  Raw Peak Amplitude: 44.7070
+  Filtered Peak Amplitude: 18.7077
+  Peak Loss: 58.15%
+  Peak Preserved: 41.85%
+
+NOISE METRICS:
+  Raw Std Dev: 5.1329
+  Filtered Std Dev: 2.4634
+  Noise Std Dev: 6.0188
+  Noise Reduction: 117.26%
+  SNR: -6.94 dB
+
+CORRELATION:
+  Gesture Correlation: -0.0829
+
+RMS VALUES:
+  Raw RMS: 5.2557
+  Filtered RMS: 2.7069
+
+Output File: filter_analysis_results/ID02_Standing/individual_filters/filter_12Hz_order4_ID02_Standing.png
+
+================================================================================
+RANK 25: 12 Hz, Order 5
+================================================================================
+Composite Score: -0.2883
+
+PEAK METRICS:
+  Raw Peak Amplitude: 44.7070
+  Filtered Peak Amplitude: 18.0821
+  Peak Loss: 59.55%
+  Peak Preserved: 40.45%
+
+NOISE METRICS:
+  Raw Std Dev: 5.1329
+  Filtered Std Dev: 2.4452
+  Noise Std Dev: 5.9196
+  Noise Reduction: 115.33%
+  SNR: -6.85 dB
+
+CORRELATION:
+  Gesture Correlation: -0.0972
+
+RMS VALUES:
+  Raw RMS: 5.2557
+  Filtered RMS: 2.6897
+
+Output File: filter_analysis_results/ID02_Standing/individual_filters/filter_12Hz_order5_ID02_Standing.png
+
+================================================================================
+RANK 26: 8 Hz, Order 2
+================================================================================
+Composite Score: -0.3405
+
+PEAK METRICS:
+  Raw Peak Amplitude: 44.7070
+  Filtered Peak Amplitude: 13.7114
+  Peak Loss: 69.33%
+  Peak Preserved: 30.67%
+
+NOISE METRICS:
+  Raw Std Dev: 5.1329
+  Filtered Std Dev: 1.9496
+  Noise Std Dev: 5.6265
+  Noise Reduction: 109.62%
+  SNR: -7.96 dB
+
+CORRELATION:
+  Gesture Correlation: 0.0461
+
+RMS VALUES:
+  Raw RMS: 5.2557
+  Filtered RMS: 2.2501
+
+Output File: filter_analysis_results/ID02_Standing/individual_filters/filter_8Hz_order2_ID02_Standing.png
+
+================================================================================
+RANK 27: 10 Hz, Order 3
+================================================================================
+Composite Score: -0.3487
+
+PEAK METRICS:
+  Raw Peak Amplitude: 44.7070
+  Filtered Peak Amplitude: 15.9134
+  Peak Loss: 64.41%
+  Peak Preserved: 35.59%
+
+NOISE METRICS:
+  Raw Std Dev: 5.1329
+  Filtered Std Dev: 2.1806
+  Noise Std Dev: 5.8939
+  Noise Reduction: 114.82%
+  SNR: -7.62 dB
+
+CORRELATION:
+  Gesture Correlation: -0.0606
+
+RMS VALUES:
+  Raw RMS: 5.2557
+  Filtered RMS: 2.4527
+
+Output File: filter_analysis_results/ID02_Standing/individual_filters/filter_10Hz_order3_ID02_Standing.png
+
+================================================================================
+RANK 28: 10 Hz, Order 4
+================================================================================
+Composite Score: -0.4195
+
+PEAK METRICS:
+  Raw Peak Amplitude: 44.7070
+  Filtered Peak Amplitude: 15.1032
+  Peak Loss: 66.22%
+  Peak Preserved: 33.78%
+
+NOISE METRICS:
+  Raw Std Dev: 5.1329
+  Filtered Std Dev: 2.1380
+  Noise Std Dev: 5.8118
+  Noise Reduction: 113.23%
+  SNR: -7.63 dB
+
+CORRELATION:
+  Gesture Correlation: -0.0951
+
+RMS VALUES:
+  Raw RMS: 5.2557
+  Filtered RMS: 2.4140
+
+Output File: filter_analysis_results/ID02_Standing/individual_filters/filter_10Hz_order4_ID02_Standing.png
+
+================================================================================
+RANK 29: 10 Hz, Order 5
+================================================================================
+Composite Score: -0.4236
+
+PEAK METRICS:
+  Raw Peak Amplitude: 44.7070
+  Filtered Peak Amplitude: 14.7176
+  Peak Loss: 67.08%
+  Peak Preserved: 32.92%
+
+NOISE METRICS:
+  Raw Std Dev: 5.1329
+  Filtered Std Dev: 2.1187
+  Noise Std Dev: 5.7037
+  Noise Reduction: 111.12%
+  SNR: -7.53 dB
+
+CORRELATION:
+  Gesture Correlation: -0.0820
+
+RMS VALUES:
+  Raw RMS: 5.2557
+  Filtered RMS: 2.3960
+
+Output File: filter_analysis_results/ID02_Standing/individual_filters/filter_10Hz_order5_ID02_Standing.png
+
+================================================================================
+RANK 30: 8 Hz, Order 5
+================================================================================
+Composite Score: -0.5187
+
+PEAK METRICS:
+  Raw Peak Amplitude: 44.7070
+  Filtered Peak Amplitude: 11.4002
+  Peak Loss: 74.50%
+  Peak Preserved: 25.50%
+
+NOISE METRICS:
+  Raw Std Dev: 5.1329
+  Filtered Std Dev: 1.7574
+  Noise Std Dev: 5.4715
+  Noise Reduction: 106.60%
+  SNR: -8.39 dB
+
+CORRELATION:
+  Gesture Correlation: -0.0287
+
+RMS VALUES:
+  Raw RMS: 5.2557
+  Filtered RMS: 2.0821
+
+Output File: filter_analysis_results/ID02_Standing/individual_filters/filter_8Hz_order5_ID02_Standing.png
+
+================================================================================
+RANK 31: 8 Hz, Order 3
+================================================================================
+Composite Score: -0.5433
+
+PEAK METRICS:
+  Raw Peak Amplitude: 44.7070
+  Filtered Peak Amplitude: 11.9013
+  Peak Loss: 73.38%
+  Peak Preserved: 26.62%
+
+NOISE METRICS:
+  Raw Std Dev: 5.1329
+  Filtered Std Dev: 1.8310
+  Noise Std Dev: 5.6954
+  Noise Reduction: 110.96%
+  SNR: -8.47 dB
+
+CORRELATION:
+  Gesture Correlation: -0.0757
+
+RMS VALUES:
+  Raw RMS: 5.2557
+  Filtered RMS: 2.1470
+
+Output File: filter_analysis_results/ID02_Standing/individual_filters/filter_8Hz_order3_ID02_Standing.png
+
+================================================================================
+RANK 32: 8 Hz, Order 4
+================================================================================
+Composite Score: -0.5530
+
+PEAK METRICS:
+  Raw Peak Amplitude: 44.7070
+  Filtered Peak Amplitude: 11.5773
+  Peak Loss: 74.10%
+  Peak Preserved: 25.90%
+
+NOISE METRICS:
+  Raw Std Dev: 5.1329
+  Filtered Std Dev: 1.7824
+  Noise Std Dev: 5.5762
+  Noise Reduction: 108.64%
+  SNR: -8.46 dB
+
+CORRELATION:
+  Gesture Correlation: -0.0709
+
+RMS VALUES:
+  Raw RMS: 5.2557
+  Filtered RMS: 2.1045
+
+Output File: filter_analysis_results/ID02_Standing/individual_filters/filter_8Hz_order4_ID02_Standing.png
+
+================================================================================
+RANK 33: 5 Hz, Order 2
+================================================================================
+Composite Score: -0.7065
+
+PEAK METRICS:
+  Raw Peak Amplitude: 44.7070
+  Filtered Peak Amplitude: 6.7972
+  Peak Loss: 84.80%
+  Peak Preserved: 15.20%
+
+NOISE METRICS:
+  Raw Std Dev: 5.1329
+  Filtered Std Dev: 1.3993
+  Noise Std Dev: 5.4551
+  Noise Reduction: 106.28%
+  SNR: -9.67 dB
+
+CORRELATION:
+  Gesture Correlation: -0.0105
+
+RMS VALUES:
+  Raw RMS: 5.2557
+  Filtered RMS: 1.7924
+
+Output File: filter_analysis_results/ID02_Standing/individual_filters/filter_5Hz_order2_ID02_Standing.png
+
+================================================================================
+RANK 34: 5 Hz, Order 4
+================================================================================
+Composite Score: -0.7456
+
+PEAK METRICS:
+  Raw Peak Amplitude: 44.7070
+  Filtered Peak Amplitude: 6.2178
+  Peak Loss: 86.09%
+  Peak Preserved: 13.91%
+
+NOISE METRICS:
+  Raw Std Dev: 5.1329
+  Filtered Std Dev: 1.2937
+  Noise Std Dev: 5.3340
+  Noise Reduction: 103.92%
+  SNR: -9.90 dB
+
+CORRELATION:
+  Gesture Correlation: -0.0237
+
+RMS VALUES:
+  Raw RMS: 5.2557
+  Filtered RMS: 1.7064
+
+Output File: filter_analysis_results/ID02_Standing/individual_filters/filter_5Hz_order4_ID02_Standing.png
+
+================================================================================
+RANK 35: 5 Hz, Order 5
+================================================================================
+Composite Score: -0.7465
+
+PEAK METRICS:
+  Raw Peak Amplitude: 44.7070
+  Filtered Peak Amplitude: 6.1116
+  Peak Loss: 86.33%
+  Peak Preserved: 13.67%
+
+NOISE METRICS:
+  Raw Std Dev: 5.1329
+  Filtered Std Dev: 1.2870
+  Noise Std Dev: 5.3233
+  Noise Reduction: 103.71%
+  SNR: -9.92 dB
+
+CORRELATION:
+  Gesture Correlation: -0.0199
+
+RMS VALUES:
+  Raw RMS: 5.2557
+  Filtered RMS: 1.6988
+
+Output File: filter_analysis_results/ID02_Standing/individual_filters/filter_5Hz_order5_ID02_Standing.png
+
+================================================================================
+RANK 36: 5 Hz, Order 3
+================================================================================
+Composite Score: -0.7599
+
+PEAK METRICS:
+  Raw Peak Amplitude: 44.7070
+  Filtered Peak Amplitude: 6.4365
+  Peak Loss: 85.60%
+  Peak Preserved: 14.40%
+
+NOISE METRICS:
+  Raw Std Dev: 5.1329
+  Filtered Std Dev: 1.3166
+  Noise Std Dev: 5.3985
+  Noise Reduction: 105.17%
+  SNR: -9.90 dB
+
+CORRELATION:
+  Gesture Correlation: -0.0479
+
+RMS VALUES:
+  Raw RMS: 5.2557
+  Filtered RMS: 1.7263
+
+Output File: filter_analysis_results/ID02_Standing/individual_filters/filter_5Hz_order3_ID02_Standing.png
+

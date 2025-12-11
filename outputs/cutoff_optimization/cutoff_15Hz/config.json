@@ -3,10 +3,27 @@
   "DATA": {
     "PATH": "data/dataset",
     "TRAIN_FILES": [
+      "ID06_seating_all_gestures.h5",
+      "ID06_standing_all_gestures.h5",
+      "ID09_seating_all_gestures.h5",
+      "ID09_standing_all_gestures.h5",
+      "ID02_seating_all_gestures.h5",
+      "ID02_standing_all_gestures.h5",
+      "ID04_seating_all_gestures.h5",
+      "ID04_standing_all_gestures.h5",
+      "ID08_seating_all_gestures.h5",
+      "ID08_standing_all_gestures.h5",
+      "ID03_seating_all_gestures.h5",
+      "ID03_standing_all_gestures.h5",
       "ID01_seating_all_gestures.h5",
       "ID01_standing_all_gestures.h5",
-      "ID02_seating_all_gestures.h5",
-      "ID02_standing_all_gestures.h5"
+      "ID05_seating_all_gestures.h5",
+      "ID05_standing_all_gestures.h5",
+      "ID10_seating_all_gestures.h5",
+      "ID10_standing_all_gestures.h5",
+      "ID07_seating_all_gestures.h5",
+      "ID07_standing_gestures12.h5",
+      "ID07_standing_gestures34free.h5"
     ],
     "TEST_FILES": [],
     "APPEND": 60,
@@ -18,15 +35,20 @@
     "APPLY_FILTER": true,
     "FILTER_CUTOFF": 15,
     "FILTER_ORDER": 4,
-    "SHUFFLE": false
+    "SHUFFLE": false,
+    "SHARE_TRAIN": 0.0,
+    "K_FOLD": null,
+    "SINGLE_TEST": false,
+    "DTW": false,
+    "FORCE_NUM_SUBJECTS_TRAIN": null
   },
   "MODEL": {
     "TYPE": "neuralnet",
     "NUM_FC_LAYERS": 2
   },
   "TRAINING": {
-    "BATCH_SIZE": 32,
-    "EPOCHS": 5,
+    "BATCH_SIZE": 64,
+    "EPOCHS": 10,
     "CP_INTERVAL": 5,
     "LEARNING_RATE": 0.0001,
     "WEIGHT_DECAY": 5e-05,
@@ -34,7 +56,7 @@
     "MOMENTUM": 0.999,
     "SCHEDULER_STEPS": 10000000,
     "GRADIENT_CLIP": 1.0,
-    "BATCH_NUM_WORKERS": 0,
+    "BATCH_NUM_WORKERS": 4,
     "WEIGHTED_SAMPLING": false
   },
   "SYSTEM": {
