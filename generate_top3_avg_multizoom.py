@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Generate detailed multi-zoom comparison for TOP 3 filters only.
-Shows different zoomed regions: quiet period, gesture start, gesture peak, gesture end.
+Generate detailed multi-zoom comparison for TOP 3 filter types by AVERAGE score.
+This shows which filter TYPES perform best on average across all configurations.
 """
 
 import numpy as np
@@ -96,16 +96,9 @@ def create_filter(filter_type, config_label):
 
 def plot_top3_multizoom(signal_label, top3_configs, channel='acc_z'):
     """
-    Plot top 3 filters with multiple zoom regions showing different behaviors.
-
-    Zoom regions:
-    1. Full signal (context)
-    2. Quiet period (baseline noise)
-    3. Gesture start (transition from rest to motion)
-    4. Gesture peak (maximum movement)
-    5. Gesture end (transition back to rest)
+    Plot top 3 filters with multiple zoom regions.
     """
-    print(f"\n  Generating top-3 multi-zoom for {signal_label} ({channel})...")
+    print(f"\n  Generating top-3 avg multi-zoom for {signal_label} ({channel})...")
 
     # Load signal
     original_df = load_signal_window(signal_label)
@@ -121,22 +114,21 @@ def plot_top3_multizoom(signal_label, top3_configs, channel='acc_z'):
 
     gesture_start = gesture_indices[0]
     gesture_end = gesture_indices[-1]
-    gesture_mid = (gesture_start + gesture_end) // 2
 
-    # Define zoom regions (each ~0.3 seconds = 60 samples)
+    # Define zoom regions
     zoom_size = 60
 
-    # Region 1: Quiet period (before gesture)
+    # Quiet period
     quiet_center = max(zoom_size, gesture_start - 50)
     quiet_start = quiet_center - zoom_size // 2
     quiet_end = quiet_center + zoom_size // 2
 
-    # Region 2: Gesture start transition
+    # Gesture start
     start_center = gesture_start
     start_start = max(0, start_center - zoom_size // 2)
     start_end = min(len(original_df), start_center + zoom_size // 2)
 
-    # Region 3: Gesture peak (find max absolute value in gesture region)
+    # Gesture peak
     channel_idx = IMU_CHANNELS.index(channel)
     gesture_values = np.abs(original_df[channel].values[gesture_start:gesture_end])
     peak_offset = np.argmax(gesture_values)
@@ -144,12 +136,12 @@ def plot_top3_multizoom(signal_label, top3_configs, channel='acc_z'):
     peak_start = max(0, peak_center - zoom_size // 2)
     peak_end = min(len(original_df), peak_center + zoom_size // 2)
 
-    # Region 4: Gesture end transition
+    # Gesture end
     end_center = gesture_end
     end_start = max(0, end_center - zoom_size // 2)
     end_end = min(len(original_df), end_center + zoom_size // 2)
 
-    # Create figure with 5 rows
+    # Create figure
     fig, axes = plt.subplots(5, 1, figsize=(20, 18))
 
     # Process top 3 filters
@@ -164,21 +156,17 @@ def plot_top3_multizoom(signal_label, top3_configs, channel='acc_z'):
     # Common plotting function
     def plot_region(ax, time_slice, data_slice, title, highlight_idx=None):
         """Helper to plot a zoomed region."""
-        # Plot raw
         ax.plot(time_slice, original_df[channel].values[data_slice],
                 color='black', alpha=0.3, linewidth=2, label='Raw', zorder=1)
 
-        # Plot each filter
         for display_name, (filtered_df, color) in filtered_signals.items():
             ax.plot(time_slice, filtered_df[channel].values[data_slice],
                    color=color, linewidth=3.5, label=display_name, alpha=0.95, zorder=2)
 
-        # Highlight gesture region
         ax.fill_between(time_slice, ax.get_ylim()[0], ax.get_ylim()[1],
                        where=gesture_mask[data_slice],
                        alpha=0.15, color='green', zorder=0)
 
-        # Add vertical line at key point
         if highlight_idx is not None:
             ax.axvline(time_axis[highlight_idx], color='red', linestyle='--',
                       linewidth=2.5, alpha=0.8, label='Key Point')
@@ -189,7 +177,7 @@ def plot_top3_multizoom(signal_label, top3_configs, channel='acc_z'):
         ax.legend(loc='upper right', fontsize=10)
         ax.set_xlabel('Time (seconds)', fontsize=11, fontweight='bold')
 
-    # Plot 1: Full signal for context
+    # Plot 1: Full signal
     ax = axes[0]
     ax.plot(time_axis, original_df[channel].values,
             color='lightgray', alpha=0.5, linewidth=1)
@@ -198,7 +186,6 @@ def plot_top3_multizoom(signal_label, top3_configs, channel='acc_z'):
         ax.plot(time_axis, filtered_df[channel].values,
                color=color, linewidth=2, label=display_name, alpha=0.8)
 
-    # Mark zoom regions
     regions = [
         (quiet_start, quiet_end, 'yellow', 'Quiet'),
         (start_start, start_end, 'orange', 'Start'),
@@ -218,36 +205,33 @@ def plot_top3_multizoom(signal_label, top3_configs, channel='acc_z'):
     ax.grid(True, alpha=0.3)
     ax.legend(loc='upper right', fontsize=9, ncol=4)
 
-    # Plot 2: Quiet period
+    # Plot zoomed regions
     plot_region(axes[1],
                time_axis[quiet_start:quiet_end],
                slice(quiet_start, quiet_end),
                'ZOOM 1: Quiet Period (Baseline Noise) - Before Gesture',
                None)
 
-    # Plot 3: Gesture start
     plot_region(axes[2],
                time_axis[start_start:start_end],
                slice(start_start, start_end),
                'ZOOM 2: Gesture START - Transition from Rest to Motion',
                gesture_start)
 
-    # Plot 4: Gesture peak
     plot_region(axes[3],
                time_axis[peak_start:peak_end],
                slice(peak_start, peak_end),
                'ZOOM 3: Gesture PEAK - Maximum Movement',
                peak_center)
 
-    # Plot 5: Gesture end
     plot_region(axes[4],
                time_axis[end_start:end_end],
                slice(end_start, end_end),
                'ZOOM 4: Gesture END - Transition back to Rest',
                gesture_end)
 
-    # Overall title
-    title = f"TOP 3 FILTERS - Multi-Region Comparison\n"
+    # Title
+    title = f"TOP 3 FILTER TYPES (by Average Score) - Multi-Region Comparison\n"
     title += f"{signal_label} ({channel_label} axis)\n"
     title += f"Showing: Quiet Period + Gesture Start + Gesture Peak + Gesture End"
     fig.suptitle(title, fontsize=15, fontweight='bold', y=0.995)
@@ -255,7 +239,7 @@ def plot_top3_multizoom(signal_label, top3_configs, channel='acc_z'):
     plt.tight_layout()
 
     # Save
-    filename = f"top3_multizoom_{channel}_{signal_label}.png"
+    filename = f"top3_avg_multizoom_{channel}_{signal_label}.png"
     output_path = OUTPUT_DIR / 'overlay_comparisons' / filename
     plt.savefig(output_path, dpi=150, bbox_inches='tight')
     plt.close()
@@ -264,54 +248,62 @@ def plot_top3_multizoom(signal_label, top3_configs, channel='acc_z'):
 
 
 def main():
-    """Generate top-3 multi-zoom comparison plots."""
+    """Generate top-3 by average score multi-zoom comparison."""
     print("=" * 80)
-    print("GENERATING TOP 3 FILTERS - MULTI-REGION ZOOM COMPARISON")
+    print("GENERATING TOP 3 FILTER TYPES (BY AVG SCORE) - MULTI-REGION ZOOM")
     print("=" * 80)
 
     # Load metrics
     metrics_path = OUTPUT_DIR / 'results_tables' / 'all_filters_all_metrics.csv'
     df_metrics = pd.read_csv(metrics_path)
 
-    # Get top 3 DIFFERENT filter types (not just top 3 overall)
-    # This ensures we see variety in the comparison
-    top_per_type = df_metrics.loc[df_metrics.groupby('filter_type')['composite_score'].idxmax()]
-    top_per_type = top_per_type.nlargest(3, 'composite_score')
+    # Get average score by filter type
+    avg_by_type = df_metrics.groupby('filter_type')['composite_score'].mean()
+    avg_by_type = avg_by_type.sort_values(ascending=False)
 
-    # Colors for top 3
-    colors = ['#1abc9c', '#e74c3c', '#3498db']  # Teal, Red, Blue
+    print(f"\nAverage Composite Score by Filter Type:")
+    for filter_type, avg_score in avg_by_type.items():
+        print(f"  {filter_type:15s}: {avg_score:.1f}/100")
 
-    # Create filter configs
+    # Get top 3 filter types by average
+    top3_types = avg_by_type.head(3).index.tolist()
+
+    # For each top 3 type, get the best configuration
     top3_configs = []
-    for i, (_, row) in enumerate(top_per_type.iterrows()):
-        filter_type = row['filter_type']
-        config_label = row['config_label']
+    colors = ['#9b59b6', '#2ecc71', '#e74c3c']  # Purple, Green, Red
+
+    print(f"\nTop 3 Filter Types (by avg) with Best Config:")
+    for i, filter_type in enumerate(top3_types):
+        # Get best config for this type
+        type_data = df_metrics[df_metrics['filter_type'] == filter_type]
+        best_config = type_data.loc[type_data['composite_score'].idxmax()]
+
+        config_label = best_config['config_label']
+        avg_score = avg_by_type[filter_type]
+        best_score = best_config['composite_score']
+
         display_name = f"#{i+1}: {filter_type} ({config_label})"
         color = colors[i]
+
         top3_configs.append((filter_type, config_label, display_name, color))
 
-    print(f"\nTop 3 Different Filter Types:")
-    for i, (_, row) in enumerate(top_per_type.iterrows(), 1):
-        print(f"  #{i}: {row['filter_type']:12s} ({row['config_label']:15s}) - "
-              f"Score: {row['composite_score']:.1f}/100")
+        print(f"  #{i+1}: {filter_type:12s} ({config_label:15s})")
+        print(f"       Avg: {avg_score:.1f}/100, Best: {best_score:.1f}/100")
 
-    # Generate plots for each signal
+    # Generate plots
     print("\nGenerating multi-zoom comparisons...")
     for signal_label in SIGNAL_CONFIGS.keys():
-        # Acc Z
         plot_top3_multizoom(signal_label, top3_configs, channel='acc_z')
-
-        # Gyro Y
         plot_top3_multizoom(signal_label, top3_configs, channel='gyro_y')
 
     print("\n" + "=" * 80)
     print("✓ COMPLETE")
-    print(f"Generated top-3 multi-zoom plots in:")
+    print(f"Generated top-3 (by avg) multi-zoom plots in:")
     print(f"  {OUTPUT_DIR / 'overlay_comparisons'}/")
     print("=" * 80)
     print("\nGenerated files:")
-    print("  - 4 signals × 2 axes = 8 top-3 multi-zoom plots")
-    print("  - Each shows 5 panels: Full + Quiet + Start + Peak + End")
+    print("  - 4 signals × 2 axes = 8 plots")
+    print("  - Comparing: Biquad, Butterworth, EMA (top 3 by average)")
 
 
 if __name__ == '__main__':
