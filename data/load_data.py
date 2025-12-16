@@ -164,44 +164,92 @@ class DataManagement(object):
                 self.train_df = self.train_df.iloc[::self.cfg.data.stride,:]
             self.test_df = self.test_df.iloc[::self.cfg.data.stride,:]
 
-    # apply low-pass Butterworth filter to reduce sensor noise
+    # apply low-pass filter to reduce sensor noise
     def apply_lowpass_filter(self):
         """
-        Apply Butterworth low-pass filter to reduce sensor noise.
+        Apply low-pass filter to reduce sensor noise.
+        Supports: EMA, Biquad, Butterworth filters.
         Filters raw IMU data before normalization and windowing.
-        Based on the paper's approach to handling noisy IMU data.
         """
 
-        print('Applying low-pass filter to sensor data...')
+        filter_type = getattr(self.cfg.data, 'filter_type', 'butterworth')
+        print(f'Applying {filter_type} filter to sensor data...')
 
-        # Filter parameters
-        sampling_rate = 200  # Hz (from dataset collection at 200 Hz)
-        cutoff_frequency = self.cfg.data.filter_cutoff  # From config
-        filter_order = self.cfg.data.filter_order  # From config
+        sampling_rate = 200  # Hz
 
-        print(f'Filter settings: Cutoff={cutoff_frequency}Hz, Order={filter_order}, Sampling={sampling_rate}Hz')
-
-        # Design Butterworth low-pass filter
-        nyquist_freq = sampling_rate / 2.0  # Nyquist frequency = 100 Hz
-        normalized_cutoff = cutoff_frequency / nyquist_freq  # Normalize to 0-1 range
-
-        # Create filter coefficients using Second-Order Sections (SOS) - best practice for numerical stability
-        sos = signal.butter(filter_order, normalized_cutoff, btype='low', output='sos')
-
-        # Sensor columns to filter (6-axis IMU: 3 accelerometer + 3 gyroscope)
+        # Sensor columns to filter (6-axis IMU)
         sensor_columns = ['acc_x', 'acc_y', 'acc_z', 'gyro_x', 'gyro_y', 'gyro_z']
-        # 9 8 8 6 6 5 4 3 2 1 0
-        # Apply zero-phase filtering to training data
-        if not self.cfg.data.single_test:
-            print('Filtering training data...')
-            for col in sensor_columns:
-                # sosfilt = causal filtering (forward-only filter, compatible with real-time ESP32)
-                self.train_df[col] = signal.sosfilt(sos, self.train_df[col].values)
 
-        # Apply causal filtering to test data
-        print('Filtering test data...')
-        for col in sensor_columns:
-            self.test_df[col] = signal.sosfilt(sos, self.test_df[col].values)
+        if filter_type.lower() == 'ema':
+            # EMA Filter
+            alpha = getattr(self.cfg.data, 'filter_alpha', 0.5)
+            print(f'Filter settings: EMA with alpha={alpha}')
+
+            def apply_ema(data, alpha):
+                filtered = np.zeros_like(data)
+                filtered[0] = data[0]
+                for i in range(1, len(data)):
+                    filtered[i] = alpha * data[i] + (1 - alpha) * filtered[i - 1]
+                return filtered
+
+            if not self.cfg.data.single_test:
+                print('Filtering training data...')
+                for col in sensor_columns:
+                    self.train_df[col] = apply_ema(self.train_df[col].values, alpha)
+
+            print('Filtering test data...')
+            for col in sensor_columns:
+                self.test_df[col] = apply_ema(self.test_df[col].values, alpha)
+
+        elif filter_type.lower() == 'biquad':
+            # Biquad Filter
+            cutoff = getattr(self.cfg.data, 'filter_cutoff', 40)
+            Q = getattr(self.cfg.data, 'filter_q', 1.0)
+            print(f'Filter settings: Biquad {cutoff}Hz Q={Q}')
+
+            # Design biquad filter
+            w0 = 2 * np.pi * cutoff / sampling_rate
+            alpha_bq = np.sin(w0) / (2 * Q)
+            b0 = (1 - np.cos(w0)) / 2
+            b1 = 1 - np.cos(w0)
+            b2 = (1 - np.cos(w0)) / 2
+            a0 = 1 + alpha_bq
+            a1 = -2 * np.cos(w0)
+            a2 = 1 - alpha_bq
+
+            b = np.array([b0/a0, b1/a0, b2/a0])
+            a = np.array([1.0, a1/a0, a2/a0])
+
+            if not self.cfg.data.single_test:
+                print('Filtering training data...')
+                for col in sensor_columns:
+                    self.train_df[col] = signal.lfilter(b, a, self.train_df[col].values)
+
+            print('Filtering test data...')
+            for col in sensor_columns:
+                self.test_df[col] = signal.lfilter(b, a, self.test_df[col].values)
+
+        elif filter_type.lower() == 'butterworth':
+            # Butterworth Filter
+            cutoff = getattr(self.cfg.data, 'filter_cutoff', 40)
+            order = getattr(self.cfg.data, 'filter_order', 2)
+            print(f'Filter settings: Butterworth {cutoff}Hz Order={order}')
+
+            nyquist_freq = sampling_rate / 2.0
+            normalized_cutoff = cutoff / nyquist_freq
+            sos = signal.butter(order, normalized_cutoff, btype='low', output='sos')
+
+            if not self.cfg.data.single_test:
+                print('Filtering training data...')
+                for col in sensor_columns:
+                    self.train_df[col] = signal.sosfilt(sos, self.train_df[col].values)
+
+            print('Filtering test data...')
+            for col in sensor_columns:
+                self.test_df[col] = signal.sosfilt(sos, self.test_df[col].values)
+
+        else:
+            raise ValueError(f'Unknown filter type: {filter_type}')
 
         print('Low-pass filtering complete.')
 

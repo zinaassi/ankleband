@@ -1,0 +1,34 @@
+================================================================================
+IDENTIFYING MIDDLE-PERFORMING SUBJECTS
+================================================================================
+Evaluating subject 1...
+  ERROR: Failed for subject 1
+Evaluating subject 2...
+  ERROR: Failed for subject 2
+Evaluating subject 3...
+  ERROR: Failed for subject 3
+Evaluating subject 4...
+  ERROR: Failed for subject 4
+Evaluating subject 5...
+  ERROR: Failed for subject 5
+Evaluating subject 6...
+  ERROR: Failed for subject 6
+Evaluating subject 7...
+  ERROR: Failed for subject 7
+Evaluating subject 8...
+  ERROR: Failed for subject 8
+Evaluating subject 9...
+  ERROR: Failed for subject 9
+Evaluating subject 10...
+  ERROR: Failed for subject 10
+Traceback (most recent call last):
+  File "/home/abed/ankleband/ankleband/identify_middle_subjects.py", line 94, in <module>
+    main()
+    ~~~~^^
+  File "/home/abed/ankleband/ankleband/identify_middle_subjects.py", line 71, in main
+    results_df = results_df.sort_values('accuracy')
+  File "/home/abed/miniconda3/lib/python3.13/site-packages/pandas/core/frame.py", line 7211, in sort_values
+    k = self._get_label_or_level_values(by[0], axis=axis)
+  File "/home/abed/miniconda3/lib/python3.13/site-packages/pandas/core/generic.py", line 1914, in _get_label_or_level_values
+    raise KeyError(key)
+KeyError: 'accuracy'
