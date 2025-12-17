@@ -1,0 +1,5 @@
+Config: filter_comparison_ema.json
+Leave-out Subject: 6
+Starting at: Wed Dec 17 13:10:01 IST 2025
+Python: /home/badran.abed/miniconda3/envs/imugr/bin/python
+Conda env: imugr
