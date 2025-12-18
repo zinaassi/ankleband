@@ -1,0 +1,27 @@
+Config: filter_comparison_baseline.json
+Leave-out Subject: 1
+Starting at: Wed 17 Dec 2025 02:03:49 PM IST
+environment: line 38: /usr/bin/tclsh8.6: No such file or directory
+environment: line 38: /usr/bin/tclsh8.6: No such file or directory
+Python: /home/badran.abed/miniconda3/envs/imugr/bin/python
+Conda env: imugr
+Loading dataset...
+Removing irrelevant data...
+Concatenating samples...
+Normalizaing inputs...
+Total samples for train: 2257968.
+Total samples for test: 238955.
+Started training...
+Epoch: 1, Loss: 0.504, Test Loss: 0.400, Accuracy: 0.851, Recall: 0.605, Precision: 0.916.
+Epoch: 2, Loss: 0.186, Test Loss: 0.269, Accuracy: 0.907, Recall: 0.773, Precision: 0.942.
+Epoch: 3, Loss: 0.149, Test Loss: 0.234, Accuracy: 0.920, Recall: 0.806, Precision: 0.949.
+Epoch: 4, Loss: 0.132, Test Loss: 0.219, Accuracy: 0.926, Recall: 0.827, Precision: 0.950.
+Epoch: 5, Loss: 0.121, Test Loss: 0.197, Accuracy: 0.936, Recall: 0.857, Precision: 0.950.
+Saving weights to outputs/filter_loo_baseline_s01_baseline
+Epoch: 6, Loss: 0.114, Test Loss: 0.193, Accuracy: 0.938, Recall: 0.864, Precision: 0.948.
+Epoch: 7, Loss: 0.108, Test Loss: 0.192, Accuracy: 0.939, Recall: 0.865, Precision: 0.948.
+Epoch: 8, Loss: 0.105, Test Loss: 0.180, Accuracy: 0.943, Recall: 0.881, Precision: 0.945.
+Epoch: 9, Loss: 0.101, Test Loss: 0.196, Accuracy: 0.939, Recall: 0.872, Precision: 0.941.
+Epoch: 10, Loss: 0.098, Test Loss: 0.196, Accuracy: 0.938, Recall: 0.868, Precision: 0.944.
+Saving weights to outputs/filter_loo_baseline_s01_baseline
+Finished at: Wed 17 Dec 2025 06:21:59 PM IST
