@@ -17,7 +17,9 @@ PYTHON_PATH = '/home/abed/miniconda3/envs/imugr/bin/python3'
 
 def quick_eval_subject(subject_id):
     """Run quick evaluation for one subject."""
+    print(f"\n{'='*80}")
     print(f"Evaluating subject {subject_id}...")
+    print(f"{'='*80}\n")
 
     cmd = [
         PYTHON_PATH, 'trainer/train_conv.py',
@@ -25,12 +27,11 @@ def quick_eval_subject(subject_id):
         '--loo', str(subject_id)
     ]
 
-    result = subprocess.run(cmd, capture_output=True, text=True)
+    # Don't capture output - let it print to console so user can see progress
+    result = subprocess.run(cmd)
 
     if result.returncode != 0:
-        print(f"  ERROR: Failed for subject {subject_id}")
-        print(f"  STDERR: {result.stderr[:500]}")  # Print first 500 chars of error
-        print(f"  STDOUT: {result.stdout[:500]}")  # Print first 500 chars of output
+        print(f"\n  ERROR: Failed for subject {subject_id}")
         return None
 
     # Read metrics - the training script adds extra suffix to output dir
