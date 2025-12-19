@@ -34,7 +34,7 @@
     "LEAVE_SUBJECT_OUT": 1,
     "APPLY_FILTER": true,
     "FILTER_TYPE": "biquad",
-    "FILTER_CUTOFF": 40,
+    "FILTER_CUTOFF": 30,
     "FILTER_Q": 1.0,
     "SHUFFLE": false,
     "SHARE_TRAIN": 0.0,

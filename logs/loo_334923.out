@@ -1,0 +1,5 @@
+Config: filter_comparison_baseline.json
+Leave-out Subject: 2
+Starting at: Fri Dec 19 15:22:42 IST 2025
+Python: /home/badran.abed/miniconda3/envs/imugr/bin/python
+Conda env: imugr
