@@ -11,7 +11,7 @@ import random
 from fastdtw import fastdtw
 from scipy.spatial.distance import euclidean
 import swifter
-
+from filter_implementations.kalman_filter import KalmanFilter1D
 class DataManagement(object):
 
     def __init__(self, cfg):
@@ -247,7 +247,25 @@ class DataManagement(object):
             print('Filtering test data...')
             for col in sensor_columns:
                 self.test_df[col] = signal.sosfilt(sos, self.test_df[col].values)
+        elif filter_type.lower() == 'kalman':
+            # Kalman Filter
+            process_noise = getattr(self.cfg.data, 'filter_q', 0.0001)
+            measurement_noise = getattr(self.cfg.data, 'filter_r', 0.0001)
+            print(f'Filter settings: Kalman Q={process_noise} R={measurement_noise}')
 
+            kalman_filter = KalmanFilter1D(
+                process_noise=process_noise,
+                measurement_noise=measurement_noise
+            )
+
+            if not self.cfg.data.single_test:
+                print('Filtering training data...')
+                for col in sensor_columns:
+                    self.train_df[col] = kalman_filter.filter_single_channel(self.train_df[col].values)
+
+            print('Filtering test data...')
+            for col in sensor_columns:
+                self.test_df[col] = kalman_filter.filter_single_channel(self.test_df[col].values)
         else:
             raise ValueError(f'Unknown filter type: {filter_type}')
 
