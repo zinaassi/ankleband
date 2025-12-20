@@ -3,3 +3,23 @@ Leave-out Subject: 2
 Starting at: Fri Dec 19 15:22:42 IST 2025
 Python: /home/badran.abed/miniconda3/envs/imugr/bin/python
 Conda env: imugr
+Loading dataset...
+Removing irrelevant data...
+Concatenating samples...
+Normalizaing inputs...
+Total samples for train: 2213950.
+Total samples for test: 282973.
+Started training...
+Epoch: 1, Loss: 0.506, Test Loss: 0.265, Accuracy: 0.905, Recall: 0.741, Precision: 0.867.
+Epoch: 2, Loss: 0.190, Test Loss: 0.187, Accuracy: 0.930, Recall: 0.816, Precision: 0.906.
+Epoch: 3, Loss: 0.151, Test Loss: 0.155, Accuracy: 0.945, Recall: 0.852, Precision: 0.925.
+Epoch: 4, Loss: 0.134, Test Loss: 0.136, Accuracy: 0.952, Recall: 0.877, Precision: 0.933.
+Epoch: 5, Loss: 0.124, Test Loss: 0.132, Accuracy: 0.957, Recall: 0.884, Precision: 0.937.
+Saving weights to outputs/filter_loo_baseline_s02_baseline
+Epoch: 6, Loss: 0.117, Test Loss: 0.136, Accuracy: 0.956, Recall: 0.877, Precision: 0.944.
+Epoch: 7, Loss: 0.112, Test Loss: 0.132, Accuracy: 0.958, Recall: 0.883, Precision: 0.944.
+Epoch: 8, Loss: 0.108, Test Loss: 0.125, Accuracy: 0.960, Recall: 0.892, Precision: 0.945.
+Epoch: 9, Loss: 0.105, Test Loss: 0.126, Accuracy: 0.961, Recall: 0.893, Precision: 0.946.
+Epoch: 10, Loss: 0.103, Test Loss: 0.117, Accuracy: 0.964, Recall: 0.904, Precision: 0.950.
+Saving weights to outputs/filter_loo_baseline_s02_baseline
+Finished at: Fri Dec 19 19:22:01 IST 2025
