@@ -92,10 +92,8 @@ FILTER_CONFIGS = {
         for alpha in [0.80, 0.85, 0.90, 0.92, 0.95, 0.97, 0.98, 0.99]
     ],
     'Kalman': [
-        {'Q': Q, 'R': R, 'label': f'Q={Q}-R={R}'}
-        for Q in [0.0001, 0.001, 0.01, 0.1, 1.0]
-        for R in [0.01, 0.1, 1.0, 10.0]
-        if Q <= R  # Only test combinations where Q ≤ R (physically meaningful)
+        {'Q': val, 'R': val, 'label': f'Q={val}-R={val}'}
+        for val in [0.0001, 0.001, 0.005, 0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1.0, 2.0, 5.0, 10.0]
     ],
 }
 
@@ -383,12 +381,14 @@ def calculate_composite_score(metrics: Dict) -> float:
     """
     Calculate composite quality score.
 
-    Weighted combination based on Dean's priorities:
-    - Peak preservation: 30%
-    - Correlation: 25%
-    - SNR: 20%
-    - Edge sharpness: 15%
-    - Smoothness: 10%
+    Weighted combination based on CNN architecture and deployment strategy:
+    - Peak preservation: 35% (CNN learns from signal amplitudes/patterns)
+    - Correlation: 30% (preserves gesture differences for classification)
+    - SNR: 20% (clean signals help but CNN is noise-tolerant)
+    - Phase delay: 10% (real-time responsiveness for prosthetic control)
+    - Edge sharpness: 5% (visual inspection only - continuous windows used)
+
+    Note: Lower delay = better score (inverted in normalization)
     """
     # Normalize each metric to 0-1 range
     normalized = {}
@@ -405,16 +405,17 @@ def calculate_composite_score(metrics: Dict) -> float:
     # Edge sharpness: normalize to typical range (assume 0.1 is good)
     normalized['edge'] = np.clip(metrics['edge_sharpness'] / 0.1, 0, 1)
 
-    # Smoothness: normalize to typical range (assume 5.0 is good)
-    normalized['smooth'] = np.clip(metrics['smoothness_score'] / 5.0, 0, 1)
+    # Phase delay: lower is better, invert it
+    # Typical range 0-50ms, normalize and invert (0ms = 1.0, 50ms = 0.0)
+    normalized['delay'] = np.clip(1 - (metrics['phase_delay_ms'] / 50), 0, 1)
 
-    # Weighted sum
+    # Weighted sum (prioritizes CNN learning > real-time > visual inspection)
     weights = {
-        'peak': 0.30,
-        'corr': 0.25,
+        'peak': 0.35,
+        'corr': 0.30,
         'snr': 0.20,
-        'edge': 0.15,
-        'smooth': 0.10
+        'delay': 0.10,
+        'edge': 0.05
     }
 
     composite = sum(normalized[k] * weights[k] for k in weights)
@@ -477,9 +478,9 @@ def generate_metrics_by_filter_type(df_metrics: pd.DataFrame):
     df_by_type = df_metrics.groupby('filter_type').mean(numeric_only=True)
 
     metrics_to_plot = ['snr_db', 'correlation', 'peak_preservation',
-                      'edge_sharpness', 'smoothness_score', 'composite_score']
+                      'edge_sharpness', 'phase_delay_ms', 'composite_score']
     metric_names = ['SNR (dB)', 'Correlation', 'Peak Preservation',
-                   'Edge Sharpness', 'Smoothness', 'Composite Score']
+                   'Edge Sharpness', 'Phase Delay (ms)', 'Composite Score']
 
     fig, axes = plt.subplots(2, 3, figsize=(18, 12))
     axes = axes.flatten()
@@ -617,9 +618,9 @@ def generate_comprehensive_report(df_metrics: pd.DataFrame):
             f.write(f"- **{filter_type}**: {len(configs)} configurations\n")
 
         f.write("\n### Metrics Evaluated\n\n")
-        f.write("1. **Signal Quality**: SNR, Smoothness\n")
+        f.write("1. **Signal Quality**: SNR (noise reduction)\n")
         f.write("2. **Information Preservation**: Peak preservation, Correlation\n")
-        f.write("3. **Edge Detection**: Edge sharpness, Phase delay\n\n")
+        f.write("3. **Real-time Performance**: Edge sharpness, Phase delay\n\n")
 
         # Top performers
         f.write("## Top Performing Filters\n\n")

@@ -11,34 +11,34 @@ FILTERS TESTED:
 - Butterworth: 21 configurations
 - Biquad: 21 configurations
 - Complementary: 8 configurations
-- Kalman: 17 configurations
+- Kalman: 13 configurations
 
-TOTAL: 344 filter/signal combinations tested
+TOTAL: 328 filter/signal combinations tested
 
 TOP 3 RECOMMENDATIONS:
 ================================================================================
 
-#1: Kalman (Q=0.01-R=0.01)
+#1: Kalman (Q=0.0001-R=0.0001)
     Signal: ID10-Stand-G4
-    Composite Score: 80.4/100
+    Composite Score: 86.9/100
     SNR: 16.5 dB
     Correlation: 0.955
     Peak Preservation: 98.1%
     Edge Sharpness: 0.2528
     Phase Delay: 0.0 ms
 
-#2: Kalman (Q=0.1-R=0.1)
+#2: Kalman (Q=0.001-R=0.001)
     Signal: ID10-Stand-G4
-    Composite Score: 80.4/100
+    Composite Score: 86.9/100
     SNR: 16.5 dB
     Correlation: 0.955
     Peak Preservation: 98.1%
     Edge Sharpness: 0.2528
     Phase Delay: 0.0 ms
 
-#3: Kalman (Q=1.0-R=1.0)
+#3: Kalman (Q=0.005-R=0.005)
     Signal: ID10-Stand-G4
-    Composite Score: 80.4/100
+    Composite Score: 86.9/100
     SNR: 16.5 dB
     Correlation: 0.955
     Peak Preservation: 98.1%
@@ -50,18 +50,18 @@ KEY FINDINGS:
 ================================================================================
 
 1. Best Filter Type (by average composite score):
-   - Biquad: 64.8/100
-   - Butterworth: 61.8/100
-   - EMA: 60.8/100
-   - Kalman: 56.6/100
-   - MAF: 53.8/100
-   - Complementary: 50.1/100
+   - Kalman: 85.0/100
+   - Biquad: 67.8/100
+   - Butterworth: 63.2/100
+   - EMA: 62.2/100
+   - MAF: 50.8/100
+   - Complementary: 47.6/100
 
 2. Metrics Summary (averages across all filters):
-   - Average SNR: -0.4 dB
-   - Average Correlation: 0.443
-   - Average Peak Preservation: 73.2%
-   - Average Phase Delay: 24.6 ms
+   - Average SNR: 2.4 dB
+   - Average Correlation: 0.495
+   - Average Peak Preservation: 80.1%
+   - Average Phase Delay: 18.5 ms
 
 
 FOR MORE DETAILS:
