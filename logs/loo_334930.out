@@ -1,0 +1,32 @@
+Config: filter_comparison_biquad.json
+Leave-out Subject: 3
+Starting at: Fri 19 Dec 2025 03:23:57 PM IST
+environment: line 38: /usr/bin/tclsh8.6: No such file or directory
+environment: line 38: /usr/bin/tclsh8.6: No such file or directory
+Python: /home/zina.assi/miniconda3/envs/imugr/bin/python
+Conda env: imugr
+Loading dataset...
+Applying butterworth filter to sensor data...
+Filter settings: Butterworth 30Hz Order=4
+Filtering training data...
+Filtering test data...
+Low-pass filtering complete.
+Removing irrelevant data...
+Concatenating samples...
+Normalizaing inputs...
+Total samples for train: 2280081.
+Total samples for test: 216842.
+Started training...
+Epoch: 1, Loss: 0.485, Test Loss: 0.265, Accuracy: 0.906, Recall: 0.667, Precision: 0.910.
+Epoch: 2, Loss: 0.185, Test Loss: 0.183, Accuracy: 0.938, Recall: 0.785, Precision: 0.942.
+Epoch: 3, Loss: 0.151, Test Loss: 0.145, Accuracy: 0.951, Recall: 0.840, Precision: 0.949.
+Epoch: 4, Loss: 0.135, Test Loss: 0.147, Accuracy: 0.951, Recall: 0.835, Precision: 0.952.
+Epoch: 5, Loss: 0.124, Test Loss: 0.147, Accuracy: 0.950, Recall: 0.829, Precision: 0.954.
+Saving weights to outputs/filter_loo_biquad_s03_biquad
+Epoch: 6, Loss: 0.117, Test Loss: 0.142, Accuracy: 0.951, Recall: 0.838, Precision: 0.949.
+Epoch: 7, Loss: 0.111, Test Loss: 0.125, Accuracy: 0.957, Recall: 0.859, Precision: 0.950.
+Epoch: 8, Loss: 0.107, Test Loss: 0.127, Accuracy: 0.957, Recall: 0.867, Precision: 0.944.
+Epoch: 9, Loss: 0.103, Test Loss: 0.123, Accuracy: 0.959, Recall: 0.878, Precision: 0.943.
+Epoch: 10, Loss: 0.101, Test Loss: 0.127, Accuracy: 0.959, Recall: 0.876, Precision: 0.947.
+Saving weights to outputs/filter_loo_biquad_s03_biquad
+Finished at: Fri 19 Dec 2025 07:39:17 PM IST
