@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
 Filter Comparison Analysis Script
-Compares Baseline vs Butterworth vs Biquad vs EMA filters
+Compares Baseline vs Butterworth vs Biquad vs EMA vs Kalman filters
 Analyzes: Accuracy, Recall, Precision, FP Rate, FN Rate
 
-Run locally: python analyze_filter_results.py
+Run locally: python analyze_filter_results_with_kalman.py
 """
 
 import pandas as pd
@@ -16,7 +16,7 @@ import os
 # Configuration - Update this path to your outputs directory
 OUTPUTS_DIR = Path('outputs')
 
-# Filter configurations to analyze
+# Filter configurations to analyze (now includes Kalman)
 FILTER_CONFIGS = {
     'baseline': {
         'name': 'Baseline (No Filter)',
@@ -41,6 +41,12 @@ FILTER_CONFIGS = {
         'pattern': 'filter_loo_ema_s{:02d}_ema',
         'color': '#e74c3c',  # Red
         'short': 'EMA'
+    },
+    'kalman': {
+        'name': 'Kalman (Q=0.0001, R=0.0001)',
+        'pattern': 'filter_loo_kalman_s{:02d}_kalman',
+        'color': '#1abc9c',  # Teal
+        'short': 'Kalman'
     }
 }
 
@@ -101,6 +107,10 @@ def compare_to_baseline(df):
     print("="*70)
     
     baseline_df = df[df['filter_key'] == 'baseline']
+    if len(baseline_df) == 0:
+        print("ERROR: No baseline results found!")
+        return pd.DataFrame(), {}
+        
     baseline_avg = {
         'accuracy': baseline_df['accuracy'].mean(),
         'recall': baseline_df['recall'].mean(),
@@ -124,6 +134,7 @@ def compare_to_baseline(df):
             
         filter_df = df[df['filter_key'] == filter_key]
         if len(filter_df) == 0:
+            print(f"\n{config['name']}: No results found")
             continue
             
         filter_avg = {
@@ -164,7 +175,7 @@ def compare_to_baseline(df):
 
 def create_bar_chart_comparison(df):
     """Create bar chart comparing all filters."""
-    fig, axes = plt.subplots(1, 3, figsize=(15, 5))
+    fig, axes = plt.subplots(1, 3, figsize=(16, 5))
     
     metrics = ['accuracy', 'recall', 'precision']
     titles = ['Accuracy', 'Recall', 'Precision']
@@ -184,20 +195,24 @@ def create_bar_chart_comparison(df):
                 colors.append(FILTER_CONFIGS[fk]['color'])
                 labels.append(FILTER_CONFIGS[fk]['short'])
         
+        if len(means) == 0:
+            continue
+            
         x = np.arange(len(labels))
         bars = ax.bar(x, means, yerr=stds, capsize=5, color=colors, edgecolor='black', alpha=0.8)
         
         ax.set_ylabel(title)
         ax.set_title(f'{title} by Filter Type')
         ax.set_xticks(x)
-        ax.set_xticklabels(labels, rotation=15, ha='right')
+        ax.set_xticklabels(labels, rotation=20, ha='right')
         ax.set_ylim(0.7, 1.0)
-        ax.axhline(y=means[0], color='gray', linestyle='--', alpha=0.5, label='Baseline')
+        if len(means) > 0:
+            ax.axhline(y=means[0], color='gray', linestyle='--', alpha=0.5, label='Baseline')
         
         # Add value labels on bars
         for bar, mean in zip(bars, means):
             ax.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.01, 
-                   f'{mean:.3f}', ha='center', va='bottom', fontsize=10)
+                   f'{mean:.3f}', ha='center', va='bottom', fontsize=9)
     
     plt.tight_layout()
     plt.savefig('filter_comparison_metrics.png', dpi=150, bbox_inches='tight')
@@ -207,7 +222,7 @@ def create_bar_chart_comparison(df):
 
 def create_fp_fn_comparison(df):
     """Create FP/FN rate comparison chart."""
-    fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+    fig, axes = plt.subplots(1, 2, figsize=(14, 5))
     
     metrics = ['fn_rate', 'fp_rate']
     titles = ['False Negative Rate (1 - Recall)', 'False Positive Rate (1 - Precision)']
@@ -227,20 +242,24 @@ def create_fp_fn_comparison(df):
                 colors.append(FILTER_CONFIGS[fk]['color'])
                 labels.append(FILTER_CONFIGS[fk]['short'])
         
+        if len(means) == 0:
+            continue
+            
         x = np.arange(len(labels))
         bars = ax.bar(x, means, yerr=stds, capsize=5, color=colors, edgecolor='black', alpha=0.8)
         
         ax.set_ylabel('Rate')
         ax.set_title(title)
         ax.set_xticks(x)
-        ax.set_xticklabels(labels, rotation=15, ha='right')
+        ax.set_xticklabels(labels, rotation=20, ha='right')
         ax.set_ylim(0, 0.3)
-        ax.axhline(y=means[0], color='gray', linestyle='--', alpha=0.5, label='Baseline')
+        if len(means) > 0:
+            ax.axhline(y=means[0], color='gray', linestyle='--', alpha=0.5, label='Baseline')
         
         # Add value labels
         for bar, mean in zip(bars, means):
             ax.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.005, 
-                   f'{mean:.3f}', ha='center', va='bottom', fontsize=10)
+                   f'{mean:.3f}', ha='center', va='bottom', fontsize=9)
     
     plt.tight_layout()
     plt.savefig('filter_comparison_fp_fn.png', dpi=150, bbox_inches='tight')
@@ -250,18 +269,22 @@ def create_fp_fn_comparison(df):
 
 def create_subject_breakdown(df):
     """Create per-subject breakdown chart."""
-    fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+    fig, axes = plt.subplots(2, 2, figsize=(16, 10))
     axes = axes.flatten()
     
     metrics = ['accuracy', 'recall', 'precision', 'fn_rate']
     titles = ['Accuracy by Subject', 'Recall by Subject', 
               'Precision by Subject', 'False Negative Rate by Subject']
     
+    # Count how many filters have data
+    filters_with_data = [fk for fk in FILTER_CONFIGS.keys() if len(df[df['filter_key'] == fk]) > 0]
+    width = 0.15 if len(filters_with_data) == 5 else 0.2
+    
     for ax, metric, title in zip(axes, metrics, titles):
         x = np.arange(len(TEST_SUBJECTS))
-        width = 0.2
         
-        for i, (fk, config) in enumerate(FILTER_CONFIGS.items()):
+        for i, fk in enumerate(filters_with_data):
+            config = FILTER_CONFIGS[fk]
             filter_df = df[df['filter_key'] == fk]
             if len(filter_df) == 0:
                 continue
@@ -274,7 +297,7 @@ def create_subject_breakdown(df):
                 else:
                     values.append(0)
             
-            offset = (i - len(FILTER_CONFIGS)/2 + 0.5) * width
+            offset = (i - len(filters_with_data)/2 + 0.5) * width
             bars = ax.bar(x + offset, values, width, label=config['short'], 
                          color=config['color'], edgecolor='black', alpha=0.8)
         
@@ -282,7 +305,7 @@ def create_subject_breakdown(df):
         ax.set_title(title)
         ax.set_xticks(x)
         ax.set_xticklabels([f'Subject {s}' for s in TEST_SUBJECTS])
-        ax.legend(loc='lower right')
+        ax.legend(loc='lower right', fontsize=8)
         
         if metric == 'fn_rate':
             ax.set_ylim(0, 0.35)
@@ -301,13 +324,13 @@ def create_delta_chart(comparisons_df, baseline_avg):
         print("No comparison data available for delta chart")
         return
         
-    fig, ax = plt.subplots(figsize=(12, 6))
+    fig, ax = plt.subplots(figsize=(14, 6))
     
     metrics = ['delta_accuracy', 'delta_recall', 'delta_precision']
     labels = ['Accuracy', 'Recall', 'Precision']
     
     x = np.arange(len(labels))
-    width = 0.25
+    width = 0.15 if len(comparisons_df) >= 4 else 0.2
     
     for i, (_, row) in enumerate(comparisons_df.iterrows()):
         values = [row[m] * 100 for m in metrics]  # Convert to percentage points
@@ -323,14 +346,14 @@ def create_delta_chart(comparisons_df, baseline_avg):
             ax.text(bar.get_x() + bar.get_width()/2, 
                    y_pos + (0.1 if y_pos >= 0 else -0.3),
                    f'{val:+.2f}%', ha='center', va='bottom' if y_pos >= 0 else 'top',
-                   fontsize=9)
+                   fontsize=8)
     
     ax.axhline(y=0, color='black', linestyle='-', linewidth=0.5)
     ax.set_ylabel('Change vs Baseline (percentage points)')
     ax.set_title('Filter Performance Change Relative to Baseline')
     ax.set_xticks(x)
     ax.set_xticklabels(labels)
-    ax.legend()
+    ax.legend(loc='best')
     ax.grid(axis='y', alpha=0.3)
     
     plt.tight_layout()
@@ -427,14 +450,21 @@ def print_conclusions(comparisons_df, baseline_avg):
         for _, row in improved_fp.iterrows():
             print(f"    - {row['filter']}: {row['delta_fp_rate']*100:.2f}% fewer false alarms")
     
+    # Rank all filters by accuracy improvement
+    print(f"\n🏆 RANKING BY ACCURACY IMPROVEMENT:")
+    ranked = comparisons_df.sort_values('delta_accuracy', ascending=False)
+    for i, (_, row) in enumerate(ranked.iterrows(), 1):
+        symbol = "✓" if row['delta_accuracy'] > 0 else "✗"
+        print(f"  {i}. {row['filter']}: {row['delta_accuracy']*100:+.2f}% {symbol}")
+    
     print("\n" + "="*70)
 
 
 def main():
     """Main analysis function."""
     print("\n" + "="*70)
-    print("FILTER COMPARISON ANALYSIS")
-    print("Comparing: Baseline vs Butterworth vs Biquad vs EMA")
+    print("FILTER COMPARISON ANALYSIS (WITH KALMAN)")
+    print("Comparing: Baseline vs Butterworth vs Biquad vs EMA vs Kalman")
     print("Test Subjects: ", TEST_SUBJECTS)
     print("="*70)
     
@@ -453,6 +483,10 @@ def main():
     print("\nSaved: filter_comparison_raw_results.csv")
     
     comparisons_df, baseline_avg = compare_to_baseline(df)
+    
+    if len(comparisons_df) == 0:
+        print("\nERROR: Could not compare filters (missing baseline or filter results)")
+        return
     
     print("\n" + "="*70)
     print("GENERATING VISUALIZATIONS")
