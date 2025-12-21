@@ -1,0 +1,5 @@
+Config: filter_comparison_kalman_smooth.json
+Leave-out Subject: 2
+Starting at: Sun Dec 21 13:40:22 IST 2025
+Python: /home/badran.abed/miniconda3/envs/imugr/bin/python
+Conda env: imugr
