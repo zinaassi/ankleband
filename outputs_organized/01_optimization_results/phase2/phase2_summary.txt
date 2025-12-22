@@ -1,0 +1,49 @@
+PHASE 2: FINE SEARCH RESULTS
+================================================================================
+
+Best Configurations Found:
+--------------------------------------------------------------------------------
+
+WINNER: EMA (alpha=0.95)
+  Composite Score: 92.3
+  Improvement vs Phase 1: +12.6
+  SNR: 32.3 dB
+  Edge Sharpness: 4.937
+  Correlation: 0.999
+  Phase Delay: 0.0 ms
+  Peak Preservation: 0.994
+
+================================================================================
+TOP 5 OVERALL:
+--------------------------------------------------------------------------------
+
+1. EMA (alpha=0.95)
+   Score: 92.3 (+12.6 vs Phase 1)
+   SNR: 32.3 dB, Edge: 4.937, Delay: 0.0 ms
+
+2. EMA (alpha=0.92)
+   Score: 88.1 (+8.4 vs Phase 1)
+   SNR: 28.2 dB, Edge: 4.780, Delay: 0.0 ms
+
+3. EMA (alpha=0.89)
+   Score: 85.3 (+5.6 vs Phase 1)
+   SNR: 25.3 dB, Edge: 4.622, Delay: 0.0 ms
+
+4. EMA (alpha=0.86)
+   Score: 83.1 (+3.4 vs Phase 1)
+   SNR: 23.1 dB, Edge: 4.463, Delay: 0.0 ms
+
+5. EMA (alpha=0.83)
+   Score: 81.2 (+1.6 vs Phase 1)
+   SNR: 21.3 dB, Edge: 4.304, Delay: 0.0 ms
+
+================================================================================
+RECOMMENDATION FOR PRODUCTION:
+--------------------------------------------------------------------------------
+
+Primary: EMA (alpha=0.95)
+Backup:  EMA (alpha=0.92)
+
+Expected CNN Performance (based on correlations):
+  Recall: ~89.9% (+0.1% vs current)
+  Accuracy: ~96.4% (+0.1% vs current)
