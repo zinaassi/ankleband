@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
 Filter Comparison Analysis Script
-Compares Baseline vs Butterworth vs Biquad vs EMA vs Kalman filters
+Compares Baseline vs Butterworth vs Biquad vs EMA vs Kalman (3 variants)
 Analyzes: Accuracy, Recall, Precision, FP Rate, FN Rate
 
-Run locally: python analyze_filter_results_with_kalman.py
+Run locally: python analyze_filter_results_all_kalman.py
 """
 
 import pandas as pd
@@ -16,7 +16,7 @@ import os
 # Configuration - Update this path to your outputs directory
 OUTPUTS_DIR = Path('outputs')
 
-# Filter configurations to analyze (now includes Kalman)
+# Filter configurations to analyze (includes all 3 Kalman variants)
 FILTER_CONFIGS = {
     'baseline': {
         'name': 'Baseline (No Filter)',
@@ -46,7 +46,19 @@ FILTER_CONFIGS = {
         'name': 'Kalman (Q=0.0001, R=0.0001)',
         'pattern': 'filter_loo_kalman_s{:02d}_kalman',
         'color': '#1abc9c',  # Teal
-        'short': 'Kalman'
+        'short': 'Kalman-Min'
+    },
+    'kalman_light': {
+        'name': 'Kalman Light (Q=0.1, R=0.1)',
+        'pattern': 'filter_loo_kalman_light_s{:02d}_light',
+        'color': '#3498db',  # Blue
+        'short': 'Kalman-Light'
+    },
+    'kalman_smooth': {
+        'name': 'Kalman Smooth (Q=0.001, R=0.1)',
+        'pattern': 'filter_loo_kalman_s{:02d}_mooth',  # Note: folder has "mooth" typo
+        'color': '#f39c12',  # Orange
+        'short': 'Kalman-Smooth'
     }
 }
 
@@ -175,7 +187,7 @@ def compare_to_baseline(df):
 
 def create_bar_chart_comparison(df):
     """Create bar chart comparing all filters."""
-    fig, axes = plt.subplots(1, 3, figsize=(16, 5))
+    fig, axes = plt.subplots(1, 3, figsize=(18, 6))
     
     metrics = ['accuracy', 'recall', 'precision']
     titles = ['Accuracy', 'Recall', 'Precision']
@@ -199,20 +211,20 @@ def create_bar_chart_comparison(df):
             continue
             
         x = np.arange(len(labels))
-        bars = ax.bar(x, means, yerr=stds, capsize=5, color=colors, edgecolor='black', alpha=0.8)
+        bars = ax.bar(x, means, yerr=stds, capsize=4, color=colors, edgecolor='black', alpha=0.8)
         
         ax.set_ylabel(title)
         ax.set_title(f'{title} by Filter Type')
         ax.set_xticks(x)
-        ax.set_xticklabels(labels, rotation=20, ha='right')
+        ax.set_xticklabels(labels, rotation=35, ha='right', fontsize=9)
         ax.set_ylim(0.7, 1.0)
         if len(means) > 0:
             ax.axhline(y=means[0], color='gray', linestyle='--', alpha=0.5, label='Baseline')
         
         # Add value labels on bars
         for bar, mean in zip(bars, means):
-            ax.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.01, 
-                   f'{mean:.3f}', ha='center', va='bottom', fontsize=9)
+            ax.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.008, 
+                   f'{mean:.3f}', ha='center', va='bottom', fontsize=8)
     
     plt.tight_layout()
     plt.savefig('filter_comparison_metrics.png', dpi=150, bbox_inches='tight')
@@ -222,7 +234,7 @@ def create_bar_chart_comparison(df):
 
 def create_fp_fn_comparison(df):
     """Create FP/FN rate comparison chart."""
-    fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+    fig, axes = plt.subplots(1, 2, figsize=(16, 6))
     
     metrics = ['fn_rate', 'fp_rate']
     titles = ['False Negative Rate (1 - Recall)', 'False Positive Rate (1 - Precision)']
@@ -246,12 +258,12 @@ def create_fp_fn_comparison(df):
             continue
             
         x = np.arange(len(labels))
-        bars = ax.bar(x, means, yerr=stds, capsize=5, color=colors, edgecolor='black', alpha=0.8)
+        bars = ax.bar(x, means, yerr=stds, capsize=4, color=colors, edgecolor='black', alpha=0.8)
         
         ax.set_ylabel('Rate')
         ax.set_title(title)
         ax.set_xticks(x)
-        ax.set_xticklabels(labels, rotation=20, ha='right')
+        ax.set_xticklabels(labels, rotation=35, ha='right', fontsize=9)
         ax.set_ylim(0, 0.3)
         if len(means) > 0:
             ax.axhline(y=means[0], color='gray', linestyle='--', alpha=0.5, label='Baseline')
@@ -259,7 +271,7 @@ def create_fp_fn_comparison(df):
         # Add value labels
         for bar, mean in zip(bars, means):
             ax.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.005, 
-                   f'{mean:.3f}', ha='center', va='bottom', fontsize=9)
+                   f'{mean:.3f}', ha='center', va='bottom', fontsize=8)
     
     plt.tight_layout()
     plt.savefig('filter_comparison_fp_fn.png', dpi=150, bbox_inches='tight')
@@ -269,7 +281,7 @@ def create_fp_fn_comparison(df):
 
 def create_subject_breakdown(df):
     """Create per-subject breakdown chart."""
-    fig, axes = plt.subplots(2, 2, figsize=(16, 10))
+    fig, axes = plt.subplots(2, 2, figsize=(18, 12))
     axes = axes.flatten()
     
     metrics = ['accuracy', 'recall', 'precision', 'fn_rate']
@@ -278,7 +290,7 @@ def create_subject_breakdown(df):
     
     # Count how many filters have data
     filters_with_data = [fk for fk in FILTER_CONFIGS.keys() if len(df[df['filter_key'] == fk]) > 0]
-    width = 0.15 if len(filters_with_data) == 5 else 0.2
+    width = 0.11 if len(filters_with_data) >= 7 else 0.13
     
     for ax, metric, title in zip(axes, metrics, titles):
         x = np.arange(len(TEST_SUBJECTS))
@@ -305,7 +317,7 @@ def create_subject_breakdown(df):
         ax.set_title(title)
         ax.set_xticks(x)
         ax.set_xticklabels([f'Subject {s}' for s in TEST_SUBJECTS])
-        ax.legend(loc='lower right', fontsize=8)
+        ax.legend(loc='lower right', fontsize=7)
         
         if metric == 'fn_rate':
             ax.set_ylim(0, 0.35)
@@ -324,13 +336,13 @@ def create_delta_chart(comparisons_df, baseline_avg):
         print("No comparison data available for delta chart")
         return
         
-    fig, ax = plt.subplots(figsize=(14, 6))
+    fig, ax = plt.subplots(figsize=(16, 7))
     
     metrics = ['delta_accuracy', 'delta_recall', 'delta_precision']
     labels = ['Accuracy', 'Recall', 'Precision']
     
     x = np.arange(len(labels))
-    width = 0.15 if len(comparisons_df) >= 4 else 0.2
+    width = 0.12 if len(comparisons_df) >= 6 else 0.15
     
     for i, (_, row) in enumerate(comparisons_df.iterrows()):
         values = [row[m] * 100 for m in metrics]  # Convert to percentage points
@@ -344,21 +356,73 @@ def create_delta_chart(comparisons_df, baseline_avg):
         for bar, val in zip(bars, values):
             y_pos = bar.get_height()
             ax.text(bar.get_x() + bar.get_width()/2, 
-                   y_pos + (0.1 if y_pos >= 0 else -0.3),
+                   y_pos + (0.08 if y_pos >= 0 else -0.25),
                    f'{val:+.2f}%', ha='center', va='bottom' if y_pos >= 0 else 'top',
-                   fontsize=8)
+                   fontsize=7, rotation=90)
     
     ax.axhline(y=0, color='black', linestyle='-', linewidth=0.5)
     ax.set_ylabel('Change vs Baseline (percentage points)')
     ax.set_title('Filter Performance Change Relative to Baseline')
     ax.set_xticks(x)
     ax.set_xticklabels(labels)
-    ax.legend(loc='best')
+    ax.legend(loc='best', fontsize=8)
     ax.grid(axis='y', alpha=0.3)
     
     plt.tight_layout()
     plt.savefig('filter_comparison_delta.png', dpi=150, bbox_inches='tight')
     print("Saved: filter_comparison_delta.png")
+    plt.close()
+
+
+def create_kalman_comparison_chart(df):
+    """Create a special comparison chart for Kalman variants only."""
+    kalman_filters = ['kalman', 'kalman_light', 'kalman_smooth']
+    kalman_df = df[df['filter_key'].isin(kalman_filters)]
+    
+    if len(kalman_df) == 0:
+        print("No Kalman results for comparison chart")
+        return
+    
+    fig, axes = plt.subplots(1, 3, figsize=(15, 5))
+    
+    metrics = ['accuracy', 'recall', 'precision']
+    titles = ['Accuracy', 'Recall', 'Precision']
+    
+    for ax, metric, title in zip(axes, metrics, titles):
+        means = []
+        stds = []
+        colors = []
+        labels = []
+        
+        for fk in kalman_filters:
+            filter_df = df[df['filter_key'] == fk]
+            if len(filter_df) > 0:
+                means.append(filter_df[metric].mean())
+                stds.append(filter_df[metric].std())
+                colors.append(FILTER_CONFIGS[fk]['color'])
+                labels.append(FILTER_CONFIGS[fk]['short'])
+        
+        if len(means) == 0:
+            continue
+        
+        x = np.arange(len(labels))
+        bars = ax.bar(x, means, yerr=stds, capsize=5, color=colors, edgecolor='black', alpha=0.8)
+        
+        ax.set_ylabel(title)
+        ax.set_title(f'Kalman Variants - {title}')
+        ax.set_xticks(x)
+        ax.set_xticklabels(labels, rotation=15, ha='right')
+        ax.set_ylim(0.85, 1.0)
+        
+        # Add value labels
+        for bar, mean in zip(bars, means):
+            ax.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.005, 
+                   f'{mean:.4f}', ha='center', va='bottom', fontsize=10)
+    
+    plt.suptitle('Kalman Filter Parameter Comparison\n(Q/R ratio affects smoothing strength)', fontsize=12)
+    plt.tight_layout()
+    plt.savefig('kalman_variants_comparison.png', dpi=150, bbox_inches='tight')
+    print("Saved: kalman_variants_comparison.png")
     plt.close()
 
 
@@ -457,14 +521,28 @@ def print_conclusions(comparisons_df, baseline_avg):
         symbol = "✓" if row['delta_accuracy'] > 0 else "✗"
         print(f"  {i}. {row['filter']}: {row['delta_accuracy']*100:+.2f}% {symbol}")
     
+    # Kalman-specific analysis
+    print(f"\n🔬 KALMAN FILTER ANALYSIS:")
+    kalman_rows = comparisons_df[comparisons_df['filter_key'].str.contains('kalman')]
+    if len(kalman_rows) > 0:
+        best_kalman = kalman_rows.loc[kalman_rows['delta_accuracy'].idxmax()]
+        print(f"  Best Kalman variant: {best_kalman['filter']}")
+        print(f"    Accuracy: {best_kalman['accuracy']:.4f} (Δ {best_kalman['delta_accuracy']:+.4f})")
+        print(f"    Recall:   {best_kalman['recall']:.4f} (Δ {best_kalman['delta_recall']:+.4f})")
+        
+        print(f"\n  Kalman Q/R ratio insight:")
+        print(f"    - Q=R (equal): Model and measurements equally trusted")
+        print(f"    - Q<R: Trust model more → heavier smoothing")
+        print(f"    - Smaller values = lighter filtering (near passthrough)")
+    
     print("\n" + "="*70)
 
 
 def main():
     """Main analysis function."""
     print("\n" + "="*70)
-    print("FILTER COMPARISON ANALYSIS (WITH KALMAN)")
-    print("Comparing: Baseline vs Butterworth vs Biquad vs EMA vs Kalman")
+    print("FILTER COMPARISON ANALYSIS (ALL KALMAN VARIANTS)")
+    print("Comparing: Baseline, Butterworth, Biquad, EMA, and 3 Kalman configs")
     print("Test Subjects: ", TEST_SUBJECTS)
     print("="*70)
     
@@ -496,6 +574,7 @@ def main():
     create_fp_fn_comparison(df)
     create_subject_breakdown(df)
     create_delta_chart(comparisons_df, baseline_avg)
+    create_kalman_comparison_chart(df)
     
     create_summary_table(df, comparisons_df, baseline_avg)
     print_conclusions(comparisons_df, baseline_avg)
@@ -508,6 +587,7 @@ def main():
     print("  • filter_comparison_fp_fn.png")
     print("  • filter_comparison_by_subject.png")
     print("  • filter_comparison_delta.png")
+    print("  • kalman_variants_comparison.png")
 
 
 if __name__ == '__main__':
