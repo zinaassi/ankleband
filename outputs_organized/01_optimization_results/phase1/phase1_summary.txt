@@ -1,0 +1,48 @@
+PHASE 1: COARSE SEARCH RESULTS
+================================================================================
+
+Total Configurations Tested: 109
+Best Overall Score: 79.7 (EMA alpha=0.8)
+
+TOP 3 BY FILTER TYPE:
+--------------------------------------------------------------------------------
+
+Butterworth:
+  1. 50Hz-O2              -> Score: 65.4
+  2. 45Hz-O2              -> Score: 64.3
+  3. 40Hz-O2              -> Score: 63.2
+
+Biquad:
+  1. 50Hz-Q1.5            -> Score: 66.7
+  2. 50Hz-Q2.0            -> Score: 66.6
+  3. 50Hz-Q1.0            -> Score: 66.3
+
+Kalman:
+  1. Q=1e-05-R=1e-05      -> Score: 72.7
+  2. Q=0.0001-R=0.0001    -> Score: 72.7
+  3. Q=0.001-R=0.001      -> Score: 72.7
+
+EMA:
+  1. alpha=0.8            -> Score: 79.7
+  2. alpha=0.7            -> Score: 75.5
+  3. alpha=0.6            -> Score: 72.2
+
+================================================================================
+PHASE 2 FOCUS AREAS:
+--------------------------------------------------------------------------------
+
+Butterworth:
+  Best: 50Hz-O2 (Score: 65.4)
+  SNR: 8.9 dB, Edge: 3.102, Corr: 0.682, Delay: 5.0 ms
+
+Biquad:
+  Best: 50Hz-Q1.5 (Score: 66.7)
+  SNR: 10.0 dB, Edge: 3.897, Corr: 0.685, Delay: 4.4 ms
+
+Kalman:
+  Best: Q=1e-05-R=1e-05 (Score: 72.7)
+  SNR: 13.2 dB, Edge: 3.174, Corr: 0.949, Delay: 0.0 ms
+
+EMA:
+  Best: alpha=0.8 (Score: 79.7)
+  SNR: 19.8 dB, Edge: 4.143, Corr: 0.987, Delay: 0.0 ms
