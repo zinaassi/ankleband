@@ -379,16 +379,17 @@ def calculate_all_metrics(signal_windows: Dict, filtered_results: Dict) -> List[
 
 def calculate_composite_score(metrics: Dict) -> float:
     """
-    Calculate composite quality score.
+    Calculate composite quality score optimized for discrete window architecture.
 
-    Weighted combination based on CNN architecture and deployment strategy:
-    - Peak preservation: 35% (CNN learns from signal amplitudes/patterns)
-    - Correlation: 30% (preserves gesture differences for classification)
-    - SNR: 20% (clean signals help but CNN is noise-tolerant)
-    - Phase delay: 10% (real-time responsiveness for prosthetic control)
-    - Edge sharpness: 5% (visual inspection only - continuous windows used)
+    Weighted combination based on ESP32 real-time requirements and CNN correlation analysis:
+    - SNR: 40% (r=+0.731 with recall, strongest predictor, one-shot detection per window)
+    - Edge Sharpness: 30% (r=+0.544 with recall, gesture must fit in single discrete window)
+    - Correlation: 15% (r=+0.700 with precision, shape preservation)
+    - Phase Delay: 10% (zero delay prevents split gestures across window boundaries)
+    - Peak Preservation: 5% (weak/negative correlation with recall, minimal importance)
 
-    Note: Lower delay = better score (inverted in normalization)
+    Note: Weights based on actual CNN training correlations and ESP32 discrete window constraints.
+          Lower delay = better score (inverted in normalization)
     """
     # Normalize each metric to 0-1 range
     normalized = {}
@@ -409,13 +410,13 @@ def calculate_composite_score(metrics: Dict) -> float:
     # Typical range 0-50ms, normalize and invert (0ms = 1.0, 50ms = 0.0)
     normalized['delay'] = np.clip(1 - (metrics['phase_delay_ms'] / 50), 0, 1)
 
-    # Weighted sum (prioritizes CNN learning > real-time > visual inspection)
+    # Weighted sum (optimized for discrete window gesture detection)
     weights = {
-        'peak': 0.35,
-        'corr': 0.30,
-        'snr': 0.20,
-        'delay': 0.10,
-        'edge': 0.05
+        'snr': 0.40,    # Increased from 0.20 - strongest recall predictor
+        'edge': 0.30,   # Increased from 0.05 - critical for discrete windows
+        'corr': 0.15,   # Decreased from 0.30 - precision balance
+        'delay': 0.10,  # Maintained - real-time constraint
+        'peak': 0.05    # Decreased from 0.35 - weak correlation with performance
     }
 
     composite = sum(normalized[k] * weights[k] for k in weights)
