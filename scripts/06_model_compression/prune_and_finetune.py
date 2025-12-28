@@ -229,8 +229,8 @@ def main():
     # Load data
     print("Loading data...")
     data_manager = DataManagement(cfg=cfg)
-    train_dataset = TorchDatasetManagement(cfg=cfg, data_manager=data_manager, train=True)
-    test_dataset = TorchDatasetManagement(cfg=cfg, data_manager=data_manager, train=False)
+    train_dataset = TorchDatasetManagement(cfg=cfg, data_df=data_manager.train_df, inputs_names_stacked=data_manager.inputs_names_stacked, is_train=True)
+    test_dataset = TorchDatasetManagement(cfg=cfg, data_df=data_manager.test_df, inputs_names_stacked=data_manager.inputs_names_stacked, is_train=False)
 
     train_loader = DataLoader(
         train_dataset,
