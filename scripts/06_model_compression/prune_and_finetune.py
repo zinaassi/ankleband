@@ -251,7 +251,7 @@ def main():
     print(f"Loading pretrained model from: {cfg.model.weights}")
     model = PrunedConv1DNet(cfg=cfg)
     model.load_state_dict(torch.load(cfg.model.weights, map_location=device))
-    model.to(device)
+    model.to(device).float()
 
     # Evaluate baseline (before pruning)
     print("\n" + "="*80)
