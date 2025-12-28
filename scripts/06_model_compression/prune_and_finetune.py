@@ -11,6 +11,7 @@ Usage:
 """
 
 import argparse
+import json
 import os
 import sys
 import numpy as np
@@ -211,6 +212,10 @@ def main():
     print(f"Loading config from: {args.json}")
     cfg = ConfigManager(json_name=args.json)
 
+    # Read pruning config directly from JSON (ConfigManager doesn't parse nested PRUNING)
+    with open(args.json) as f:
+        json_cfg = json.load(f)
+    
     # Create output directory
     os.makedirs(cfg.output_dir, exist_ok=True)
 
@@ -267,8 +272,8 @@ def main():
     print(f"Baseline Size:     {baseline_size:.2f} KB")
     print(f"Baseline Params:   {baseline_params:,}")
 
-    # Get pruning schedule
-    target_amount = cfg.model.pruning.amount
+    # Get pruning schedule - read from JSON directly
+    target_amount = json_cfg["MODEL"]["PRUNING"]["AMOUNT"]
     pruning_schedule = get_pruning_schedule(target_amount)
 
     print(f"\nTarget Pruning: {target_amount*100:.0f}%")
