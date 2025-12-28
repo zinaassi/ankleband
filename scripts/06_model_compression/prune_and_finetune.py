@@ -99,7 +99,7 @@ def evaluate_model(model, test_loader, device, cfg):
 
     with torch.no_grad():
         for inputs, labels in test_loader:
-            inputs = inputs.to(device)
+            inputs = inputs.to(device).float()
             labels = labels.to(device)
 
             outputs = model(inputs)
@@ -166,7 +166,7 @@ def fine_tune_iteration(model, train_loader, test_loader, device, cfg,
         num_batches = 0
 
         for inputs, labels in train_loader:
-            inputs = inputs.to(device)
+            inputs = inputs.to(device).float()
             labels = labels.to(device)
 
             optimizer.zero_grad()
