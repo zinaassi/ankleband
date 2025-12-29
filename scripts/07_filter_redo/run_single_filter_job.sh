@@ -2,7 +2,7 @@
 #SBATCH --job-name=filter_redo
 #SBATCH --output=logs/filter_redo_%j.out
 #SBATCH --error=logs/filter_redo_%j.err
-#SBATCH --time=1:00:00
+#SBATCH --time=5:00:00
 #SBATCH --gres=gpu:1
 #SBATCH --mem=32G
 #SBATCH --cpus-per-task=2
