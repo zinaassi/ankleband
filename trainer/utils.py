@@ -173,6 +173,12 @@ class ConfigDataManager(object):
             self.filter_alpha = cfg_dict['DATA']['FILTER_ALPHA']
         else:
             self.filter_alpha = 0.5  # Default EMA alpha
+        
+        # device related settings
+        if 'CLASSES' in cfg_dict['DATA']:
+            self.classes = cfg_dict['DATA']['CLASSES']
+        else:
+            self.classes = None
 
 class ConfigModelManager(object):
 
