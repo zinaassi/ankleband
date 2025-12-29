@@ -217,14 +217,16 @@ def main():
         json_cfg = json.load(f)
     # Manually add pruning config to cfg.model so PrunedConv1DNet can see it
     class PruningConfig:
-        def __init__(self, enabled, amount, method):
+        def __init__(self, enabled, amount, method, norm=2):
             self.enabled = enabled
             self.amount = amount
             self.method = method
+            self.norm = norm
     cfg.model.pruning = PruningConfig(
         enabled=json_cfg["MODEL"]["PRUNING"]["ENABLED"],
         amount=json_cfg["MODEL"]["PRUNING"]["AMOUNT"],
-        method=json_cfg["MODEL"]["PRUNING"]["METHOD"]
+        method=json_cfg["MODEL"]["PRUNING"]["METHOD"],
+        norm=json_cfg["MODEL"]["PRUNING"].get("NORM", 2)  # Default to L2-norm
     )
     # Create output directory
     os.makedirs(cfg.output_dir, exist_ok=True)
