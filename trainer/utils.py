@@ -153,11 +153,26 @@ class ConfigDataManager(object):
         else:
             self.filter_order = 4  # Default filter order
 
-        # device related settings
-        if 'CLASSES' in cfg_dict['DATA']:
-            self.classes = cfg_dict['DATA']['CLASSES']
+        # ADD THESE NEW LINES HERE ↓↓↓
+        if 'FILTER_TYPE' in cfg_dict['DATA']:
+            self.filter_type = cfg_dict['DATA']['FILTER_TYPE']
         else:
-            self.classes = None
+            self.filter_type = 'butterworth'  # Default filter type
+
+        if 'FILTER_Q' in cfg_dict['DATA']:
+            self.filter_q = cfg_dict['DATA']['FILTER_Q']
+        else:
+            self.filter_q = 0.0001  # Default Kalman process noise
+
+        if 'FILTER_R' in cfg_dict['DATA']:
+            self.filter_r = cfg_dict['DATA']['FILTER_R']
+        else:
+            self.filter_r = 0.0001  # Default Kalman measurement noise
+
+        if 'FILTER_ALPHA' in cfg_dict['DATA']:
+            self.filter_alpha = cfg_dict['DATA']['FILTER_ALPHA']
+        else:
+            self.filter_alpha = 0.5  # Default EMA alpha
 
 class ConfigModelManager(object):
 
@@ -199,6 +214,21 @@ class ConfigModelManager(object):
             self.send_intermediate = cfg_dict['MODEL']['SEND_INTERMEDIATE']
         else:
             self.send_intermediate = False
+        
+        # Pruning configuration for model compression
+        if 'PRUNING' in cfg_dict['MODEL']:
+            class PruningConfig:
+                def __init__(self, pruning_dict):
+                    self.enabled = pruning_dict.get('ENABLED', False)
+                    self.amount = pruning_dict.get('AMOUNT', 0.0)
+                    self.method = pruning_dict.get('METHOD', 'ln_structured')
+                    self.norm = pruning_dict.get('NORM', 2)
+                    self.dim = pruning_dict.get('DIM', 0)
+                    self.target_layers = pruning_dict.get('TARGET_LAYERS', ['fc1'])
+            
+            self.pruning = PruningConfig(cfg_dict['MODEL']['PRUNING'])
+        else:
+            self.pruning = None
 
 class ConfigTrainingManager(object):
 

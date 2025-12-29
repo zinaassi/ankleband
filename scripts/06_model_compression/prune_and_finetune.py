@@ -215,23 +215,7 @@ def main():
     # Read pruning config directly from JSON (ConfigManager doesn't parse nested PRUNING)
     with open(args.json) as f:
         json_cfg = json.load(f)
-    # Manually add pruning config to cfg.model so PrunedConv1DNet can see it
-    class PruningConfig:
-        def __init__(self, enabled, amount, method, norm, dim, target_layers):
-            self.enabled = enabled
-            self.amount = amount
-            self.method = method
-            self.norm = norm  # L2-norm = 2
-            self.dim = dim    # Dimension to prune (0 = output neurons)
-            self.target_layers = target_layers
-    cfg.model.pruning = PruningConfig(
-        enabled=json_cfg["MODEL"]["PRUNING"]["ENABLED"],
-        amount=json_cfg["MODEL"]["PRUNING"]["AMOUNT"],
-        method=json_cfg["MODEL"]["PRUNING"]["METHOD"],
-        norm=json_cfg["MODEL"]["PRUNING"].get("NORM", 2),
-        dim=json_cfg["MODEL"]["PRUNING"].get("DIM", 0),
-        target_layers=json_cfg["MODEL"]["PRUNING"].get("TARGET_LAYERS", ["fc1"])
-    )
+
     # Create output directory
     os.makedirs(cfg.output_dir, exist_ok=True)
 
