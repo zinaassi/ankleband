@@ -1,0 +1,30 @@
+Config: filter_comparison_kalman_smooth.json
+Leave-out Subject: 6
+Starting at: Sun 21 Dec 2025 01:40:47 PM IST
+Python: /home/badran.abed/miniconda3/envs/imugr/bin/python
+Conda env: imugr
+Loading dataset...
+Applying butterworth filter to sensor data...
+Filter settings: Butterworth 15Hz Order=4
+Filtering training data...
+Filtering test data...
+Low-pass filtering complete.
+Removing irrelevant data...
+Concatenating samples...
+Normalizaing inputs...
+Total samples for train: 2237782.
+Total samples for test: 259141.
+Started training...
+Epoch: 1, Loss: 0.487, Test Loss: 0.185, Accuracy: 0.949, Recall: 0.845, Precision: 0.909.
+Epoch: 2, Loss: 0.175, Test Loss: 0.166, Accuracy: 0.954, Recall: 0.871, Precision: 0.911.
+Epoch: 3, Loss: 0.140, Test Loss: 0.164, Accuracy: 0.955, Recall: 0.875, Precision: 0.913.
+Epoch: 4, Loss: 0.125, Test Loss: 0.161, Accuracy: 0.956, Recall: 0.874, Precision: 0.921.
+Epoch: 5, Loss: 0.116, Test Loss: 0.155, Accuracy: 0.958, Recall: 0.879, Precision: 0.924.
+Saving weights to outputs/filter_loo_kalman_s06_mooth
+Epoch: 6, Loss: 0.110, Test Loss: 0.151, Accuracy: 0.958, Recall: 0.884, Precision: 0.920.
+Epoch: 7, Loss: 0.105, Test Loss: 0.152, Accuracy: 0.959, Recall: 0.886, Precision: 0.921.
+Epoch: 8, Loss: 0.101, Test Loss: 0.155, Accuracy: 0.960, Recall: 0.885, Precision: 0.926.
+Epoch: 9, Loss: 0.099, Test Loss: 0.155, Accuracy: 0.959, Recall: 0.888, Precision: 0.922.
+Epoch: 10, Loss: 0.096, Test Loss: 0.163, Accuracy: 0.958, Recall: 0.873, Precision: 0.929.
+Saving weights to outputs/filter_loo_kalman_s06_mooth
+Finished at: Sun 21 Dec 2025 05:55:48 PM IST

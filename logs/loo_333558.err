@@ -1,6 +1,0 @@
-/var/spool/slurmd/job333558/slurm_script: line 22: conda: command not found
-/var/spool/slurmd/job333558/slurm_script: line 25: conda: command not found
-  File "trainer/train_conv.py", line 36
-    new_output_dir = cfg.output_dir.split('/')[-1].split('_s')[0] + "_s" + f"{args.loo:02}" + '_' \
-                                                                                          ^
-SyntaxError: invalid syntax

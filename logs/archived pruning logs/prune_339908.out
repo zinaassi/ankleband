@@ -1,0 +1,48 @@
+================================================
+PRUNING EXPERIMENT
+================================================
+Job ID: 339908
+Config: prune_kalman_s02_10pct_seed123.json
+Starting at: Sun Dec 28 23:35:27 IST 2025
+Node: lambda2
+
+environment: line 38: /usr/bin/tclsh8.6: No such file or directory
+environment: line 38: /usr/bin/tclsh8.6: No such file or directory
+Python: /home/badran.abed/miniconda3/envs/imugr/bin/python
+Conda env: imugr
+
+================================================
+STARTING PRUNING
+================================================
+Loading config from: config/pruning/prune_kalman_s02_10pct_seed123.json
+Using device: cuda:0
+Loading data...
+Loading dataset...
+Applying butterworth filter to sensor data...
+Filter settings: Butterworth 15Hz Order=4
+Filtering training data...
+Filtering test data...
+Low-pass filtering complete.
+Removing irrelevant data...
+Concatenating samples...
+Normalizaing inputs...
+Total samples for train: 2213950.
+Total samples for test: 282973.
+Train samples: 2213950, Test samples: 282973
+Loading pretrained model from: outputs_organized/05_archived_old_tests/filter_loo_kalman_s02_kalman/model_weights_10.pt
+
+================================================================================
+BASELINE EVALUATION (Before Pruning)
+================================================================================
+Baseline Accuracy: 0.9648
+Baseline Recall:   0.9082
+Baseline Precision: 0.9506
+Baseline Size:     56.36 KB
+Baseline Params:   13,897
+
+================================================
+EXPERIMENT COMPLETE
+================================================
+Exit code: 1
+Finished at: Mon Dec 29 00:11:33 IST 2025
+✗ Failed with exit code 1

@@ -1,0 +1,16 @@
+================================================
+PRUNING EXPERIMENT
+================================================
+Job ID: 339876
+Config: prune_kalman_s02_10pct_seed123.json
+Starting at: Sun 28 Dec 2025 11:22:52 PM IST
+Node: lambda1
+
+environment: line 38: /usr/bin/tclsh8.6: No such file or directory
+environment: line 38: /usr/bin/tclsh8.6: No such file or directory
+Python: /home/badran.abed/miniconda3/envs/imugr/bin/python
+Conda env: imugr
+
+================================================
+STARTING PRUNING
+================================================

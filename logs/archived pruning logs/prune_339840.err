@@ -1,0 +1,3 @@
+/var/spool/slurmd/job339840/slurm_script: line 25: module: command not found
+/var/spool/slurmd/job339840/slurm_script: line 26: module: command not found
+slurmstepd: error: *** JOB 339840 ON lambda1 CANCELLED AT 2025-12-28T23:22:45 ***

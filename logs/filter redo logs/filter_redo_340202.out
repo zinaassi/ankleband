@@ -1,0 +1,49 @@
+================================================
+FILTER EXPERIMENT - REDO
+================================================
+Job ID: 340202
+Node: lambda1
+Config: ema_alpha05
+Subject: 3
+Config file: config/filter_redo/ema_alpha05_s03.json
+Starting at: Tue 30 Dec 2025 02:55:59 AM IST
+
+environment: line 38: /usr/bin/tclsh8.6: No such file or directory
+environment: line 38: /usr/bin/tclsh8.6: No such file or directory
+Python: /home/badran.abed/miniconda3/envs/imugr/bin/python
+Conda env: imugr
+
+================================================
+STARTING TRAINING
+================================================
+Loading dataset...
+Applying ema filter to sensor data...
+Filter settings: EMA with alpha=0.5
+Filtering training data...
+Filtering test data...
+Low-pass filtering complete.
+Removing irrelevant data...
+Concatenating samples...
+Normalizaing inputs...
+Total samples for train: 2280081.
+Total samples for test: 216842.
+Started training...
+Epoch: 1, Loss: 0.478, Test Loss: 0.232, Accuracy: 0.920, Recall: 0.725, Precision: 0.909.
+Epoch: 2, Loss: 0.175, Test Loss: 0.178, Accuracy: 0.940, Recall: 0.803, Precision: 0.922.
+Epoch: 3, Loss: 0.140, Test Loss: 0.144, Accuracy: 0.953, Recall: 0.853, Precision: 0.936.
+Epoch: 4, Loss: 0.126, Test Loss: 0.142, Accuracy: 0.954, Recall: 0.851, Precision: 0.941.
+Epoch: 5, Loss: 0.117, Test Loss: 0.135, Accuracy: 0.956, Recall: 0.862, Precision: 0.946.
+Saving weights to outputs/filter_redo/ema_alpha05_s03
+Epoch: 6, Loss: 0.111, Test Loss: 0.125, Accuracy: 0.960, Recall: 0.878, Precision: 0.945.
+Epoch: 7, Loss: 0.106, Test Loss: 0.143, Accuracy: 0.954, Recall: 0.849, Precision: 0.951.
+Epoch: 8, Loss: 0.103, Test Loss: 0.127, Accuracy: 0.960, Recall: 0.873, Precision: 0.951.
+Epoch: 9, Loss: 0.100, Test Loss: 0.123, Accuracy: 0.962, Recall: 0.885, Precision: 0.949.
+Epoch: 10, Loss: 0.098, Test Loss: 0.122, Accuracy: 0.963, Recall: 0.888, Precision: 0.950.
+Saving weights to outputs/filter_redo/ema_alpha05_s03
+
+================================================
+EXPERIMENT COMPLETE
+================================================
+Exit code: 0
+Finished at: Tue 30 Dec 2025 07:33:59 AM IST
+✓ Success: ema_alpha05 subject 3

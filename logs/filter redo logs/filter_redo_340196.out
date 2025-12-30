@@ -1,0 +1,49 @@
+================================================
+FILTER EXPERIMENT - REDO
+================================================
+Job ID: 340196
+Node: lambda2
+Config: butterworth_40hz_o2
+Subject: 3
+Config file: config/filter_redo/butterworth_40hz_o2_s03.json
+Starting at: Mon Dec 29 18:19:43 IST 2025
+
+environment: line 38: /usr/bin/tclsh8.6: No such file or directory
+environment: line 38: /usr/bin/tclsh8.6: No such file or directory
+Python: /home/badran.abed/miniconda3/envs/imugr/bin/python
+Conda env: imugr
+
+================================================
+STARTING TRAINING
+================================================
+Loading dataset...
+Applying butterworth filter to sensor data...
+Filter settings: Butterworth 40Hz Order=2
+Filtering training data...
+Filtering test data...
+Low-pass filtering complete.
+Removing irrelevant data...
+Concatenating samples...
+Normalizaing inputs...
+Total samples for train: 2280081.
+Total samples for test: 216842.
+Started training...
+Epoch: 1, Loss: 0.477, Test Loss: 0.241, Accuracy: 0.917, Recall: 0.711, Precision: 0.904.
+Epoch: 2, Loss: 0.182, Test Loss: 0.172, Accuracy: 0.942, Recall: 0.802, Precision: 0.943.
+Epoch: 3, Loss: 0.145, Test Loss: 0.139, Accuracy: 0.954, Recall: 0.852, Precision: 0.949.
+Epoch: 4, Loss: 0.129, Test Loss: 0.134, Accuracy: 0.955, Recall: 0.853, Precision: 0.953.
+Epoch: 5, Loss: 0.119, Test Loss: 0.122, Accuracy: 0.959, Recall: 0.877, Precision: 0.947.
+Saving weights to outputs/filter_redo/butterworth_40hz_o2_s03
+Epoch: 6, Loss: 0.113, Test Loss: 0.120, Accuracy: 0.960, Recall: 0.877, Precision: 0.950.
+Epoch: 7, Loss: 0.108, Test Loss: 0.123, Accuracy: 0.960, Recall: 0.881, Precision: 0.948.
+Epoch: 8, Loss: 0.104, Test Loss: 0.128, Accuracy: 0.958, Recall: 0.867, Precision: 0.951.
+Epoch: 9, Loss: 0.101, Test Loss: 0.118, Accuracy: 0.961, Recall: 0.889, Precision: 0.946.
+Epoch: 10, Loss: 0.099, Test Loss: 0.121, Accuracy: 0.963, Recall: 0.894, Precision: 0.946.
+Saving weights to outputs/filter_redo/butterworth_40hz_o2_s03
+
+================================================
+EXPERIMENT COMPLETE
+================================================
+Exit code: 0
+Finished at: Mon Dec 29 22:33:27 IST 2025
+✓ Success: butterworth_40hz_o2 subject 3

@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/home/badran.abed/ankleband/trainer/train_conv.py", line 62, in <module>
+    data_mng = DataManagement(cfg=cfg)
+  File "/home/badran.abed/ankleband/./data/load_data.py", line 38, in __init__
+    self.prepare_output_labels()
+  File "/home/badran.abed/ankleband/./data/load_data.py", line 367, in prepare_output_labels
+    if self.cfg.data.classes == 1:
+AttributeError: 'ConfigDataManager' object has no attribute 'classes'

@@ -1,8 +1,0 @@
-Config: filter_comparison_butterworth.json
-Leave-out Subject: 6
-Starting at: Wed 17 Dec 2025 01:41:23 PM IST
-environment: line 38: /usr/bin/tclsh8.6: No such file or directory
-environment: line 38: /usr/bin/tclsh8.6: No such file or directory
-Python: /usr/bin/python
-Conda env: 
-Finished at: Wed 17 Dec 2025 01:41:23 PM IST

@@ -1,0 +1,49 @@
+================================================
+FILTER EXPERIMENT - REDO
+================================================
+Job ID: 340200
+Node: lambda1
+Config: biquad_30hz_q10
+Subject: 6
+Config file: config/filter_redo/biquad_30hz_q10_s06.json
+Starting at: Mon 29 Dec 2025 10:33:30 PM IST
+
+environment: line 38: /usr/bin/tclsh8.6: No such file or directory
+environment: line 38: /usr/bin/tclsh8.6: No such file or directory
+Python: /home/badran.abed/miniconda3/envs/imugr/bin/python
+Conda env: imugr
+
+================================================
+STARTING TRAINING
+================================================
+Loading dataset...
+Applying biquad filter to sensor data...
+Filter settings: Biquad 30Hz Q=1.0
+Filtering training data...
+Filtering test data...
+Low-pass filtering complete.
+Removing irrelevant data...
+Concatenating samples...
+Normalizaing inputs...
+Total samples for train: 2237782.
+Total samples for test: 259141.
+Started training...
+Epoch: 1, Loss: 0.492, Test Loss: 0.213, Accuracy: 0.940, Recall: 0.799, Precision: 0.895.
+Epoch: 2, Loss: 0.185, Test Loss: 0.177, Accuracy: 0.951, Recall: 0.855, Precision: 0.909.
+Epoch: 3, Loss: 0.141, Test Loss: 0.163, Accuracy: 0.954, Recall: 0.874, Precision: 0.912.
+Epoch: 4, Loss: 0.124, Test Loss: 0.162, Accuracy: 0.953, Recall: 0.884, Precision: 0.903.
+Epoch: 5, Loss: 0.114, Test Loss: 0.155, Accuracy: 0.956, Recall: 0.888, Precision: 0.910.
+Saving weights to outputs/filter_redo/biquad_30hz_q10_s06
+Epoch: 6, Loss: 0.108, Test Loss: 0.151, Accuracy: 0.958, Recall: 0.884, Precision: 0.920.
+Epoch: 7, Loss: 0.103, Test Loss: 0.147, Accuracy: 0.959, Recall: 0.888, Precision: 0.923.
+Epoch: 8, Loss: 0.099, Test Loss: 0.149, Accuracy: 0.960, Recall: 0.887, Precision: 0.927.
+Epoch: 9, Loss: 0.097, Test Loss: 0.151, Accuracy: 0.959, Recall: 0.888, Precision: 0.922.
+Epoch: 10, Loss: 0.095, Test Loss: 0.153, Accuracy: 0.960, Recall: 0.885, Precision: 0.927.
+Saving weights to outputs/filter_redo/biquad_30hz_q10_s06
+
+================================================
+EXPERIMENT COMPLETE
+================================================
+Exit code: 0
+Finished at: Tue 30 Dec 2025 02:49:50 AM IST
+✓ Success: biquad_30hz_q10 subject 6

@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/home/badran.abed/ankleband/scripts/06_model_compression/prune_and_finetune.py", line 430, in <module>
+    main()
+  File "/home/badran.abed/ankleband/scripts/06_model_compression/prune_and_finetune.py", line 306, in main
+    prune_stats = model.apply_structured_pruning(iteration_size=prune_size)
+  File "/home/badran.abed/ankleband/trainer/models/pruned_conv1d_model.py", line 65, in apply_structured_pruning
+    n=self.pruning_config.norm,  # L2-norm
+AttributeError: 'PruningConfig' object has no attribute 'norm'

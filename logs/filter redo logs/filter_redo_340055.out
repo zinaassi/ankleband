@@ -1,0 +1,34 @@
+================================================
+FILTER EXPERIMENT - REDO
+================================================
+Job ID: 340055
+Node: lambda1
+Config: butterworth_40hz_o2
+Subject: 2
+Config file: config/filter_redo/butterworth_40hz_o2_s02.json
+Starting at: Mon 29 Dec 2025 12:14:50 PM IST
+
+environment: line 38: /usr/bin/tclsh8.6: No such file or directory
+environment: line 38: /usr/bin/tclsh8.6: No such file or directory
+Python: /home/badran.abed/miniconda3/envs/imugr/bin/python
+Conda env: imugr
+
+================================================
+STARTING TRAINING
+================================================
+Loading dataset...
+Applying butterworth filter to sensor data...
+Filter settings: Butterworth 40Hz Order=2
+Filtering training data...
+Filtering test data...
+Low-pass filtering complete.
+Removing irrelevant data...
+Concatenating samples...
+Normalizaing inputs...
+
+================================================
+EXPERIMENT COMPLETE
+================================================
+Exit code: 1
+Finished at: Mon 29 Dec 2025 12:47:41 PM IST
+✗ Failed: butterworth_40hz_o2 subject 2 (exit code 1)
