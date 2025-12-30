@@ -19,38 +19,41 @@ configs=(
 subjects=(2 3 6)
 
 echo "=========================================="
-echo "CNN Filter Comparison - Sequential Jobs"
+echo "CNN Filter Comparison - 3 Parallel Jobs"
 echo "=========================================="
 echo "Filters: ${configs[@]}"
 echo "Subjects: ${subjects[@]}"
 echo "Total experiments: $((${#configs[@]} * ${#subjects[@]}))"
+echo "Parallel jobs: 3"
 echo "Time limit per job: $TIME_LIMIT"
 echo ""
 
-# Submit first job
-FIRST_CONFIG=${configs[0]}
-FIRST_SUBJECT=${subjects[0]}
-JOB_ID=$(sbatch --parsable --time=$TIME_LIMIT scripts/05_hpc_job_scripts/run_single_job.sh "$FIRST_CONFIG" "$FIRST_SUBJECT")
-echo "Submitted $FIRST_CONFIG (subject $FIRST_SUBJECT) - Job ID: $JOB_ID"
+# Submit in batches of 3 (one filter at a time, all 3 subjects in parallel)
+PREV_BATCH_IDS=""
 
-# Submit remaining jobs with dependencies
-FIRST=true
 for config in "${configs[@]}"; do
-    for subject in "${subjects[@]}"; do
-        # Skip the first one (already submitted)
-        if $FIRST; then
-            FIRST=false
-            continue
-        fi
+    echo "Batch: $config (3 subjects in parallel)"
+    BATCH_IDS=()
 
-        JOB_ID=$(sbatch --parsable --time=$TIME_LIMIT --dependency=afterok:$JOB_ID scripts/05_hpc_job_scripts/run_single_job.sh "$config" "$subject")
-        echo "Submitted $config (subject $subject) - Job ID: $JOB_ID"
+    for subject in "${subjects[@]}"; do
+        if [ -z "$PREV_BATCH_IDS" ]; then
+            # First batch - no dependencies
+            JOB_ID=$(sbatch --parsable --time=$TIME_LIMIT scripts/05_hpc_job_scripts/run_single_job.sh "$config" "$subject")
+        else
+            # Subsequent batches - wait for ALL jobs from previous batch
+            JOB_ID=$(sbatch --parsable --time=$TIME_LIMIT --dependency=afterok:$PREV_BATCH_IDS scripts/05_hpc_job_scripts/run_single_job.sh "$config" "$subject")
+        fi
+        echo "  Submitted $config (subject $subject) - Job ID: $JOB_ID"
+        BATCH_IDS+=($JOB_ID)
     done
+
+    # Join batch IDs with ':' for next batch dependency
+    PREV_BATCH_IDS=$(IFS=:; echo "${BATCH_IDS[*]}")
+    echo ""
 done
 
-echo ""
 echo "=========================================="
-echo "All 9 jobs submitted in sequence!"
+echo "All 9 jobs submitted (3 batches of 3)!"
 echo "=========================================="
 echo "Monitor with: squeue -u \$USER"
 echo "View logs with: tail -f logs/loo_*.out"
