@@ -11,7 +11,6 @@ Usage:
 """
 
 import argparse
-import json
 import os
 import sys
 import numpy as np
@@ -100,8 +99,8 @@ def evaluate_model(model, test_loader, device, cfg):
 
     with torch.no_grad():
         for inputs, labels in test_loader:
-            inputs = inputs.to(device).float()
-            labels = labels.to(device).long()
+            inputs = inputs.to(device)
+            labels = labels.to(device)
 
             outputs = model(inputs)
             loss = criterion(outputs, labels)
@@ -167,8 +166,8 @@ def fine_tune_iteration(model, train_loader, test_loader, device, cfg,
         num_batches = 0
 
         for inputs, labels in train_loader:
-            inputs = inputs.to(device).float()
-            labels = labels.to(device).long()
+            inputs = inputs.to(device)
+            labels = labels.to(device)
 
             optimizer.zero_grad()
             outputs = model(inputs)
@@ -212,10 +211,6 @@ def main():
     print(f"Loading config from: {args.json}")
     cfg = ConfigManager(json_name=args.json)
 
-    # Read pruning config directly from JSON (ConfigManager doesn't parse nested PRUNING)
-    with open(args.json) as f:
-        json_cfg = json.load(f)
-
     # Create output directory
     os.makedirs(cfg.output_dir, exist_ok=True)
 
@@ -234,8 +229,18 @@ def main():
     # Load data
     print("Loading data...")
     data_manager = DataManagement(cfg=cfg)
-    train_dataset = TorchDatasetManagement(cfg=cfg, data_df=data_manager.train_df, inputs_names_stacked=data_manager.inputs_names_stacked, is_train=True)
-    test_dataset = TorchDatasetManagement(cfg=cfg, data_df=data_manager.test_df, inputs_names_stacked=data_manager.inputs_names_stacked, is_train=False)
+    train_dataset = TorchDatasetManagement(
+        cfg=cfg,
+        data_df=data_manager.train_df,
+        inputs_names_stacked=data_manager.inputs_names_stacked,
+        is_train=True
+    )
+    test_dataset = TorchDatasetManagement(
+        cfg=cfg,
+        data_df=data_manager.test_df,
+        inputs_names_stacked=data_manager.inputs_names_stacked,
+        is_train=False
+    )
 
     train_loader = DataLoader(
         train_dataset,
@@ -256,7 +261,7 @@ def main():
     print(f"Loading pretrained model from: {cfg.model.weights}")
     model = PrunedConv1DNet(cfg=cfg)
     model.load_state_dict(torch.load(cfg.model.weights, map_location=device))
-    model = model.to(device).float()
+    model.to(device)
 
     # Evaluate baseline (before pruning)
     print("\n" + "="*80)
@@ -272,8 +277,8 @@ def main():
     print(f"Baseline Size:     {baseline_size:.2f} KB")
     print(f"Baseline Params:   {baseline_params:,}")
 
-    # Get pruning schedule - read from JSON directly
-    target_amount = json_cfg["MODEL"]["PRUNING"]["AMOUNT"]
+    # Get pruning schedule
+    target_amount = cfg.model.pruning.amount
     pruning_schedule = get_pruning_schedule(target_amount)
 
     print(f"\nTarget Pruning: {target_amount*100:.0f}%")

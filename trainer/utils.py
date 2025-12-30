@@ -153,27 +153,30 @@ class ConfigDataManager(object):
         else:
             self.filter_order = 4  # Default filter order
 
-        # ADD THESE NEW LINES HERE ↓↓↓
+        # filter type (butterworth, kalman, ema, biquad)
         if 'FILTER_TYPE' in cfg_dict['DATA']:
             self.filter_type = cfg_dict['DATA']['FILTER_TYPE']
         else:
             self.filter_type = 'butterworth'  # Default filter type
 
+        # Kalman filter process noise (Q parameter)
         if 'FILTER_Q' in cfg_dict['DATA']:
             self.filter_q = cfg_dict['DATA']['FILTER_Q']
         else:
-            self.filter_q = 0.0001  # Default Kalman process noise
+            self.filter_q = 0.0001  # Default Q
 
+        # Kalman filter measurement noise (R parameter)
         if 'FILTER_R' in cfg_dict['DATA']:
             self.filter_r = cfg_dict['DATA']['FILTER_R']
         else:
-            self.filter_r = 0.0001  # Default Kalman measurement noise
+            self.filter_r = 0.0001  # Default R
 
+        # EMA filter alpha parameter
         if 'FILTER_ALPHA' in cfg_dict['DATA']:
             self.filter_alpha = cfg_dict['DATA']['FILTER_ALPHA']
         else:
-            self.filter_alpha = 0.5  # Default EMA alpha
-        
+            self.filter_alpha = 0.5  # Default alpha
+
         # device related settings
         if 'CLASSES' in cfg_dict['DATA']:
             self.classes = cfg_dict['DATA']['CLASSES']
@@ -220,21 +223,53 @@ class ConfigModelManager(object):
             self.send_intermediate = cfg_dict['MODEL']['SEND_INTERMEDIATE']
         else:
             self.send_intermediate = False
-        
-        # Pruning configuration for model compression
+
+        # pruning configuration for model compression
         if 'PRUNING' in cfg_dict['MODEL']:
-            class PruningConfig:
-                def __init__(self, pruning_dict):
-                    self.enabled = pruning_dict.get('ENABLED', False)
-                    self.amount = pruning_dict.get('AMOUNT', 0.0)
-                    self.method = pruning_dict.get('METHOD', 'ln_structured')
-                    self.norm = pruning_dict.get('NORM', 2)
-                    self.dim = pruning_dict.get('DIM', 0)
-                    self.target_layers = pruning_dict.get('TARGET_LAYERS', ['fc1'])
-            
-            self.pruning = PruningConfig(cfg_dict['MODEL']['PRUNING'])
+            self.pruning = ConfigPruningManager(cfg_dict['MODEL']['PRUNING'])
         else:
             self.pruning = None
+
+class ConfigPruningManager(object):
+
+    def __init__(self, cfg_dict):
+        super(ConfigPruningManager, self).__init__()
+
+        # pruning enable/disable
+        if 'ENABLED' in cfg_dict:
+            self.enabled = cfg_dict['ENABLED']
+        else:
+            self.enabled = False
+
+        # pruning method (e.g., ln_structured, random)
+        if 'METHOD' in cfg_dict:
+            self.method = cfg_dict['METHOD']
+        else:
+            self.method = 'ln_structured'
+
+        # target pruning amount (e.g., 0.3 for 30%)
+        if 'AMOUNT' in cfg_dict:
+            self.amount = cfg_dict['AMOUNT']
+        else:
+            self.amount = 0.3
+
+        # norm type for structured pruning (e.g., 2 for L2-norm)
+        if 'NORM' in cfg_dict:
+            self.norm = cfg_dict['NORM']
+        else:
+            self.norm = 2
+
+        # dimension to prune (e.g., 0 for output neurons)
+        if 'DIM' in cfg_dict:
+            self.dim = cfg_dict['DIM']
+        else:
+            self.dim = 0
+
+        # target layers to prune
+        if 'TARGET_LAYERS' in cfg_dict:
+            self.target_layers = cfg_dict['TARGET_LAYERS']
+        else:
+            self.target_layers = ['fc1']
 
 class ConfigTrainingManager(object):
 
