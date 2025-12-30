@@ -1,0 +1,33 @@
+================================================
+FILTER EXPERIMENT - REDO
+================================================
+Job ID: 340110
+Node: lambda2
+Config: kalman_q0001_r0001
+Subject: 3
+Config file: config/filter_redo/kalman_q0001_r0001_s03.json
+Starting at: Mon Dec 29 14:47:16 IST 2025
+
+environment: line 38: /usr/bin/tclsh8.6: No such file or directory
+environment: line 38: /usr/bin/tclsh8.6: No such file or directory
+Python: /home/zina.assi/miniconda3/envs/imugr/bin/python
+Conda env: imugr
+
+================================================
+STARTING TRAINING
+================================================
+Loading dataset...
+Applying kalman filter to sensor data...
+Filter settings: Kalman Q=0.0001 R=0.0001
+Filtering training data...
+Filtering test data...
+Low-pass filtering complete.
+Removing irrelevant data...
+Concatenating samples...
+Normalizaing inputs...
+Total samples for train: 2280081.
+Total samples for test: 216842.
+Started training...
+Epoch: 1, Loss: 0.494, Test Loss: 0.251, Accuracy: 0.914, Recall: 0.696, Precision: 0.908.
+Epoch: 2, Loss: 0.180, Test Loss: 0.167, Accuracy: 0.942, Recall: 0.803, Precision: 0.929.
+Epoch: 3, Loss: 0.144, Test Loss: 0.143, Accuracy: 0.952, Recall: 0.838, Precision: 0.943.

@@ -1,0 +1,14 @@
+================================================
+PRUNING EXPERIMENT
+================================================
+Job ID: 339888
+Config: prune_kalman_s03_40pct_seed123.json
+Starting at: Sun Dec 28 23:27:37 IST 2025
+Node: lambda2
+
+Python: /home/zina.assi/miniconda3/envs/imugr/bin/python
+Conda env: imugr
+
+================================================
+STARTING PRUNING
+================================================

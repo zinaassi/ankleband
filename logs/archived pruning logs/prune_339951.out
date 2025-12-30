@@ -1,0 +1,55 @@
+================================================
+PRUNING EXPERIMENT
+================================================
+Job ID: 339951
+Config: prune_kalman_s06_10pct_seed123.json
+Starting at: Mon 29 Dec 2025 04:32:32 AM IST
+Node: lambda1
+
+Python: /home/zina.assi/miniconda3/envs/imugr/bin/python
+Conda env: imugr
+
+================================================
+STARTING PRUNING
+================================================
+Loading config from: config/pruning/prune_kalman_s06_10pct_seed123.json
+Using device: cuda:0
+Loading data...
+Loading dataset...
+Applying butterworth filter to sensor data...
+Filter settings: Butterworth 15Hz Order=4
+Filtering training data...
+Filtering test data...
+Low-pass filtering complete.
+Removing irrelevant data...
+Concatenating samples...
+Normalizaing inputs...
+Total samples for train: 2237782.
+Total samples for test: 259141.
+Train samples: 2237782, Test samples: 259141
+Loading pretrained model from: outputs_organized/05_archived_old_tests/filter_loo_kalman_s06_kalman/model_weights_10.pt
+
+================================================================================
+BASELINE EVALUATION (Before Pruning)
+================================================================================
+Baseline Accuracy: 0.9594
+Baseline Recall:   0.8885
+Baseline Precision: 0.9224
+Baseline Size:     56.36 KB
+Baseline Params:   13,897
+
+Target Pruning: 10%
+Pruning Schedule: 2 iterations
+
+================================================================================
+ITERATION 1/2: Prune 5%, Fine-tune 3 epochs
+================================================================================
+
+Applying pruning...
+
+================================================
+EXPERIMENT COMPLETE
+================================================
+Exit code: 1
+Finished at: Mon 29 Dec 2025 05:05:06 AM IST
+✗ Failed with exit code 1

@@ -1,0 +1,49 @@
+================================================
+FILTER EXPERIMENT - REDO
+================================================
+Job ID: 340188
+Node: lambda2
+Config: kalman_light_q01_r01
+Subject: 6
+Config file: config/filter_redo/kalman_light_q01_r01_s06.json
+Starting at: Mon Dec 29 22:36:46 IST 2025
+
+environment: line 38: /usr/bin/tclsh8.6: No such file or directory
+environment: line 38: /usr/bin/tclsh8.6: No such file or directory
+Python: /home/zina.assi/miniconda3/envs/imugr/bin/python
+Conda env: imugr
+
+================================================
+STARTING TRAINING
+================================================
+Loading dataset...
+Applying kalman filter to sensor data...
+Filter settings: Kalman Q=0.1 R=0.1
+Filtering training data...
+Filtering test data...
+Low-pass filtering complete.
+Removing irrelevant data...
+Concatenating samples...
+Normalizaing inputs...
+Total samples for train: 2237782.
+Total samples for test: 259141.
+Started training...
+Epoch: 1, Loss: 0.495, Test Loss: 0.213, Accuracy: 0.940, Recall: 0.800, Precision: 0.903.
+Epoch: 2, Loss: 0.193, Test Loss: 0.172, Accuracy: 0.952, Recall: 0.864, Precision: 0.910.
+Epoch: 3, Loss: 0.148, Test Loss: 0.164, Accuracy: 0.955, Recall: 0.874, Precision: 0.915.
+Epoch: 4, Loss: 0.129, Test Loss: 0.159, Accuracy: 0.956, Recall: 0.879, Precision: 0.919.
+Epoch: 5, Loss: 0.118, Test Loss: 0.148, Accuracy: 0.958, Recall: 0.884, Precision: 0.919.
+Saving weights to outputs/filter_redo/kalman_light_q01_r01_s06
+Epoch: 6, Loss: 0.110, Test Loss: 0.144, Accuracy: 0.960, Recall: 0.894, Precision: 0.922.
+Epoch: 7, Loss: 0.105, Test Loss: 0.144, Accuracy: 0.960, Recall: 0.893, Precision: 0.922.
+Epoch: 8, Loss: 0.101, Test Loss: 0.146, Accuracy: 0.960, Recall: 0.891, Precision: 0.923.
+Epoch: 9, Loss: 0.098, Test Loss: 0.145, Accuracy: 0.959, Recall: 0.894, Precision: 0.917.
+Epoch: 10, Loss: 0.096, Test Loss: 0.147, Accuracy: 0.960, Recall: 0.894, Precision: 0.921.
+Saving weights to outputs/filter_redo/kalman_light_q01_r01_s06
+
+================================================
+EXPERIMENT COMPLETE
+================================================
+Exit code: 0
+Finished at: Tue Dec 30 02:42:32 IST 2025
+✓ Success: kalman_light_q01_r01 subject 6

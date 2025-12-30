@@ -1,0 +1,16 @@
+================================================
+PART 2 - WAVE 1: First 9 Experiments
+================================================
+Subject 3: 30%, 40%, 50%
+Subject 6: 10% (partial)
+
+Submitting parallel batch (3 jobs)...
+  Jobs: 339748, 339749, 339750
+Chaining remaining jobs...
+  Jobs: 339751, 339752, 339753, 339754, 339755, 339756
+
+Wave 1 submitted: 9 jobs
+Last job ID: 339756
+
+After these finish, run: bash scripts/06_model_compression/run_pruning_part2_wave2.sh
+================================================

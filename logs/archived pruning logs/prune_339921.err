@@ -1,0 +1,3 @@
+environment: line 38: /usr/bin/tclsh8.6: No such file or directory
+environment: line 38: /usr/bin/tclsh8.6: No such file or directory
+slurmstepd: error: *** JOB 339921 ON lambda2 CANCELLED AT 2025-12-29T01:17:33 ***
