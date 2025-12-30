@@ -14,23 +14,8 @@ echo "Config: $CONFIG_FILE"
 echo "Leave-out Subject: $SUBJECT_ID"
 echo "Starting at: $(date)"
 
-# Initialize module system (try common locations)
-if [ -f /etc/profile.d/modules.sh ]; then
-    source /etc/profile.d/modules.sh
-elif [ -f /usr/share/Modules/init/bash ]; then
-    source /usr/share/Modules/init/bash
-elif [ -f $MODULESHOME/init/bash ]; then
-    source $MODULESHOME/init/bash
-fi
-
-# Load modules
-module load anaconda3
-module load cuda/12.4
-
-# Initialize conda for bash
-eval "$(conda shell.bash hook)"
-
-# Activate environment
+# Use conda directly (bypassing module system)
+source /home/badran.abed/miniconda3/etc/profile.d/conda.sh
 conda activate imugr
 
 # Verify environment
