@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """
-Structured Pruning with Fine-tuning for Conv1DNet
+Structured Pruning with Fine-tuning for Conv1DNet - FIXED
+
+FIX: Added .float() and .long() dtype conversions to fix Double/Float mismatch
 
 Implements hybrid iterative pruning with LR rewinding for ESP32 deployment:
 - 10% target: 2 iterations of 5% (gentler)
@@ -99,8 +101,9 @@ def evaluate_model(model, test_loader, device, cfg):
 
     with torch.no_grad():
         for inputs, labels in test_loader:
-            inputs = inputs.to(device)
-            labels = labels.to(device)
+            # FIX: Convert dtypes explicitly to avoid Double/Float mismatch
+            inputs = inputs.to(device).float()  # Convert to Float32
+            labels = labels.to(device).long()   # Convert to Int64
 
             outputs = model(inputs)
             loss = criterion(outputs, labels)
@@ -166,8 +169,9 @@ def fine_tune_iteration(model, train_loader, test_loader, device, cfg,
         num_batches = 0
 
         for inputs, labels in train_loader:
-            inputs = inputs.to(device)
-            labels = labels.to(device)
+            # FIX: Convert dtypes explicitly to avoid Double/Float mismatch
+            inputs = inputs.to(device).float()  # Convert to Float32
+            labels = labels.to(device).long()   # Convert to Int64
 
             optimizer.zero_grad()
             outputs = model(inputs)
@@ -260,8 +264,10 @@ def main():
     # Load pretrained model
     print(f"Loading pretrained model from: {cfg.model.weights}")
     model = PrunedConv1DNet(cfg=cfg)
+    
+
     model.load_state_dict(torch.load(cfg.model.weights, map_location=device))
-    model.to(device)
+    model = model.to(device).float()
 
     # Evaluate baseline (before pruning)
     print("\n" + "="*80)
