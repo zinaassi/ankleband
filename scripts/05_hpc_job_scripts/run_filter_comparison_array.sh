@@ -2,7 +2,7 @@
 #SBATCH --job-name=filter_cnn
 #SBATCH --output=logs/filter_cnn_%A_%a.out
 #SBATCH --error=logs/filter_cnn_%A_%a.err
-#SBATCH --array=0-8
+#SBATCH --array=1-8
 #SBATCH --time=5:00:00
 #SBATCH --gres=gpu:1
 #SBATCH --mem=32G

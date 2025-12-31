@@ -1,0 +1,50 @@
+================================================
+CNN FILTER COMPARISON
+================================================
+Job ID: 340686
+Array Task ID: 1
+Starting at: Wed 31 Dec 2025 12:19:58 AM IST
+Node: lambda1
+
+Python: /home/badran.abed/miniconda3/envs/imugr/bin/python
+Conda env: imugr
+
+Running experiment:
+  Config file: cnn_kalman_q0001.json
+  Leave-out subject: 3
+  Array index: 1 / 8
+
+================================================
+STARTING TRAINING
+================================================
+Loading dataset...
+Applying kalman filter to sensor data...
+Filter settings: Kalman Q=0.0001 R=0.0001
+Filtering training data...
+Filtering test data...
+Low-pass filtering complete.
+Removing irrelevant data...
+Concatenating samples...
+Normalizaing inputs...
+Total samples for train: 2280081.
+Total samples for test: 216842.
+Started training...
+Epoch: 1, Loss: 0.553, Test Loss: 0.252, Accuracy: 0.913, Recall: 0.686, Precision: 0.918.
+Epoch: 2, Loss: 0.186, Test Loss: 0.161, Accuracy: 0.946, Recall: 0.821, Precision: 0.943.
+Epoch: 3, Loss: 0.146, Test Loss: 0.139, Accuracy: 0.954, Recall: 0.852, Precision: 0.947.
+Epoch: 4, Loss: 0.129, Test Loss: 0.134, Accuracy: 0.957, Recall: 0.863, Precision: 0.952.
+Epoch: 5, Loss: 0.119, Test Loss: 0.126, Accuracy: 0.960, Recall: 0.874, Precision: 0.955.
+Saving weights to outputs/cnn_filter_comparison/kalman_q0001_s03_q0001
+Epoch: 6, Loss: 0.112, Test Loss: 0.129, Accuracy: 0.959, Recall: 0.868, Precision: 0.956.
+Epoch: 7, Loss: 0.106, Test Loss: 0.126, Accuracy: 0.960, Recall: 0.875, Precision: 0.955.
+Epoch: 8, Loss: 0.102, Test Loss: 0.124, Accuracy: 0.962, Recall: 0.884, Precision: 0.953.
+Epoch: 9, Loss: 0.100, Test Loss: 0.127, Accuracy: 0.960, Recall: 0.878, Precision: 0.950.
+Epoch: 10, Loss: 0.097, Test Loss: 0.122, Accuracy: 0.964, Recall: 0.898, Precision: 0.949.
+Saving weights to outputs/cnn_filter_comparison/kalman_q0001_s03_q0001
+
+================================================
+EXPERIMENT COMPLETE
+================================================
+Exit code: 0
+Finished at: Wed 31 Dec 2025 04:44:41 AM IST
+✓ Success

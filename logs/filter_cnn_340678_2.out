@@ -1,0 +1,19 @@
+================================================
+CNN FILTER COMPARISON
+================================================
+Job ID: 340679
+Array Task ID: 2
+Starting at: Wed 31 Dec 2025 12:12:58 AM IST
+Node: lambda1
+
+Python: /home/badran.abed/miniconda3/envs/imugr/bin/python
+Conda env: imugr
+
+Running experiment:
+  Config file: cnn_kalman_q0001.json
+  Leave-out subject: 6
+  Array index: 2 / 8
+
+================================================
+STARTING TRAINING
+================================================
