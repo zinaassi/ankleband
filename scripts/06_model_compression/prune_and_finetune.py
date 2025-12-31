@@ -7,7 +7,7 @@ Implements hybrid iterative pruning with LR rewinding for ESP32 deployment:
 - 20-50% targets: Multiple iterations of 10% each
 
 Usage:
-    python prune_and_finetune.py --json config/pruning/prune_kalman_s02_30pct_seed42.json
+    python prune_and_finetune.py --json config/pruning/prune_ema_s02_30pct_seed42.json
 """
 
 import argparse

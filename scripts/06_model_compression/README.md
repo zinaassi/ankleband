@@ -6,7 +6,7 @@ This directory contains scripts for structured pruning of Conv1DNet to reduce mo
 
 **Goal**: Reduce model from 53.2 KB to ~37 KB (30% compression) while maintaining <2% accuracy drop.
 
-**Approach**: Hybrid iterative pruning with LR rewinding on Kalman filter models (Q=0.0001, R=0.0001).
+**Approach**: Hybrid iterative pruning with LR rewinding on EMA filter models (alpha=0.3).
 
 ## Files Created
 
@@ -44,8 +44,8 @@ This directory contains scripts for structured pruning of Conv1DNet to reduce mo
 ### Generated Configs
 
 6. **`config/pruning/*.json`** - 45 experiment configs
-   - Format: `prune_kalman_s{subject}_{pruning_pct}_seed{seed}.json`
-   - Example: `prune_kalman_s02_30pct_seed42.json`
+   - Format: `prune_ema_s{subject}_{pruning_pct}_seed{seed}.json`
+   - Example: `prune_ema_s02_30pct_seed42.json`
 
 ## Experiment Design
 
@@ -58,10 +58,10 @@ This directory contains scripts for structured pruning of Conv1DNet to reduce mo
 
 ### Baseline Models
 
-Starting from pre-trained Kalman filter models:
-- `outputs_organized/05_archived_old_tests/filter_loo_kalman_s02_kalman/model_weights_10.pt`
-- `outputs_organized/05_archived_old_tests/filter_loo_kalman_s03_kalman/model_weights_10.pt`
-- `outputs_organized/05_archived_old_tests/filter_loo_kalman_s06_kalman/model_weights_10.pt`
+Starting from pre-trained EMA filter models (alpha=0.3):
+- `outputs/cnn_filter_comparison/ema_a03_s02_a03/model_weights_10.pt`
+- `outputs/cnn_filter_comparison/ema_a03_s03_a03/model_weights_10.pt`
+- `outputs/cnn_filter_comparison/ema_a03_s06_a03/model_weights_10.pt`
 
 ### Hybrid Pruning Schedule
 
@@ -94,12 +94,12 @@ Before running the full sweep, test a single experiment locally:
 ```bash
 # Test 30% pruning on subject 2 with seed 42
 python scripts/06_model_compression/prune_and_finetune.py \
-    --json config/pruning/prune_kalman_s02_30pct_seed42.json
+    --json config/pruning/prune_ema_s02_30pct_seed42.json
 ```
 
 Expected output:
 - Console logs showing each iteration's progress
-- Output directory: `outputs/pruning/kalman_s02_prune30pct_seed42/`
+- Output directory: `outputs/pruning/ema_s02_prune30pct_seed42/`
 - Files created:
   - `pruned_final.pt` - Final pruned model
   - `pruned_iter{1,2,3}.pt` - Intermediate checkpoints
@@ -166,7 +166,7 @@ The report includes:
 
 ```
 outputs/pruning/
-├── kalman_s02_prune10pct_seed42/
+├── ema_s02_prune10pct_seed42/
 │   ├── pruned_final.pt
 │   ├── pruned_iter{1,2}.pt
 │   ├── train_losses.csv
@@ -174,7 +174,7 @@ outputs/pruning/
 │   ├── iteration_summary.csv
 │   ├── final_summary.csv
 │   └── config.json
-├── kalman_s02_prune10pct_seed123/
+├── ema_s02_prune10pct_seed123/
 ├── ... (45 experiment directories)
 └── analysis/
     ├── all_experiments_raw.csv
@@ -226,7 +226,7 @@ From `aggregated_results.csv`:
 If baseline models not found:
 ```bash
 # Check if baseline models exist
-ls outputs_organized/05_archived_old_tests/filter_loo_kalman_s*/model_weights_10.pt
+ls outputs/cnn_filter_comparison/ema_a03_s*/model_weights_10.pt
 ```
 
 ### Single Experiment Failures
@@ -234,7 +234,7 @@ ls outputs_organized/05_archived_old_tests/filter_loo_kalman_s*/model_weights_10
 Check logs for errors:
 ```bash
 # If running locally
-tail outputs/pruning/kalman_s02_prune30pct_seed42/config.json
+tail outputs/pruning/ema_s02_prune30pct_seed42/config.json
 
 # If on HPC
 tail logs/pruning_*.err
