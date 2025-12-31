@@ -16,7 +16,7 @@ import os
 from pathlib import Path
 
 
-# Base configuration template (from filter_comparison_kalman.json)
+# Base configuration template (from filter_comparison_ema.json)
 BASE_CONFIG = {
     "MODE": "regular",
     "DATA": {
@@ -52,9 +52,8 @@ BASE_CONFIG = {
         "LABEL_PERCENTAGE": 0.5,
         "LEAVE_SUBJECT_OUT": 1,  # Will be overridden per subject
         "APPLY_FILTER": True,
-        "FILTER_TYPE": "kalman",
-        "FILTER_Q": 0.0001,
-        "FILTER_R": 0.0001,
+        "FILTER_TYPE": "ema",
+        "FILTER_ALPHA": 0.3,
         "SHUFFLE": False,
         "SHARE_TRAIN": 0.0,
         "K_FOLD": None,
@@ -111,7 +110,7 @@ SUBJECT_ID_MAP = {
 
 
 def get_baseline_model_path(subject):
-    """Get the path to the baseline Kalman model weights for a subject.
+    """Get the path to the baseline EMA model weights for a subject.
 
     Args:
         subject (int): Subject number (2, 3, or 6)
@@ -120,7 +119,7 @@ def get_baseline_model_path(subject):
         str: Path to model_weights_10.pt
     """
     subject_str = SUBJECT_ID_MAP[subject]
-    return f"outputs_organized/05_archived_old_tests/filter_loo_kalman_s{subject_str}_kalman/model_weights_10.pt"
+    return f"outputs/cnn_filter_comparison/ema_a03_s{subject_str}_a03/model_weights_10.pt"
 
 
 def generate_config(subject, pruning_pct, seed):
@@ -149,7 +148,7 @@ def generate_config(subject, pruning_pct, seed):
     # Set output directory
     subject_str = SUBJECT_ID_MAP[subject]
     pruning_pct_str = f"{int(pruning_pct * 100)}pct"
-    config["OUTPUT_DIR"] = f"outputs/pruning/kalman_s{subject_str}_prune{pruning_pct_str}_seed{seed}"
+    config["OUTPUT_DIR"] = f"outputs/pruning/ema_s{subject_str}_prune{pruning_pct_str}_seed{seed}"
 
     return config
 
@@ -178,7 +177,7 @@ def main():
                 # Create filename
                 subject_str = SUBJECT_ID_MAP[subject]
                 pruning_pct_str = f"{int(pruning_pct * 100)}pct"
-                filename = f"prune_kalman_s{subject_str}_{pruning_pct_str}_seed{seed}.json"
+                filename = f"prune_ema_s{subject_str}_{pruning_pct_str}_seed{seed}.json"
                 filepath = config_dir / filename
 
                 # Write to file
@@ -186,7 +185,7 @@ def main():
                     json.dump(config, f, indent=2)
 
                 configs_generated.append(filename)
-                print(f"✓ Generated: {filename}")
+                print(f"+ Generated: {filename}")
 
     # Summary
     print()
@@ -217,16 +216,16 @@ def main():
     for subject in SUBJECTS:
         model_path = get_baseline_model_path(subject)
         if os.path.exists(model_path):
-            print(f"✓ Found: {model_path}")
+            print(f"+ Found: {model_path}")
         else:
-            print(f"✗ MISSING: {model_path}")
+            print(f"- MISSING: {model_path}")
             missing_models.append(model_path)
 
     if missing_models:
-        print(f"\n⚠ WARNING: {len(missing_models)} baseline model(s) not found!")
+        print(f"\n! WARNING: {len(missing_models)} baseline model(s) not found!")
         print("Please ensure these models exist before running experiments.")
     else:
-        print("\n✓ All baseline models found!")
+        print("\n+ All baseline models found!")
 
     print("\n" + "=" * 80)
     print("NEXT STEPS")
