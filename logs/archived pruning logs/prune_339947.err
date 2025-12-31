@@ -1,0 +1,10 @@
+environment: line 38: /usr/bin/tclsh8.6: No such file or directory
+environment: line 38: /usr/bin/tclsh8.6: No such file or directory
+Traceback (most recent call last):
+  File "/home/zina.assi/ankleband/scripts/06_model_compression/prune_and_finetune.py", line 430, in <module>
+    main()
+  File "/home/zina.assi/ankleband/scripts/06_model_compression/prune_and_finetune.py", line 306, in main
+    prune_stats = model.apply_structured_pruning(iteration_size=prune_size)
+  File "/home/zina.assi/ankleband/trainer/models/pruned_conv1d_model.py", line 65, in apply_structured_pruning
+    n=self.pruning_config.norm,  # L2-norm
+AttributeError: 'PruningConfig' object has no attribute 'norm'

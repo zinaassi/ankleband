@@ -1,0 +1,49 @@
+================================================
+FILTER EXPERIMENT - REDO
+================================================
+Job ID: 340191
+Node: lambda1
+Config: kalman_smooth_q001_r01
+Subject: 6
+Config file: config/filter_redo/kalman_smooth_q001_r01_s06.json
+Starting at: Tue 30 Dec 2025 02:47:05 AM IST
+
+environment: line 38: /usr/bin/tclsh8.6: No such file or directory
+environment: line 38: /usr/bin/tclsh8.6: No such file or directory
+Python: /home/zina.assi/miniconda3/envs/imugr/bin/python
+Conda env: imugr
+
+================================================
+STARTING TRAINING
+================================================
+Loading dataset...
+Applying kalman filter to sensor data...
+Filter settings: Kalman Q=0.001 R=0.1
+Filtering training data...
+Filtering test data...
+Low-pass filtering complete.
+Removing irrelevant data...
+Concatenating samples...
+Normalizaing inputs...
+Total samples for train: 2237782.
+Total samples for test: 259141.
+Started training...
+Epoch: 1, Loss: 0.485, Test Loss: 0.194, Accuracy: 0.945, Recall: 0.811, Precision: 0.926.
+Epoch: 2, Loss: 0.186, Test Loss: 0.164, Accuracy: 0.954, Recall: 0.865, Precision: 0.922.
+Epoch: 3, Loss: 0.145, Test Loss: 0.157, Accuracy: 0.956, Recall: 0.876, Precision: 0.920.
+Epoch: 4, Loss: 0.128, Test Loss: 0.148, Accuracy: 0.957, Recall: 0.881, Precision: 0.922.
+Epoch: 5, Loss: 0.118, Test Loss: 0.141, Accuracy: 0.960, Recall: 0.884, Precision: 0.929.
+Saving weights to outputs/filter_redo/kalman_smooth_q001_r01_s06
+Epoch: 6, Loss: 0.111, Test Loss: 0.142, Accuracy: 0.960, Recall: 0.886, Precision: 0.928.
+Epoch: 7, Loss: 0.107, Test Loss: 0.144, Accuracy: 0.961, Recall: 0.883, Precision: 0.935.
+Epoch: 8, Loss: 0.103, Test Loss: 0.144, Accuracy: 0.961, Recall: 0.882, Precision: 0.936.
+Epoch: 9, Loss: 0.100, Test Loss: 0.145, Accuracy: 0.963, Recall: 0.892, Precision: 0.933.
+Epoch: 10, Loss: 0.098, Test Loss: 0.144, Accuracy: 0.961, Recall: 0.890, Precision: 0.927.
+Saving weights to outputs/filter_redo/kalman_smooth_q001_r01_s06
+
+================================================
+EXPERIMENT COMPLETE
+================================================
+Exit code: 0
+Finished at: Tue 30 Dec 2025 07:22:58 AM IST
+✓ Success: kalman_smooth_q001_r01 subject 6
