@@ -1,0 +1,43 @@
+================================================
+PRUNING EXPERIMENT
+================================================
+Job ID: 340930
+Config: prune_ema_s03_50pct_seed42.json
+Starting at: Wed 31 Dec 2025 10:43:35 PM IST
+Node: lambda1
+
+environment: line 38: /usr/bin/tclsh8.6: No such file or directory
+environment: line 38: /usr/bin/tclsh8.6: No such file or directory
+Python: /home/zina.assi/miniconda3/envs/imugr/bin/python
+Conda env: imugr
+
+================================================
+STARTING PRUNING
+================================================
+Loading config from: config/pruning/prune_ema_s03_50pct_seed42.json
+Using device: cuda:0
+Loading data...
+Loading dataset...
+Applying ema filter to sensor data...
+Filter settings: EMA with alpha=0.3
+Filtering training data...
+Filtering test data...
+Low-pass filtering complete.
+Removing irrelevant data...
+Concatenating samples...
+Normalizaing inputs...
+Total samples for train: 2280081.
+Total samples for test: 216842.
+Train samples: 2280081, Test samples: 216842
+Loading pretrained model from: outputs/cnn_filter_comparison/ema_a03_s03_a03/model_weights_10.pt
+
+================================================================================
+BASELINE EVALUATION (Before Pruning)
+================================================================================
+
+================================================
+EXPERIMENT COMPLETE
+================================================
+Exit code: 1
+Finished at: Wed 31 Dec 2025 11:18:00 PM IST
+✗ Failed with exit code 1

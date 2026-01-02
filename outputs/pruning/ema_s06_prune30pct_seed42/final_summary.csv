@@ -1,0 +1,2 @@
+baseline_accuracy,baseline_recall,baseline_precision,baseline_size_kb,baseline_params,final_accuracy,final_recall,final_precision,final_size_kb,final_params,accuracy_drop,size_reduction_kb,compression_ratio,target_pruning_pct,num_iterations,total_epochs
+0.9599870340856907,0.8933855277648199,0.921639825042018,56.36328125,13897,0.9590300261247737,0.8844570642690298,0.92468297273493,56.36328125,13897,0.0009570079609170223,0.0,1.0,30.0,3,10

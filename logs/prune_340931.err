@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "/home/zina.assi/ankleband/scripts/06_model_compression/prune_and_finetune.py", line 425, in <module>
+    main()
+  File "/home/zina.assi/ankleband/scripts/06_model_compression/prune_and_finetune.py", line 270, in main
+    baseline_metrics = evaluate_model(model, test_loader, device, cfg)
+  File "/home/zina.assi/ankleband/scripts/06_model_compression/prune_and_finetune.py", line 106, in evaluate_model
+    loss = criterion(outputs, labels)
+  File "/home/zina.assi/miniconda3/envs/imugr/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/zina.assi/miniconda3/envs/imugr/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/zina.assi/miniconda3/envs/imugr/lib/python3.9/site-packages/torch/nn/modules/loss.py", line 1295, in forward
+    return F.cross_entropy(
+  File "/home/zina.assi/miniconda3/envs/imugr/lib/python3.9/site-packages/torch/nn/functional.py", line 3494, in cross_entropy
+    return torch._C._nn.cross_entropy_loss(
+RuntimeError: "nll_loss_forward_reduce_cuda_kernel_2d_index" not implemented for 'Double'
