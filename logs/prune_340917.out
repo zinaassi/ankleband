@@ -1,0 +1,12 @@
+================================================
+PRUNING EXPERIMENT
+================================================
+Job ID: 340917
+Config: config/pruning/prune_ema_s02_20pct_seed456.json
+Starting at: Wed Dec 31 22:25:04 IST 2025
+Node: lambda2
+
+Python: /home/badran.abed/miniconda3/envs/imugr/bin/python
+Conda env: imugr
+
+ERROR: Config file not found: config/pruning/config/pruning/prune_ema_s02_20pct_seed456.json

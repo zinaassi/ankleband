@@ -1,0 +1,3 @@
+/var/spool/slurmd/job341100/slurm_script: line 25: module: command not found
+/var/spool/slurmd/job341100/slurm_script: line 26: module: command not found
+slurmstepd: error: *** JOB 341100 ON lambda1 CANCELLED AT 2026-01-02T05:42:53 DUE TO TIME LIMIT ***

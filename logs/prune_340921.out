@@ -1,0 +1,41 @@
+================================================
+PRUNING EXPERIMENT
+================================================
+Job ID: 340921
+Config: prune_ema_s02_10pct_seed42.json
+Starting at: Wed Dec 31 22:37:17 IST 2025
+Node: lambda2
+
+Python: /home/badran.abed/miniconda3/envs/imugr/bin/python
+Conda env: imugr
+
+================================================
+STARTING PRUNING
+================================================
+Loading config from: config/pruning/prune_ema_s02_10pct_seed42.json
+Using device: cuda:0
+Loading data...
+Loading dataset...
+Applying ema filter to sensor data...
+Filter settings: EMA with alpha=0.3
+Filtering training data...
+Filtering test data...
+Low-pass filtering complete.
+Removing irrelevant data...
+Concatenating samples...
+Normalizaing inputs...
+Total samples for train: 2213950.
+Total samples for test: 282973.
+Train samples: 2213950, Test samples: 282973
+Loading pretrained model from: outputs/cnn_filter_comparison/ema_a03_s02_a03/model_weights_10.pt
+
+================================================================================
+BASELINE EVALUATION (Before Pruning)
+================================================================================
+
+================================================
+EXPERIMENT COMPLETE
+================================================
+Exit code: 1
+Finished at: Wed Dec 31 23:09:05 IST 2025
+✗ Failed with exit code 1
