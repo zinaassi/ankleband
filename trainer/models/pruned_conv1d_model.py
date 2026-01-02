@@ -128,6 +128,112 @@ class PrunedConv1DNet(Conv1DNet):
 
         return stats
 
+    def physically_remove_pruned_neurons(self):
+        """Actually resize tensors to remove pruned neurons and reduce model size.
+
+        After calling make_pruning_permanent(), the pruned weights are set to zero
+        but the tensors are still the same size. This method creates new, smaller
+        layers without the zeroed neurons.
+
+        Must be called AFTER make_pruning_permanent().
+
+        Returns:
+            dict: Statistics about removed neurons
+        """
+        size_before = self.get_model_size()
+        params_before = self.count_parameters()
+
+        # Get FC Layer 1 (first Linear in fc_layers)
+        fc1 = self.fc_layers[0]
+        if not isinstance(fc1, nn.Linear):
+            print("Warning: fc_layers[0] is not a Linear layer")
+            return {}
+
+        # Get the weight matrix (after mask is applied/removed)
+        weights = fc1.weight.data  # Shape: (out_features, in_features) = (64, 200)
+
+        # Find non-zero rows (neurons that weren't fully pruned)
+        # A neuron is considered pruned if ALL its weights are zero
+        row_norms = weights.norm(dim=1)  # L2 norm of each row
+        keep_indices = (row_norms > 1e-6).nonzero(as_tuple=True)[0]
+
+        num_original = weights.shape[0]
+        num_kept = len(keep_indices)
+        num_removed = num_original - num_kept
+
+        if num_removed == 0:
+            print("No neurons to remove - all neurons have non-zero weights")
+            return {
+                'neurons_before': num_original,
+                'neurons_after': num_kept,
+                'neurons_removed': 0,
+                'size_before_kb': size_before,
+                'size_after_kb': size_before,
+                'size_reduction_kb': 0
+            }
+
+        print(f"Physically removing {num_removed} pruned neurons: {num_original} → {num_kept}")
+
+        # Get device of the model
+        device = fc1.weight.device
+
+        # Step 1: Create new smaller FC1 layer
+        new_fc1 = nn.Linear(fc1.in_features, num_kept, bias=fc1.bias is not None).to(device)
+        new_fc1.weight.data = weights[keep_indices]
+        if fc1.bias is not None:
+            new_fc1.bias.data = fc1.bias.data[keep_indices]
+
+        # Step 2: Create new BatchNorm layer (fc_layers[1])
+        bn1 = self.fc_layers[1]
+        if isinstance(bn1, nn.BatchNorm1d):
+            new_bn1 = nn.BatchNorm1d(num_kept).to(device)
+            new_bn1.weight.data = bn1.weight.data[keep_indices]
+            new_bn1.bias.data = bn1.bias.data[keep_indices]
+            new_bn1.running_mean = bn1.running_mean[keep_indices]
+            new_bn1.running_var = bn1.running_var[keep_indices]
+            new_bn1.num_batches_tracked = bn1.num_batches_tracked
+        else:
+            print(f"Warning: fc_layers[1] is not BatchNorm1d, got {type(bn1)}")
+            new_bn1 = bn1
+
+        # Step 3: Update final FC layer input (fc_layers[3])
+        fc_final = self.fc_layers[3]
+        if isinstance(fc_final, nn.Linear):
+            new_fc_final = nn.Linear(num_kept, fc_final.out_features,
+                                     bias=fc_final.bias is not None).to(device)
+            new_fc_final.weight.data = fc_final.weight.data[:, keep_indices]
+            if fc_final.bias is not None:
+                new_fc_final.bias.data = fc_final.bias.data
+        else:
+            print(f"Warning: fc_layers[3] is not Linear, got {type(fc_final)}")
+            new_fc_final = fc_final
+
+        # Step 4: Replace layers in Sequential
+        self.fc_layers[0] = new_fc1
+        self.fc_layers[1] = new_bn1
+        self.fc_layers[3] = new_fc_final
+
+        size_after = self.get_model_size()
+        params_after = self.count_parameters()
+
+        stats = {
+            'neurons_before': num_original,
+            'neurons_after': num_kept,
+            'neurons_removed': num_removed,
+            'size_before_kb': size_before,
+            'size_after_kb': size_after,
+            'size_reduction_kb': size_before - size_after,
+            'compression_ratio': size_before / size_after if size_after > 0 else 1.0,
+            'params_before': params_before,
+            'params_after': params_after
+        }
+
+        print(f"Model size: {size_before:.2f} KB → {size_after:.2f} KB "
+              f"({stats['size_reduction_kb']:.2f} KB saved, {stats['compression_ratio']:.2f}x compression)")
+        print(f"Parameters: {params_before:,} → {params_after:,} ({params_before - params_after:,} removed)")
+
+        return stats
+
     def get_model_size(self):
         """Calculate model size in KB (including all parameters and buffers).
 

@@ -365,7 +365,14 @@ def main():
     print(f"\n" + "="*80)
     print("FINALIZING: Making pruning permanent")
     print("="*80)
-    permanent_stats = model.make_pruning_permanent()
+    model.make_pruning_permanent()
+
+    # Physically remove pruned neurons to actually reduce model size
+    # (prune.remove() only removes masks, doesn't resize tensors)
+    print(f"\n" + "="*80)
+    print("COMPRESSING: Physically removing pruned neurons")
+    print("="*80)
+    permanent_stats = model.physically_remove_pruned_neurons()
 
     # Final evaluation
     print(f"\n" + "="*80)
