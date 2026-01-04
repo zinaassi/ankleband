@@ -1,0 +1,174 @@
+================================================
+PRUNING EXPERIMENT
+================================================
+Job ID: 341605
+Config: prune_ema_s02_40pct_seed456.json
+Starting at: Sat 03 Jan 2026 11:56:13 AM IST
+Node: lambda1
+
+Python: /home/badran.abed/miniconda3/envs/imugr/bin/python
+Conda env: imugr
+
+================================================
+STARTING PRUNING
+================================================
+Loading config from: config/pruning/prune_ema_s02_40pct_seed456.json
+Using device: cuda:0
+Loading data...
+Loading dataset...
+Applying ema filter to sensor data...
+Filter settings: EMA with alpha=0.3
+Filtering training data...
+Filtering test data...
+Low-pass filtering complete.
+Removing irrelevant data...
+Concatenating samples...
+Normalizaing inputs...
+Total samples for train: 2213950.
+Total samples for test: 282973.
+Train samples: 2213950, Test samples: 282973
+Loading pretrained model from: outputs/cnn_filter_comparison/ema_a03_s02_a03/model_weights_10.pt
+
+================================================================================
+BASELINE EVALUATION (Before Pruning)
+================================================================================
+Baseline Accuracy: 0.9641
+Baseline Recall:   0.9047
+Baseline Precision: 0.9512
+Baseline Size:     56.36 KB
+Baseline Params:   13,897
+
+Target Pruning: 40%
+Pruning Schedule: 4 iterations
+
+================================================================================
+ITERATION 1/4: Prune 10%, Fine-tune 3 epochs
+================================================================================
+
+Applying pruning...
+Pruned FC Layer 1: 64 → 58 neurons (6 removed, 9.4%)
+
+Evaluating after pruning (before fine-tuning)...
+After Pruning: Accuracy = 0.9159 (drop: 0.0482)
+
+Fine-tuning for 3 epochs with LRs: [0.0001, 1e-05, 1e-05]...
+  Epoch 1/3: Train Loss = 0.1026, Test Acc = 0.9597, LR = 1.00e-04
+  Epoch 2/3: Train Loss = 0.0981, Test Acc = 0.9601, LR = 1.00e-05
+  Epoch 3/3: Train Loss = 0.0978, Test Acc = 0.9621, LR = 1.00e-05
+
+Iteration 1 Summary:
+  Accuracy:   0.9621
+  Recall:     0.8971
+  Precision:  0.9519
+  Model Size: 106.36 KB
+  Parameters: 13,897
+  Saved: outputs/pruning/ema_s02_prune40pct_seed456/pruned_iter1.pt
+
+================================================================================
+ITERATION 2/4: Prune 10%, Fine-tune 3 epochs
+================================================================================
+
+Applying pruning...
+Pruned FC Layer 1: 64 → 52 neurons (12 removed, 18.8%)
+
+Evaluating after pruning (before fine-tuning)...
+After Pruning: Accuracy = 0.9021 (drop: 0.0620)
+
+Fine-tuning for 3 epochs with LRs: [1e-05, 1e-05, 1e-06]...
+  Epoch 1/3: Train Loss = 0.1015, Test Acc = 0.9613, LR = 1.00e-05
+  Epoch 2/3: Train Loss = 0.0998, Test Acc = 0.9621, LR = 1.00e-05
+  Epoch 3/3: Train Loss = 0.0993, Test Acc = 0.9580, LR = 1.00e-06
+
+Iteration 2 Summary:
+  Accuracy:   0.9580
+  Recall:     0.8856
+  Precision:  0.9440
+  Model Size: 106.36 KB
+  Parameters: 13,897
+  Saved: outputs/pruning/ema_s02_prune40pct_seed456/pruned_iter2.pt
+
+================================================================================
+ITERATION 3/4: Prune 10%, Fine-tune 3 epochs
+================================================================================
+
+Applying pruning...
+Pruned FC Layer 1: 64 → 47 neurons (17 removed, 26.6%)
+
+Evaluating after pruning (before fine-tuning)...
+After Pruning: Accuracy = 0.9424 (drop: 0.0216)
+
+Fine-tuning for 3 epochs with LRs: [1e-05, 1e-05, 1e-06]...
+  Epoch 1/3: Train Loss = 0.1050, Test Acc = 0.9597, LR = 1.00e-05
+  Epoch 2/3: Train Loss = 0.1024, Test Acc = 0.9598, LR = 1.00e-05
+  Epoch 3/3: Train Loss = 0.1020, Test Acc = 0.9608, LR = 1.00e-06
+
+Iteration 3 Summary:
+  Accuracy:   0.9608
+  Recall:     0.8923
+  Precision:  0.9535
+  Model Size: 106.36 KB
+  Parameters: 13,897
+  Saved: outputs/pruning/ema_s02_prune40pct_seed456/pruned_iter3.pt
+
+================================================================================
+ITERATION 4/4: Prune 10%, Fine-tune 4 epochs
+================================================================================
+
+Applying pruning...
+Pruned FC Layer 1: 64 → 42 neurons (22 removed, 34.4%)
+
+Evaluating after pruning (before fine-tuning)...
+After Pruning: Accuracy = 0.9286 (drop: 0.0355)
+
+Fine-tuning for 4 epochs with LRs: [1e-05, 1e-06, 1e-06, 1e-06]...
+  Epoch 1/4: Train Loss = 0.1102, Test Acc = 0.9583, LR = 1.00e-05
+  Epoch 2/4: Train Loss = 0.1073, Test Acc = 0.9578, LR = 1.00e-06
+  Epoch 3/4: Train Loss = 0.1071, Test Acc = 0.9580, LR = 1.00e-06
+  Epoch 4/4: Train Loss = 0.1068, Test Acc = 0.9578, LR = 1.00e-06
+
+Iteration 4 Summary:
+  Accuracy:   0.9578
+  Recall:     0.8835
+  Precision:  0.9497
+  Model Size: 106.36 KB
+  Parameters: 13,897
+  Saved: outputs/pruning/ema_s02_prune40pct_seed456/pruned_iter4.pt
+
+================================================================================
+FINALIZING: Making pruning permanent
+================================================================================
+Made pruning permanent: 106.36 KB → 56.36 KB (50.00 KB saved)
+Parameters: 13897 → 13897 (0 removed)
+
+================================================================================
+COMPRESSING: Physically removing pruned neurons
+================================================================================
+Physically removing 22 pruned neurons: 64 → 42
+Model size: 56.36 KB → 38.32 KB (18.05 KB saved, 1.47x compression)
+Parameters: 13,897 → 9,321 (4,576 removed)
+
+================================================================================
+FINAL EVALUATION
+================================================================================
+Final Accuracy:   0.9626 (baseline: 0.9641)
+Accuracy Drop:    0.0014
+Final Recall:     0.9043
+Final Precision:  0.9452
+Final Size:       38.32 KB (baseline: 56.36 KB)
+Size Reduction:   18.05 KB (32.0%)
+Final Parameters: 9,321 (baseline: 13,897)
+Compression Ratio: 1.47×
+
+Saved final model: outputs/pruning/ema_s02_prune40pct_seed456/pruned_final.pt
+
+All results saved to: outputs/pruning/ema_s02_prune40pct_seed456
+================================================================================
+PRUNING COMPLETE!
+================================================================================
+
+================================================
+EXPERIMENT COMPLETE
+================================================
+Exit code: 0
+Finished at: Sat 03 Jan 2026 06:05:42 PM IST
+✓ Success
