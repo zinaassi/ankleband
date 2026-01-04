@@ -1,0 +1,36 @@
+===============================================================================================
+                         FINAL OPTIMIZED MODEL vs ORIGINAL BASELINE
+===============================================================================================
+
+ORIGINAL BASELINE (No Filter, No Pruning):
+  Recall:     88.33%
+  Accuracy:   96.06%
+  Precision:  94.51%
+  Size:       56.36 KB
+  Parameters: 13,897
+
+FINAL OPTIMIZED MODEL (EMA α=0.3 Filter + 40% Pruning):
+  Recall:     89.18%
+  Accuracy:   96.13%
+  Precision:  93.88%
+  Size:       38.32 KB
+  Parameters: 9,321
+  Compression: 1.47x
+
+OVERALL IMPROVEMENTS:
+  ✓ Recall:     +0.85% (IMPROVED!)
+  ✓ Accuracy:   +0.06% (IMPROVED!)
+  ✓ Precision:  -0.63% (minimal drop)
+  ✓ Size:       -18.05 KB (32.0% REDUCTION)
+  ✓ Parameters: -4,576 (32.9% REDUCTION)
+  ✓ Compression: 1.47x
+
+===============================================================================================
+
+KEY ACHIEVEMENTS:
+  • Model compressed from 56.36 KB → 38.32 KB
+  • 32.0% size reduction (1.47x compression)
+  • 4,576 parameters removed (32.9% reduction)
+  • Performance improved: Recall +0.85%, Accuracy +0.06%
+  • Ready for ESP32 deployment!
+===============================================================================================

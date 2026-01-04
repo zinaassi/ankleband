@@ -1,0 +1,50 @@
+====================================================================================================
+                              OPTIMAL PRUNING LEVEL ANALYSIS
+                      (Best Compression with Minimal Performance Loss)
+====================================================================================================
+
+BASELINE (0% Pruning):
+  Recall:     89.84%
+  Accuracy:   96.30%
+  Precision:  94.20%
+  Size:       56.36 KB
+  Parameters: 13,897
+
+====================================================================================================
+
+★★★ OPTIMAL PRUNING LEVEL ★★★
+
+  >>> 40% PRUNING <<<
+
+  Overall Score: 2.18 (HIGHEST)
+
+  PERFORMANCE METRICS:
+    Recall:     89.18% (drop: +0.66%)
+    Accuracy:   96.13% (drop: +0.16%)
+    Precision:  93.88% (drop: +0.25%)
+
+  MODEL COMPRESSION:
+    Compression:    1.47x
+    Size:           38.32 KB (saved: 18.05 KB)
+    Size Reduction: 32.0%
+    Parameters:     9,321.0 (removed: 4,576.0)
+
+====================================================================================================
+
+ALL PRUNING LEVELS RANKED BY SCORE:
+
+Rank   Pruning    Score      Compression   Recall       Accuracy     Precision   
+----------------------------------------------------------------------------------------------------
+1      40%         2.18       1.47         x 89.18       % 96.13       % 93.88       % ← BEST
+2      30%         1.65       1.33         x 89.37       % 96.21       % 94.04       %
+3      20%         0.02       1.21         x 89.13       % 96.18       % 94.36       %
+4      10%         -0.38      1.10         x 89.38       % 96.24       % 94.25       %
+5      50%         -10.21     1.41         x 86.11       % 95.43       % 93.58       %
+
+====================================================================================================
+
+RECOMMENDATION: Use 40% pruning
+  → Best balance between compression (1.47x) and performance preservation
+  → Minimal performance drop (Recall: +0.66%, Accuracy: +0.16%)
+  → Reduces model size by 32.0%
+====================================================================================================
