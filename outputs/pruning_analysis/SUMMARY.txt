@@ -4,15 +4,15 @@
 ====================================================================================================
 
 BASELINE (0% Pruning):
-  Recall:     89.84%
-  Accuracy:   96.30%
-  Precision:  94.20%
+  Recall:     89.83%
+  Accuracy:   96.29%
+  Precision:  94.13%
   Size:       56.36 KB
   Parameters: 13,897
 
 ====================================================================================================
 
-★★★ OPTIMAL PRUNING LEVEL ★★★
+*** OPTIMAL PRUNING LEVEL ***
 
   >>> 40% PRUNING <<<
 
@@ -35,16 +35,16 @@ ALL PRUNING LEVELS RANKED BY SCORE:
 
 Rank   Pruning    Score      Compression   Recall       Accuracy     Precision   
 ----------------------------------------------------------------------------------------------------
-1      40%         2.18       1.47         x 89.18       % 96.13       % 93.88       % ← BEST
+1      40%         2.18       1.47         x 89.18       % 96.13       % 93.88       % <-- BEST
 2      30%         1.65       1.33         x 89.37       % 96.21       % 94.04       %
 3      20%         0.02       1.21         x 89.13       % 96.18       % 94.36       %
 4      10%         -0.38      1.10         x 89.38       % 96.24       % 94.25       %
-5      50%         -10.21     1.41         x 86.11       % 95.43       % 93.58       %
+5      50%         -6.93      1.47         x 86.76       % 95.51       % 93.22       %
 
 ====================================================================================================
 
 RECOMMENDATION: Use 40% pruning
-  → Best balance between compression (1.47x) and performance preservation
-  → Minimal performance drop (Recall: +0.66%, Accuracy: +0.16%)
-  → Reduces model size by 32.0%
+  -> Best balance between compression (1.47x) and performance preservation
+  -> Minimal performance drop (Recall: +0.66%, Accuracy: +0.16%)
+  -> Reduces model size by 32.0%
 ====================================================================================================
