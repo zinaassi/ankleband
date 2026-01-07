@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
 Filter Comparison Analysis Script - REDO Results
-Compares Baseline vs Butterworth vs Biquad vs EMA vs Kalman (3 variants)
+Compares Baseline vs EMA (0.3 & 0.5) vs Butterworth vs Biquad vs Kalman (3 variants)
 Analyzes: Accuracy, Recall, Precision, FP Rate, FN Rate
 
-Run locally or on HPC: python analyze_filter_redo_results_with_plots.py
+Run locally or on HPC: python analyze_filter_redo_results.py
 """
 
 import pandas as pd
@@ -24,6 +24,12 @@ FILTER_CONFIGS = {
         'color': '#808080',  # Gray
         'short': 'Baseline'
     },
+    'ema_a03': {
+        'name': 'EMA (α=0.3)',
+        'pattern': 'ema_a03_s{:02d}',
+        'color': '#e74c3c',  # Red
+        'short': 'EMA-0.3'
+    },
     'butterworth': {
         'name': 'Butterworth (40Hz, O2)',
         'pattern': 'butterworth_40hz_o2_s{:02d}',
@@ -39,8 +45,8 @@ FILTER_CONFIGS = {
     'ema': {
         'name': 'EMA (α=0.5)',
         'pattern': 'ema_alpha05_s{:02d}',
-        'color': '#e74c3c',  # Red
-        'short': 'EMA'
+        'color': '#c0392b',  # Dark Red
+        'short': 'EMA-0.5'
     },
     'kalman': {
         'name': 'Kalman (Q=0.0001, R=0.0001)',
@@ -506,6 +512,194 @@ def create_summary_table(df, comparisons_df, baseline_avg):
     return summary_df
 
 
+def create_baseline_only_comparison(df):
+    """Create detailed comparison of best filter (EMA 0.3) vs Baseline only."""
+    print("\n" + "="*70)
+    print("CREATING BASELINE vs EMA 0.3 COMPARISON")
+    print("="*70)
+
+    baseline_df = df[df['filter_key'] == 'baseline']
+    ema_df = df[df['filter_key'] == 'ema_a03']
+
+    if len(baseline_df) == 0 or len(ema_df) == 0:
+        print("Warning: Missing baseline or EMA 0.3 data for comparison")
+        return
+
+    # Create comprehensive comparison figure
+    fig = plt.figure(figsize=(18, 12))
+    gs = fig.add_gridspec(3, 3, hspace=0.3, wspace=0.3)
+
+    fig.suptitle('EMA (α=0.3) vs Baseline - Detailed Comparison',
+                 fontsize=18, fontweight='bold', y=0.98)
+
+    # Sort by subject for consistency
+    baseline_df = baseline_df.sort_values('subject')
+    ema_df = ema_df.sort_values('subject')
+
+    subjects = sorted(baseline_df['subject'].unique())
+    x = np.arange(len(subjects))
+    width = 0.35
+
+    # Plot 1: Per-subject accuracy
+    ax1 = fig.add_subplot(gs[0, 0])
+    ax1.bar(x - width/2, baseline_df['accuracy'].values, width,
+            label='Baseline', color='#95a5a6', alpha=0.8, edgecolor='black')
+    ax1.bar(x + width/2, ema_df['accuracy'].values, width,
+            label='EMA (α=0.3)', color='#e74c3c', alpha=0.8, edgecolor='black')
+    ax1.set_xlabel('Subject', fontweight='bold')
+    ax1.set_ylabel('Accuracy', fontweight='bold')
+    ax1.set_title('Accuracy per Subject', fontweight='bold', fontsize=12)
+    ax1.set_xticks(x)
+    ax1.set_xticklabels([f'S{s}' for s in subjects])
+    ax1.legend()
+    ax1.grid(axis='y', alpha=0.3)
+    ax1.set_ylim(0.85, 1.0)
+
+    # Plot 2: Per-subject recall
+    ax2 = fig.add_subplot(gs[0, 1])
+    ax2.bar(x - width/2, baseline_df['recall'].values, width,
+            label='Baseline', color='#95a5a6', alpha=0.8, edgecolor='black')
+    ax2.bar(x + width/2, ema_df['recall'].values, width,
+            label='EMA (α=0.3)', color='#e74c3c', alpha=0.8, edgecolor='black')
+    ax2.set_xlabel('Subject', fontweight='bold')
+    ax2.set_ylabel('Recall', fontweight='bold')
+    ax2.set_title('Recall per Subject', fontweight='bold', fontsize=12)
+    ax2.set_xticks(x)
+    ax2.set_xticklabels([f'S{s}' for s in subjects])
+    ax2.legend()
+    ax2.grid(axis='y', alpha=0.3)
+    ax2.set_ylim(0.85, 1.0)
+
+    # Plot 3: Per-subject precision
+    ax3 = fig.add_subplot(gs[0, 2])
+    ax3.bar(x - width/2, baseline_df['precision'].values, width,
+            label='Baseline', color='#95a5a6', alpha=0.8, edgecolor='black')
+    ax3.bar(x + width/2, ema_df['precision'].values, width,
+            label='EMA (α=0.3)', color='#e74c3c', alpha=0.8, edgecolor='black')
+    ax3.set_xlabel('Subject', fontweight='bold')
+    ax3.set_ylabel('Precision', fontweight='bold')
+    ax3.set_title('Precision per Subject', fontweight='bold', fontsize=12)
+    ax3.set_xticks(x)
+    ax3.set_xticklabels([f'S{s}' for s in subjects])
+    ax3.legend()
+    ax3.grid(axis='y', alpha=0.3)
+    ax3.set_ylim(0.85, 1.0)
+
+    # Plot 4: Per-subject FN rate
+    ax4 = fig.add_subplot(gs[1, 0])
+    ax4.bar(x - width/2, baseline_df['fn_rate'].values, width,
+            label='Baseline', color='#95a5a6', alpha=0.8, edgecolor='black')
+    ax4.bar(x + width/2, ema_df['fn_rate'].values, width,
+            label='EMA (α=0.3)', color='#e74c3c', alpha=0.8, edgecolor='black')
+    ax4.set_xlabel('Subject', fontweight='bold')
+    ax4.set_ylabel('False Negative Rate', fontweight='bold')
+    ax4.set_title('FN Rate per Subject (Lower is Better)', fontweight='bold', fontsize=12)
+    ax4.set_xticks(x)
+    ax4.set_xticklabels([f'S{s}' for s in subjects])
+    ax4.legend()
+    ax4.grid(axis='y', alpha=0.3)
+    ax4.set_ylim(0, 0.2)
+
+    # Plot 5: Per-subject FP rate
+    ax5 = fig.add_subplot(gs[1, 1])
+    ax5.bar(x - width/2, baseline_df['fp_rate'].values, width,
+            label='Baseline', color='#95a5a6', alpha=0.8, edgecolor='black')
+    ax5.bar(x + width/2, ema_df['fp_rate'].values, width,
+            label='EMA (α=0.3)', color='#e74c3c', alpha=0.8, edgecolor='black')
+    ax5.set_xlabel('Subject', fontweight='bold')
+    ax5.set_ylabel('False Positive Rate', fontweight='bold')
+    ax5.set_title('FP Rate per Subject (Lower is Better)', fontweight='bold', fontsize=12)
+    ax5.set_xticks(x)
+    ax5.set_xticklabels([f'S{s}' for s in subjects])
+    ax5.legend()
+    ax5.grid(axis='y', alpha=0.3)
+    ax5.set_ylim(0, 0.15)
+
+    # Plot 6: Delta improvements
+    ax6 = fig.add_subplot(gs[1, 2])
+    metrics = ['Accuracy', 'Recall', 'Precision']
+    deltas = [
+        (ema_df['accuracy'].mean() - baseline_df['accuracy'].mean()) * 100,
+        (ema_df['recall'].mean() - baseline_df['recall'].mean()) * 100,
+        (ema_df['precision'].mean() - baseline_df['precision'].mean()) * 100
+    ]
+    colors_delta = ['#27ae60' if d > 0 else '#e74c3c' for d in deltas]
+    bars = ax6.barh(metrics, deltas, color=colors_delta, alpha=0.8, edgecolor='black')
+    ax6.set_xlabel('Percentage Point Improvement', fontweight='bold')
+    ax6.set_title('Average Improvement over Baseline', fontweight='bold', fontsize=12)
+    ax6.axvline(x=0, color='black', linestyle='--', linewidth=1)
+    ax6.grid(axis='x', alpha=0.3)
+    for i, (bar, val) in enumerate(zip(bars, deltas)):
+        ax6.text(val + (0.05 if val > 0 else -0.05), bar.get_y() + bar.get_height()/2,
+                f'{val:+.2f}%',
+                va='center', ha='left' if val > 0 else 'right', fontweight='bold')
+
+    # Plot 7: Overall average metrics comparison
+    ax7 = fig.add_subplot(gs[2, :])
+    metrics_labels = ['Accuracy', 'Recall', 'Precision', 'FN Rate', 'FP Rate']
+    baseline_avg = [
+        baseline_df['accuracy'].mean(),
+        baseline_df['recall'].mean(),
+        baseline_df['precision'].mean(),
+        baseline_df['fn_rate'].mean(),
+        baseline_df['fp_rate'].mean()
+    ]
+    ema_avg = [
+        ema_df['accuracy'].mean(),
+        ema_df['recall'].mean(),
+        ema_df['precision'].mean(),
+        ema_df['fn_rate'].mean(),
+        ema_df['fp_rate'].mean()
+    ]
+
+    x_metrics = np.arange(len(metrics_labels))
+    width = 0.35
+    ax7.bar(x_metrics - width/2, baseline_avg, width, label='Baseline',
+            color='#95a5a6', alpha=0.8, edgecolor='black')
+    ax7.bar(x_metrics + width/2, ema_avg, width, label='EMA (α=0.3)',
+            color='#e74c3c', alpha=0.8, edgecolor='black')
+    ax7.set_xlabel('Metrics', fontweight='bold', fontsize=12)
+    ax7.set_ylabel('Value', fontweight='bold', fontsize=12)
+    ax7.set_title('Overall Average Metrics Comparison', fontweight='bold', fontsize=13)
+    ax7.set_xticks(x_metrics)
+    ax7.set_xticklabels(metrics_labels)
+    ax7.legend(fontsize=11)
+    ax7.grid(axis='y', alpha=0.3)
+
+    # Add value labels
+    for i, (b_val, e_val) in enumerate(zip(baseline_avg, ema_avg)):
+        ax7.text(i - width/2, b_val + 0.01, f'{b_val:.3f}',
+                ha='center', va='bottom', fontsize=9)
+        ax7.text(i + width/2, e_val + 0.01, f'{e_val:.3f}',
+                ha='center', va='bottom', fontsize=9, fontweight='bold')
+
+    plt.tight_layout()
+    plt.savefig('outputs/filter_redo/ema_vs_baseline_detailed.png', dpi=150, bbox_inches='tight')
+    print("Saved: outputs/filter_redo/ema_vs_baseline_detailed.png")
+    plt.close()
+
+    # Print numerical summary
+    print("\n" + "-"*70)
+    print("NUMERICAL SUMMARY - EMA (α=0.3) vs Baseline")
+    print("-"*70)
+    print(f"Accuracy:  Baseline={baseline_df['accuracy'].mean():.4f}, "
+          f"EMA={ema_df['accuracy'].mean():.4f}, "
+          f"Delta={ema_df['accuracy'].mean()-baseline_df['accuracy'].mean():+.4f}")
+    print(f"Recall:    Baseline={baseline_df['recall'].mean():.4f}, "
+          f"EMA={ema_df['recall'].mean():.4f}, "
+          f"Delta={ema_df['recall'].mean()-baseline_df['recall'].mean():+.4f}")
+    print(f"Precision: Baseline={baseline_df['precision'].mean():.4f}, "
+          f"EMA={ema_df['precision'].mean():.4f}, "
+          f"Delta={ema_df['precision'].mean()-baseline_df['precision'].mean():+.4f}")
+    print(f"FN Rate:   Baseline={baseline_df['fn_rate'].mean():.4f}, "
+          f"EMA={ema_df['fn_rate'].mean():.4f}, "
+          f"Delta={ema_df['fn_rate'].mean()-baseline_df['fn_rate'].mean():+.4f}")
+    print(f"FP Rate:   Baseline={baseline_df['fp_rate'].mean():.4f}, "
+          f"EMA={ema_df['fp_rate'].mean():.4f}, "
+          f"Delta={ema_df['fp_rate'].mean()-baseline_df['fp_rate'].mean():+.4f}")
+    print("-"*70)
+
+
 def print_conclusions(comparisons_df, baseline_avg):
     """Print analysis conclusions."""
     print("\n" + "="*70)
@@ -584,7 +778,7 @@ def main():
     """Main analysis function."""
     print("\n" + "="*70)
     print("FILTER COMPARISON ANALYSIS - REDO (CORRECT FILTERS!)")
-    print("Comparing: Baseline, Butterworth, Biquad, EMA, and 3 Kalman configs")
+    print("Comparing: Baseline, EMA (0.3, 0.5), Butterworth, Biquad, Kalman (3 configs)")
     print("Test Subjects: ", TEST_SUBJECTS)
     print("="*70)
     
@@ -611,13 +805,14 @@ def main():
     print("\n" + "="*70)
     print("GENERATING VISUALIZATIONS")
     print("="*70)
-    
+
     create_bar_chart_comparison(df)
     create_fp_fn_comparison(df)
     create_subject_breakdown(df)
     create_delta_chart(comparisons_df, baseline_avg)
     create_kalman_comparison_chart(df)
-    
+    create_baseline_only_comparison(df)  # NEW: EMA 0.3 vs Baseline detailed comparison
+
     create_summary_table(df, comparisons_df, baseline_avg)
     print_conclusions(comparisons_df, baseline_avg)
     
@@ -630,6 +825,7 @@ def main():
     print("  • filter_comparison_by_subject.png")
     print("  • filter_comparison_delta.png")
     print("  • kalman_variants_comparison.png")
+    print("  • ema_vs_baseline_detailed.png  [NEW: EMA 0.3 vs Baseline only]")
 
 
 if __name__ == '__main__':
