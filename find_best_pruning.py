@@ -6,11 +6,8 @@ Multi-objective optimization: maximize compression + minimize performance drop.
 
 import pandas as pd
 import matplotlib.pyplot as plt
-import seaborn as sns
 import numpy as np
 from pathlib import Path
-
-sns.set_style("whitegrid")
 
 def collect_results(base_dir='outputs/pruning'):
     """Collect all pruning results."""
@@ -31,7 +28,7 @@ def collect_results(base_dir='outputs/pruning'):
         results.append(df)
 
     all_results = pd.concat(results, ignore_index=True)
-    print(f"✓ Collected {len(results)} experiments")
+    print(f"[+] Collected {len(results)} experiments")
     return all_results
 
 def calculate_performance_score(df):
@@ -391,7 +388,7 @@ def generate_summary(df, scores_df, best_prune):
     # Best pruning level
     best_row = scores_df[scores_df['prune_percent'] == best_prune].iloc[0]
 
-    lines.append("★★★ OPTIMAL PRUNING LEVEL ★★★")
+    lines.append("*** OPTIMAL PRUNING LEVEL ***")
     lines.append("")
     lines.append(f"  >>> {best_prune}% PRUNING <<<")
     lines.append("")
@@ -420,7 +417,7 @@ def generate_summary(df, scores_df, best_prune):
     ranked = scores_df.sort_values('overall_score', ascending=False).reset_index(drop=True)
     for idx, row in ranked.iterrows():
         rank = idx + 1
-        marker = " ← BEST" if row['prune_percent'] == best_prune else ""
+        marker = " <-- BEST" if row['prune_percent'] == best_prune else ""
         lines.append(f"{rank:<6} {int(row['prune_percent'])}%{'':<8} "
                     f"{row['overall_score']:<10.2f} {row['compression']:<13.2f}x "
                     f"{row['recall']:<12.2f}% {row['accuracy']:<12.2f}% {row['precision']:<12.2f}%{marker}")
@@ -429,9 +426,9 @@ def generate_summary(df, scores_df, best_prune):
     lines.append("="*100)
     lines.append("")
     lines.append(f"RECOMMENDATION: Use {best_prune}% pruning")
-    lines.append(f"  → Best balance between compression ({best_row['compression']:.2f}x) and performance preservation")
-    lines.append(f"  → Minimal performance drop (Recall: {best_row['recall_drop']:+.2f}%, Accuracy: {best_row['acc_drop']:+.2f}%)")
-    lines.append(f"  → Reduces model size by {(baseline_size - best_row['size_kb'])/baseline_size*100:.1f}%")
+    lines.append(f"  -> Best balance between compression ({best_row['compression']:.2f}x) and performance preservation")
+    lines.append(f"  -> Minimal performance drop (Recall: {best_row['recall_drop']:+.2f}%, Accuracy: {best_row['acc_drop']:+.2f}%)")
+    lines.append(f"  -> Reduces model size by {(baseline_size - best_row['size_kb'])/baseline_size*100:.1f}%")
     lines.append("="*100)
 
     return "\n".join(lines)
@@ -451,7 +448,7 @@ def main():
     best_prune = scores_df.loc[scores_df['overall_score'].idxmax(), 'prune_percent']
     best_prune = int(best_prune)
 
-    print(f"✓ Best pruning level: {best_prune}%")
+    print(f"[+] Best pruning level: {best_prune}%")
 
     output_dir = Path('outputs/pruning_analysis')
     output_dir.mkdir(exist_ok=True)
@@ -459,20 +456,20 @@ def main():
     # Save results
     df.to_csv(output_dir / 'all_results.csv', index=False)
     scores_df.to_csv(output_dir / 'scores.csv', index=False)
-    print(f"✓ Saved: {output_dir / 'all_results.csv'}")
-    print(f"✓ Saved: {output_dir / 'scores.csv'}")
+    print(f"[+] Saved: {output_dir / 'all_results.csv'}")
+    print(f"[+] Saved: {output_dir / 'scores.csv'}")
 
     # Generate summary
     summary = generate_summary(df, scores_df, best_prune)
     with open(output_dir / 'SUMMARY.txt', 'w') as f:
         f.write(summary)
-    print(f"✓ Saved: {output_dir / 'SUMMARY.txt'}")
+    print(f"[+] Saved: {output_dir / 'SUMMARY.txt'}")
 
     # Create visualization
     print("\nGenerating visualization...")
     fig = plot_comprehensive_analysis(df, scores_df, best_prune)
     fig.savefig(output_dir / 'optimal_pruning_analysis.png', dpi=300, bbox_inches='tight')
-    print(f"✓ Saved: {output_dir / 'optimal_pruning_analysis.png'}")
+    print(f"[+] Saved: {output_dir / 'optimal_pruning_analysis.png'}")
 
     print("")
     print(summary)

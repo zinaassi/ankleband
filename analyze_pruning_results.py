@@ -66,7 +66,7 @@ def main():
 
     # Check if Dean's targets are met
     print("\n" + "="*70)
-    print("DEAN'S TARGETS CHECK (Recall ≥95%, Precision ≥90%)")
+    print("DEAN'S TARGETS CHECK (Recall >=95%, Precision >=90%)")
     print("="*70)
 
     for prune_pct in sorted(df['prune_pct'].unique()):
@@ -76,9 +76,9 @@ def main():
         meets_recall = recall_mean >= 0.95
         meets_precision = precision_mean >= 0.90
 
-        status = "✓ PASS" if (meets_recall and meets_precision) else "✗ FAIL"
-        print(f"{prune_pct}% pruning: Recall={recall_mean:.4f} {'✓' if meets_recall else '✗'}, "
-              f"Precision={precision_mean:.4f} {'✓' if meets_precision else '✗'} - {status}")
+        status = "[PASS]" if (meets_recall and meets_precision) else "[FAIL]"
+        print(f"{prune_pct}% pruning: Recall={recall_mean:.4f} {'[+]' if meets_recall else '[-]'}, "
+              f"Precision={precision_mean:.4f} {'[+]' if meets_precision else '[-]'} - {status}")
 
     # Best configuration
     print("\n" + "="*70)
