@@ -34,6 +34,10 @@ from trainer.models.pruned_conv1d_model import PrunedConv1DNet
 from data.load_data import DataManagement, TorchDatasetManagement
 from trainer.utils import ConfigManager
 
+# Import evaluation helper (in same directory)
+sys.path.insert(0, str(Path(__file__).parent))
+from evaluate_model_helper import evaluate_model
+
 
 def prepare_qat_model(model, cfg):
     """
@@ -284,7 +288,8 @@ def convert_to_quantized(model, device):
     return quantized_model
 
 
-def save_results(model, quantized_model, history, cfg, pruned_model_path):
+def save_results(model, quantized_model, history, cfg, pruned_model_path,
+                 baseline_metrics, quantized_metrics):
     """
     Save quantized model and training results.
 
@@ -294,6 +299,8 @@ def save_results(model, quantized_model, history, cfg, pruned_model_path):
         history: Training history dict
         cfg: Configuration object
         pruned_model_path: Path to original pruned model
+        baseline_metrics: Metrics of pruned model before QAT
+        quantized_metrics: Metrics of quantized model after conversion
     """
     print("\n" + "=" * 70)
     print("Saving Results")
@@ -332,11 +339,20 @@ def save_results(model, quantized_model, history, cfg, pruned_model_path):
         'compression_ratio': compression_ratio,
         'size_reduction_kb': pruned_size_kb - quantized_size_kb,
         'size_reduction_percent': ((pruned_size_kb - quantized_size_kb) / pruned_size_kb) * 100,
+        'baseline_accuracy': baseline_metrics['accuracy'],
+        'baseline_recall': baseline_metrics['recall'],
+        'baseline_precision': baseline_metrics['precision'],
+        'baseline_f1': baseline_metrics['f1'],
+        'quantized_accuracy': quantized_metrics['accuracy'],
+        'quantized_recall': quantized_metrics['recall'],
+        'quantized_precision': quantized_metrics['precision'],
+        'quantized_f1': quantized_metrics['f1'],
+        'accuracy_drop': baseline_metrics['accuracy'] - quantized_metrics['accuracy'],
+        'recall_drop': baseline_metrics['recall'] - quantized_metrics['recall'],
+        'precision_drop': baseline_metrics['precision'] - quantized_metrics['precision'],
+        'f1_drop': baseline_metrics['f1'] - quantized_metrics['f1'],
         'final_train_loss': history['train_loss'][-1],
         'final_val_loss': history['val_loss'][-1],
-        'final_val_accuracy': history['val_accuracy'][-1],
-        'final_val_recall': history['val_recall'][-1],
-        'final_val_precision': history['val_precision'][-1],
         'qat_epochs': cfg.training.epochs,
         'learning_rate': cfg.training.learning_rate,
         'random_seed': cfg.random_seed
@@ -348,16 +364,32 @@ def save_results(model, quantized_model, history, cfg, pruned_model_path):
     print(f"✓ Saved summary: {summary_path}")
 
     print(f"\n{'─' * 70}")
-    print("Quantization Results:")
+    print("Quantization Results Summary:")
     print(f"{'─' * 70}")
-    print(f"Pruned Model Size:    {pruned_size_kb:.2f} KB")
-    print(f"Quantized Model Size: {quantized_size_kb:.2f} KB")
-    print(f"Size Reduction:       {summary['size_reduction_kb']:.2f} KB ({summary['size_reduction_percent']:.1f}%)")
-    print(f"Compression Ratio:    {compression_ratio:.2f}×")
-    print(f"\nFinal Metrics:")
-    print(f"  Accuracy:  {summary['final_val_accuracy']:.4f} ({summary['final_val_accuracy'] * 100:.2f}%)")
-    print(f"  Recall:    {summary['final_val_recall']:.4f} ({summary['final_val_recall'] * 100:.2f}%)")
-    print(f"  Precision: {summary['final_val_precision']:.4f} ({summary['final_val_precision'] * 100:.2f}%)")
+    print(f"\nModel Sizes:")
+    print(f"  Pruned (FP32):    {pruned_size_kb:.2f} KB")
+    print(f"  Quantized (INT8): {quantized_size_kb:.2f} KB")
+    print(f"  Size Reduction:   {summary['size_reduction_kb']:.2f} KB ({summary['size_reduction_percent']:.1f}%)")
+    print(f"  Compression:      {compression_ratio:.2f}×")
+
+    print(f"\nPerformance Metrics:")
+    print(f"  Baseline (Pruned FP32):")
+    print(f"    Accuracy:  {summary['baseline_accuracy']:.4f} ({summary['baseline_accuracy'] * 100:.2f}%)")
+    print(f"    Recall:    {summary['baseline_recall']:.4f} ({summary['baseline_recall'] * 100:.2f}%)")
+    print(f"    Precision: {summary['baseline_precision']:.4f} ({summary['baseline_precision'] * 100:.2f}%)")
+    print(f"    F1 Score:  {summary['baseline_f1']:.4f} ({summary['baseline_f1'] * 100:.2f}%)")
+
+    print(f"\n  Quantized (INT8):")
+    print(f"    Accuracy:  {summary['quantized_accuracy']:.4f} ({summary['quantized_accuracy'] * 100:.2f}%)")
+    print(f"    Recall:    {summary['quantized_recall']:.4f} ({summary['quantized_recall'] * 100:.2f}%)")
+    print(f"    Precision: {summary['quantized_precision']:.4f} ({summary['quantized_precision'] * 100:.2f}%)")
+    print(f"    F1 Score:  {summary['quantized_f1']:.4f} ({summary['quantized_f1'] * 100:.2f}%)")
+
+    print(f"\n  Performance Drops:")
+    print(f"    Accuracy:  {summary['accuracy_drop'] * 100:+.2f}%")
+    print(f"    Recall:    {summary['recall_drop'] * 100:+.2f}%")
+    print(f"    Precision: {summary['precision_drop'] * 100:+.2f}%")
+    print(f"    F1 Score:  {summary['f1_drop'] * 100:+.2f}%")
     print("=" * 70)
 
 
@@ -422,15 +454,65 @@ def main():
 
     # Load pruned model
     print(f"\nLoading pruned model from: {cfg.model.weights}")
+
+    # Load checkpoint first to inspect architecture
+    state_dict = torch.load(cfg.model.weights, map_location='cpu')
+
+    # Infer pruned architecture from checkpoint
+    # fc_layers.0.weight shape is [out_features, in_features]
+    if 'fc_layers.0.weight' in state_dict:
+        pruned_fc1_neurons = state_dict['fc_layers.0.weight'].shape[0]
+        print(f"  Detected pruned architecture: FC1 has {pruned_fc1_neurons} neurons (from checkpoint)")
+    else:
+        raise ValueError("Cannot find fc_layers.0.weight in checkpoint")
+
+    # Create model and load with strict=False to allow architecture mismatch
     model = PrunedConv1DNet(cfg=cfg)
 
-    # Load pruned weights
-    state_dict = torch.load(cfg.model.weights, map_location='cpu')
-    model.load_state_dict(state_dict)
+    # Load state dict with strict=False (allows size mismatch)
+    missing_keys, unexpected_keys = model.load_state_dict(state_dict, strict=False)
+
+    if missing_keys or unexpected_keys:
+        print(f"  Warning: Architecture mismatch detected")
+        print(f"  Missing keys: {len(missing_keys)}")
+        print(f"  Unexpected keys: {len(unexpected_keys)}")
+
+        # The checkpoint has pruned architecture, but model was created with original architecture
+        # We need to manually copy compatible layers and skip incompatible ones
+        print(f"\n  Rebuilding model with pruned architecture from checkpoint...")
+
+        # Get the checkpoint's layer dimensions
+        fc1_out = state_dict['fc_layers.0.weight'].shape[0]  # Pruned neurons
+        fc1_in = state_dict['fc_layers.0.weight'].shape[1]   # Input features
+
+        # Rebuild FC layers with correct sizes (matching original architecture)
+        import torch.nn as nn
+        model.fc_layers = nn.Sequential(
+            nn.Linear(fc1_in, fc1_out),                    # FC1: pruned size
+            nn.BatchNorm1d(fc1_out),                       # BN1: matches FC1 output
+            nn.ReLU(),
+            nn.Linear(fc1_out, cfg.data.classes)           # FC2: pruned input (no activation)
+        )
+
+        # Now load the state dict (should work perfectly)
+        model.load_state_dict(state_dict, strict=True)
+        print(f"  ✓ Model architecture rebuilt to match checkpoint")
+
     model = model.to(device)
 
     pruned_size_kb = model.get_model_size()
     print(f"✓ Pruned model loaded: {pruned_size_kb:.2f} KB")
+
+    # Evaluate pruned model (baseline before QAT)
+    print("\n" + "=" * 70)
+    print("Evaluating Pruned Baseline (Before QAT)")
+    print("=" * 70)
+    baseline_metrics = evaluate_model(model, val_loader, device, cfg.data.classes)
+    print(f"Baseline Metrics (Pruned FP32):")
+    print(f"  Accuracy:  {baseline_metrics['accuracy']:.4f} ({baseline_metrics['accuracy'] * 100:.2f}%)")
+    print(f"  Recall:    {baseline_metrics['recall']:.4f} ({baseline_metrics['recall'] * 100:.2f}%)")
+    print(f"  Precision: {baseline_metrics['precision']:.4f} ({baseline_metrics['precision'] * 100:.2f}%)")
+    print(f"  F1 Score:  {baseline_metrics['f1']:.4f} ({baseline_metrics['f1'] * 100:.2f}%)")
 
     # Prepare model for QAT
     model = prepare_qat_model(model, cfg)
@@ -441,8 +523,39 @@ def main():
     # Convert to quantized model
     quantized_model = convert_to_quantized(model, device)
 
+    # Evaluate quantized model
+    print("\n" + "=" * 70)
+    print("Evaluating Quantized Model (INT8)")
+    print("=" * 70)
+    quantized_metrics = evaluate_model(quantized_model, val_loader, 'cpu', cfg.data.classes)
+    print(f"Quantized Metrics (INT8):")
+    print(f"  Accuracy:  {quantized_metrics['accuracy']:.4f} ({quantized_metrics['accuracy'] * 100:.2f}%)")
+    print(f"  Recall:    {quantized_metrics['recall']:.4f} ({quantized_metrics['recall'] * 100:.2f}%)")
+    print(f"  Precision: {quantized_metrics['precision']:.4f} ({quantized_metrics['precision'] * 100:.2f}%)")
+    print(f"  F1 Score:  {quantized_metrics['f1']:.4f} ({quantized_metrics['f1'] * 100:.2f}%)")
+
+    # Calculate drops
+    print(f"\n{'─' * 70}")
+    print("Performance Impact of Quantization:")
+    print(f"{'─' * 70}")
+    acc_drop = (baseline_metrics['accuracy'] - quantized_metrics['accuracy']) * 100
+    recall_drop = (baseline_metrics['recall'] - quantized_metrics['recall']) * 100
+    precision_drop = (baseline_metrics['precision'] - quantized_metrics['precision']) * 100
+    f1_drop = (baseline_metrics['f1'] - quantized_metrics['f1']) * 100
+
+    print(f"  Accuracy Drop:  {acc_drop:+.2f}%")
+    print(f"  Recall Drop:    {recall_drop:+.2f}%")
+    print(f"  Precision Drop: {precision_drop:+.2f}%")
+    print(f"  F1 Drop:        {f1_drop:+.2f}%")
+
+    # Warning if drops are too large
+    if acc_drop > 2.0 or recall_drop > 2.0:
+        print(f"\n  ⚠️  WARNING: Performance drop > 2% detected!")
+        print(f"  Consider: More QAT epochs or check quantization config")
+
     # Save results
-    save_results(model, quantized_model, history, cfg, cfg.model.weights)
+    save_results(model, quantized_model, history, cfg, cfg.model.weights,
+                 baseline_metrics, quantized_metrics)
 
     print("\n✓ QAT complete! Quantized model ready for deployment.")
 
