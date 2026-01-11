@@ -1,0 +1,44 @@
+================================================
+QUANTIZATION-AWARE TRAINING (QAT)
+================================================
+Job ID: 344674
+Config: qat_s06_seed42.json
+Starting at: Sun 11 Jan 2026 08:11:13 PM IST
+Node: lambda3
+
+Python: /home/badran.abed/miniconda3/envs/imugr/bin/python
+Conda env: imugr
+
+================================================
+STARTING QAT TRAINING
+================================================
+======================================================================
+Quantization-Aware Training (QAT)
+======================================================================
+
+Loading config from: config/quantization/qat_s06_seed42.json
+Using device: cuda:0
+
+Loading data (LOSO subject 6)...
+Loading dataset...
+Applying ema filter to sensor data...
+Filter settings: EMA with alpha=0.3
+Filtering training data...
+Filtering test data...
+Low-pass filtering complete.
+Removing irrelevant data...
+Concatenating samples...
+Normalizaing inputs...
+Total samples for train: 2237782.
+Total samples for test: 259141.
+✓ Data loaded:
+  Train samples: 2237782
+  Val samples: 259141
+
+Loading pruned model from: outputs/pruning/ema_s06_prune40pct_seed42/pruned_final.pt
+
+================================================
+JOB COMPLETED
+================================================
+Finished at: Sun 11 Jan 2026 08:41:25 PM IST
+Exit code: 1

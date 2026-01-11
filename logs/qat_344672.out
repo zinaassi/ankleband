@@ -1,0 +1,25 @@
+================================================
+QUANTIZATION-AWARE TRAINING (QAT)
+================================================
+Job ID: 344672
+Config: qat_s06seed42.json
+Starting at: Sun 11 Jan 2026 08:09:10 PM IST
+Node: lambda3
+
+Python: /home/badran.abed/miniconda3/envs/imugr/bin/python
+Conda env: imugr
+
+================================================
+STARTING QAT TRAINING
+================================================
+======================================================================
+Quantization-Aware Training (QAT)
+======================================================================
+
+Loading config from: config/quantization/qat_s06seed42.json
+
+================================================
+JOB COMPLETED
+================================================
+Finished at: Sun 11 Jan 2026 08:09:15 PM IST
+Exit code: 1

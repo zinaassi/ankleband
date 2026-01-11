@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "/home/badran.abed/ankleband/scripts/07_quantization/quantize_qat.py", line 451, in <module>
+    main()
+  File "/home/badran.abed/ankleband/scripts/07_quantization/quantize_qat.py", line 429, in main
+    model.load_state_dict(state_dict)
+  File "/home/badran.abed/miniconda3/envs/imugr/lib/python3.9/site-packages/torch/nn/modules/module.py", line 2581, in load_state_dict
+    raise RuntimeError(
+RuntimeError: Error(s) in loading state_dict for PrunedConv1DNet:
+	size mismatch for fc_layers.0.weight: copying a param with shape torch.Size([42, 200]) from checkpoint, the shape in current model is torch.Size([64, 200]).
+	size mismatch for fc_layers.0.bias: copying a param with shape torch.Size([42]) from checkpoint, the shape in current model is torch.Size([64]).
+	size mismatch for fc_layers.1.weight: copying a param with shape torch.Size([42]) from checkpoint, the shape in current model is torch.Size([64]).
+	size mismatch for fc_layers.1.bias: copying a param with shape torch.Size([42]) from checkpoint, the shape in current model is torch.Size([64]).
+	size mismatch for fc_layers.1.running_mean: copying a param with shape torch.Size([42]) from checkpoint, the shape in current model is torch.Size([64]).
+	size mismatch for fc_layers.1.running_var: copying a param with shape torch.Size([42]) from checkpoint, the shape in current model is torch.Size([64]).
+	size mismatch for fc_layers.3.weight: copying a param with shape torch.Size([5, 42]) from checkpoint, the shape in current model is torch.Size([5, 64]).
