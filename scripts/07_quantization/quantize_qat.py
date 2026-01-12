@@ -60,7 +60,15 @@ def prepare_qat_model(model, cfg):
     print("=" * 70)
 
     # Set quantization backend (qnnpack optimized for mobile/embedded)
-    torch.backends.quantized.engine = cfg.model.quantization.backend
+    # Handle both uppercase and lowercase config keys
+    if hasattr(cfg.model, 'quantization'):
+        backend = cfg.model.quantization.backend
+    elif hasattr(cfg.model, 'QUANTIZATION'):
+        backend = cfg.model.QUANTIZATION['BACKEND']
+    else:
+        backend = 'qnnpack'  # Default
+
+    torch.backends.quantized.engine = backend
     print(f"Quantization backend: {torch.backends.quantized.engine}")
 
     # Step 1: Fuse BatchNorm layers (Conv+BN+ReLU → FusedConv+ReLU)
@@ -91,8 +99,8 @@ def prepare_qat_model(model, cfg):
     # Step 3: Insert fake quantization nodes
     print("\n2. Inserting fake quantization nodes...")
 
-    # Configure QAT with qnnpack backend settings
-    qat_config = quant.get_default_qat_qconfig(cfg.model.quantization.backend)
+    # Configure QAT with qnnpack backend settings (use backend variable from above)
+    qat_config = quant.get_default_qat_qconfig(backend)
     model.qconfig = qat_config
 
     # Prepare model for QAT (inserts fake quant modules)
@@ -466,26 +474,22 @@ def main():
     else:
         raise ValueError("Cannot find fc_layers.0.weight in checkpoint")
 
-    # Create model and load with strict=False to allow architecture mismatch
+    # Create model with original architecture
     model = PrunedConv1DNet(cfg=cfg)
 
-    # Load state dict with strict=False (allows size mismatch)
-    missing_keys, unexpected_keys = model.load_state_dict(state_dict, strict=False)
+    # Check if architecture matches
+    original_fc1_neurons = model.fc_layers[0].out_features
 
-    if missing_keys or unexpected_keys:
-        print(f"  Warning: Architecture mismatch detected")
-        print(f"  Missing keys: {len(missing_keys)}")
-        print(f"  Unexpected keys: {len(unexpected_keys)}")
-
-        # The checkpoint has pruned architecture, but model was created with original architecture
-        # We need to manually copy compatible layers and skip incompatible ones
-        print(f"\n  Rebuilding model with pruned architecture from checkpoint...")
+    if original_fc1_neurons != pruned_fc1_neurons:
+        # Architecture mismatch - need to rebuild
+        print(f"  Architecture mismatch: Model has {original_fc1_neurons} neurons, checkpoint has {pruned_fc1_neurons}")
+        print(f"  Rebuilding model to match pruned architecture...")
 
         # Get the checkpoint's layer dimensions
         fc1_out = state_dict['fc_layers.0.weight'].shape[0]  # Pruned neurons
         fc1_in = state_dict['fc_layers.0.weight'].shape[1]   # Input features
 
-        # Rebuild FC layers with correct sizes (matching original architecture)
+        # Rebuild FC layers with correct sizes
         import torch.nn as nn
         model.fc_layers = nn.Sequential(
             nn.Linear(fc1_in, fc1_out),                    # FC1: pruned size
@@ -493,10 +497,11 @@ def main():
             nn.ReLU(),
             nn.Linear(fc1_out, cfg.data.classes)           # FC2: pruned input (no activation)
         )
+        print(f"  ✓ FC layers rebuilt: {fc1_in} → {fc1_out} → {cfg.data.classes}")
 
-        # Now load the state dict (should work perfectly)
-        model.load_state_dict(state_dict, strict=True)
-        print(f"  ✓ Model architecture rebuilt to match checkpoint")
+    # Now load the state dict (should work perfectly)
+    model.load_state_dict(state_dict, strict=True)
+    print(f"  ✓ Checkpoint loaded successfully")
 
     model = model.to(device)
 
