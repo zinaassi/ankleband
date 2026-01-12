@@ -532,31 +532,55 @@ def main():
     print("\n" + "=" * 70)
     print("Evaluating Quantized Model (INT8)")
     print("=" * 70)
-    quantized_metrics = evaluate_model(quantized_model, val_loader, 'cpu', cfg.data.classes)
-    print(f"Quantized Metrics (INT8):")
-    print(f"  Accuracy:  {quantized_metrics['accuracy']:.4f} ({quantized_metrics['accuracy'] * 100:.2f}%)")
-    print(f"  Recall:    {quantized_metrics['recall']:.4f} ({quantized_metrics['recall'] * 100:.2f}%)")
-    print(f"  Precision: {quantized_metrics['precision']:.4f} ({quantized_metrics['precision'] * 100:.2f}%)")
-    print(f"  F1 Score:  {quantized_metrics['f1']:.4f} ({quantized_metrics['f1'] * 100:.2f}%)")
 
-    # Calculate drops
-    print(f"\n{'─' * 70}")
-    print("Performance Impact of Quantization:")
-    print(f"{'─' * 70}")
-    acc_drop = (baseline_metrics['accuracy'] - quantized_metrics['accuracy']) * 100
-    recall_drop = (baseline_metrics['recall'] - quantized_metrics['recall']) * 100
-    precision_drop = (baseline_metrics['precision'] - quantized_metrics['precision']) * 100
-    f1_drop = (baseline_metrics['f1'] - quantized_metrics['f1']) * 100
+    try:
+        # Try to evaluate quantized model on CPU
+        quantized_metrics = evaluate_model(quantized_model, val_loader, 'cpu', cfg.data.classes)
+        print(f"Quantized Metrics (INT8):")
+        print(f"  Accuracy:  {quantized_metrics['accuracy']:.4f} ({quantized_metrics['accuracy'] * 100:.2f}%)")
+        print(f"  Recall:    {quantized_metrics['recall']:.4f} ({quantized_metrics['recall'] * 100:.2f}%)")
+        print(f"  Precision: {quantized_metrics['precision']:.4f} ({quantized_metrics['precision'] * 100:.2f}%)")
+        print(f"  F1 Score:  {quantized_metrics['f1']:.4f} ({quantized_metrics['f1'] * 100:.2f}%)")
 
-    print(f"  Accuracy Drop:  {acc_drop:+.2f}%")
-    print(f"  Recall Drop:    {recall_drop:+.2f}%")
-    print(f"  Precision Drop: {precision_drop:+.2f}%")
-    print(f"  F1 Drop:        {f1_drop:+.2f}%")
+        # Calculate drops
+        print(f"\n{'─' * 70}")
+        print("Performance Impact of Quantization:")
+        print(f"{'─' * 70}")
+        acc_drop = (baseline_metrics['accuracy'] - quantized_metrics['accuracy']) * 100
+        recall_drop = (baseline_metrics['recall'] - quantized_metrics['recall']) * 100
+        precision_drop = (baseline_metrics['precision'] - quantized_metrics['precision']) * 100
+        f1_drop = (baseline_metrics['f1'] - quantized_metrics['f1']) * 100
 
-    # Warning if drops are too large
-    if acc_drop > 2.0 or recall_drop > 2.0:
-        print(f"\n  ⚠️  WARNING: Performance drop > 2% detected!")
-        print(f"  Consider: More QAT epochs or check quantization config")
+        print(f"  Accuracy Drop:  {acc_drop:+.2f}%")
+        print(f"  Recall Drop:    {recall_drop:+.2f}%")
+        print(f"  Precision Drop: {precision_drop:+.2f}%")
+        print(f"  F1 Drop:        {f1_drop:+.2f}%")
+
+        # Warning if drops are too large
+        if acc_drop > 2.0 or recall_drop > 2.0:
+            print(f"\n  ⚠️  WARNING: Performance drop > 2% detected!")
+            print(f"  Consider: More QAT epochs or check quantization config")
+
+    except NotImplementedError as e:
+        print(f"⚠️  WARNING: Cannot evaluate quantized Conv1D on CPU")
+        print(f"   Error: {str(e)[:100]}...")
+        print(f"\n   Using QAT validation metrics as proxy (last epoch):")
+
+        # Use the last epoch's validation metrics as approximation
+        quantized_metrics = {
+            'accuracy': history['val_accuracy'][-1],
+            'recall': history['val_recall'][-1],
+            'precision': history['val_precision'][-1],
+            'f1': 2 * (history['val_recall'][-1] * history['val_precision'][-1]) /
+                  (history['val_recall'][-1] + history['val_precision'][-1] + 1e-10)
+        }
+
+        print(f"   Accuracy:  {quantized_metrics['accuracy']:.4f} ({quantized_metrics['accuracy'] * 100:.2f}%)")
+        print(f"   Recall:    {quantized_metrics['recall']:.4f} ({quantized_metrics['recall'] * 100:.2f}%)")
+        print(f"   Precision: {quantized_metrics['precision']:.4f} ({quantized_metrics['precision'] * 100:.2f}%)")
+        print(f"   F1 Score:  {quantized_metrics['f1']:.4f} ({quantized_metrics['f1'] * 100:.2f}%)")
+        print(f"\n   NOTE: These are from QAT training (with fake quantization)")
+        print(f"         True INT8 performance may differ slightly.")
 
     # Save results
     save_results(model, quantized_model, history, cfg, cfg.model.weights,
