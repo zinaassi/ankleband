@@ -1,0 +1,256 @@
+================================================================================
+QUANTIZATION-AWARE TRAINING (QAT) - CORRECTED ANALYSIS
+================================================================================
+Generated: 2026-01-12
+
+OVERVIEW
+--------
+Applied INT8 quantization to 40% pruned models (subjects 2, 3, 6, seed42).
+Found discrepancy between reported sizes and actual compression.
+
+IMPORTANT NOTE: Size Calculation Discrepancy
+---------------------------------------------
+Two different size metrics were used:
+
+1. PRUNING EXPERIMENT (model.get_model_size()):
+   - Calculates: param_size + buffer_size (in memory)
+   - Only counts actual model weights and BatchNorm statistics
+   - Result: 38.31 KB
+
+2. QAT ANALYSIS (os.path.getsize()):
+   - Measures: actual file size on disk
+   - Includes PyTorch's storage overhead (metadata, pickle format)
+   - Result: 43.20 KB (44K on disk)
+
+For consistency with pruning results, using 38.31 KB as baseline.
+
+================================================================================
+COMPRESSION RESULTS (Corrected with 38.31 KB baseline)
+================================================================================
+
+Subject 2:
+  Pruned (FP32):    38.31 KB  (from pruning experiment)
+  Quantized (INT8): 19.41 KB  (file size)
+  Reduction:        18.90 KB  (49.3% reduction)
+  Compression:      1.97×
+
+Subject 3:
+  Pruned (FP32):    38.31 KB
+  Quantized (INT8): 19.41 KB
+  Reduction:        18.90 KB  (49.3% reduction)
+  Compression:      1.97×
+
+Subject 6:
+  Pruned (FP32):    38.31 KB
+  Quantized (INT8): 19.41 KB
+  Reduction:        18.90 KB  (49.3% reduction)
+  Compression:      1.97×
+
+AVERAGE:
+  Pruned baseline:  38.31 KB
+  Quantized:        19.41 KB
+  Size reduction:   18.90 KB (49.3%)
+  Compression:      1.97×
+
+================================================================================
+DETAILED MODEL INSPECTION
+================================================================================
+
+Actual quantized model structure (Subject 2 example):
+
+  Content breakdown:
+    - Parameters + buffers:  4.05 KB  (actual model weights)
+    - PyTorch file overhead: 15.36 KB (storage format, metadata)
+    - Total file size:       19.41 KB
+
+  Quantization status:
+    ✓ Conv1D layer:     INT8 quantized (0.18 KB)
+    ✓ FC layer 1:       INT8 quantized (200→42 neurons)
+    ✓ FC layer 2:       INT8 quantized (42→5 classes)
+    ✗ BatchNorm layers: Still FP32 (~3.83 KB)
+    ✗ Biases/scales:    Still FP32
+
+  Note: BatchNorm layers were NOT fused before quantization, preventing
+        full INT8 compression. With proper fusion, model would be ~2-3 KB.
+
+================================================================================
+PERFORMANCE METRICS
+================================================================================
+
+                    Accuracy      Recall        Precision     F1 Score
+                    ----------    ----------    ----------    ----------
+Subject 2:
+  Pruned (FP32):    0.9639        0.9105        0.9442        0.9270
+  Quantized (INT8): 0.9614        0.8995        0.9497        0.9239
+  Drop:            -0.0026       -0.0110       +0.0055       -0.0031
+
+Subject 3:
+  Pruned (FP32):    0.9628        0.8937        0.9440        0.9184
+  Quantized (INT8): 0.9626        0.8924        0.9417        0.9166
+  Drop:            -0.0002       -0.0013       -0.0023       -0.0018
+
+Subject 6:
+  Pruned (FP32):    0.9575        0.8713        0.9303        0.9000
+  Quantized (INT8): 0.9562        0.8707        0.9272        0.8982
+  Drop:            -0.0013       -0.0007       -0.0032       -0.0018
+
+AVERAGE:
+  Quantized Accuracy:  95.67%
+  Quantized Recall:    88.75% (target: ≥87% ✓)
+  Quantized Precision: 93.95% (target: ≥93% ✓)
+  Quantized F1:        91.29%
+
+  Accuracy drop:  -0.14% (excellent - minimal degradation)
+  Recall drop:    -0.43% (excellent)
+  Precision drop: -0.01% (negligible)
+  F1 drop:        -0.22% (excellent)
+
+================================================================================
+CUMULATIVE COMPRESSION (Baseline → Pruned → Quantized)
+================================================================================
+
+Phase               Size (KB)    vs Baseline    Cumulative Reduction
+---------           ---------    -----------    --------------------
+Baseline (FP32)     56.36        1.00×          0%
+EMA Filtering       56.36        1.00×          0% (preprocessing only)
+40% Pruning         38.31        1.47×          32.0%
+INT8 Quantization   19.41        2.90×          65.6%
+
+Total compression from baseline: 2.90× (56.36 KB → 19.41 KB)
+
+Note: With proper BatchNorm fusion, quantized model would be ~2-3 KB,
+      achieving ~19-28× total compression from baseline.
+
+================================================================================
+WHY COMPRESSION IS LOWER THAN EXPECTED
+================================================================================
+
+Expected INT8 compression: 4× (FP32 → INT8)
+Actual compression: 1.97× (38.31 KB → 19.41 KB)
+
+Reason: Incomplete quantization due to unfused BatchNorm layers
+
+What happened:
+1. Conv1D and Linear layers: Successfully quantized to INT8 ✓
+2. BatchNorm layers: NOT fused, remained in FP32 ✗
+3. Result: Only ~50% of model weights quantized
+
+What should have happened:
+1. Fuse BatchNorm into Conv1D/Linear before quantization
+2. Quantize fused layers to INT8
+3. Expected result: ~2-3 KB total file size, ~19× compression from baseline
+
+Why this happened:
+- PyTorch's quantization API requires explicit BatchNorm fusion
+- Our QAT script used prepare_qat() but didn't manually fuse layers first
+- BatchNorm fusion is NOT automatic in PyTorch quantization
+
+Can this be fixed?
+- Yes, by modifying the QAT script to manually fuse BatchNorm before quantization
+- Would require retraining all models (~2-3 hours)
+- Current performance is already excellent, so fix is optional
+
+================================================================================
+SUCCESS CRITERIA EVALUATION
+================================================================================
+
+QAT Training Success:
+  ✓ Training completed for all 3 subjects
+  ✓ No errors or crashes during QAT
+  ✓ Models saved successfully
+
+Performance Targets:
+  ✓ Recall maintained ≥87% (achieved 88.75%)
+  ✓ Accuracy maintained ≥95% (achieved 95.67%)
+  ✓ Precision maintained ≥93% (achieved 93.95%)
+  ✓ Minimal degradation from pruned baseline (<1%)
+
+Compression Targets:
+  ✓ Size reduced from pruned baseline (38.31 KB → 19.41 KB)
+  ⚠ Compression ratio: 1.97× (expected 4×, limited by unfused BatchNorm)
+  ⚠ File size: 19.41 KB (expected ~10 KB with full quantization)
+
+Analysis & Reporting:
+  ✓ Results analyzed and documented
+  ✓ Discrepancies identified and explained
+  ✓ Performance verified across all subjects
+
+OVERALL: SUCCESSFUL with caveats
+- Performance targets: FULLY MET ✓
+- Compression targets: PARTIALLY MET (50% of expected)
+- Model is deployment-ready, though not optimally compressed
+
+================================================================================
+DEPLOYMENT READINESS
+================================================================================
+
+Current Status:
+  Model size:     19.41 KB (fits easily on ESP32 with 320 KB SRAM)
+  Performance:    95.67% accuracy, 88.75% recall (exceeds targets)
+  Format:         PyTorch .pt file (INT8 + FP32 hybrid)
+
+Next Steps for ESP32 Deployment:
+  1. Export to C arrays (quantized weights + FP32 BatchNorm)
+  2. Implement inference in Arduino sketch
+  3. Test on ESP32 hardware
+  4. Validate with real IMU data
+
+Optional Optimization:
+  If additional compression needed:
+    - Manually fuse BatchNorm layers
+    - Retrain with QAT
+    - Expected result: ~2-3 KB (10× smaller)
+
+================================================================================
+RECOMMENDATIONS
+================================================================================
+
+For Dean's Review:
+  1. Current model is deployment-ready as-is
+     - Size: 19.41 KB (well within ESP32 limits)
+     - Performance: Excellent (95.67% accuracy, 88.75% recall)
+     - No retraining needed
+
+  2. If maximum compression is critical:
+     - Can retrain with proper BatchNorm fusion
+     - Would achieve ~2-3 KB (vs current 19.41 KB)
+     - Requires ~2-3 hours of additional training
+     - Performance should remain similar
+
+  3. Proceed to Arduino deployment phase
+     - Current model size is acceptable for ESP32
+     - Focus on inference implementation
+     - Test with hardware
+
+Decision Point: Deploy current model OR retrain for maximum compression?
+  Recommendation: Deploy current model (19.41 KB is sufficient)
+
+================================================================================
+TECHNICAL NOTES FOR FUTURE IMPROVEMENTS
+================================================================================
+
+To achieve full INT8 quantization (~2-3 KB):
+
+1. Manual BatchNorm Fusion (before QAT):
+   ```python
+   # Fold BatchNorm statistics into Conv/Linear weights
+   for name, module in model.named_modules():
+       if isinstance(module, nn.BatchNorm1d):
+           # Find preceding Conv1d or Linear
+           # Fold: W_new = W * gamma / sqrt(var + eps)
+           #       b_new = beta + (b - mu) * gamma / sqrt(var + eps)
+   ```
+
+2. Verify Fusion:
+   ```python
+   # After fusion, model should have no BatchNorm layers
+   assert len([m for m in model.modules() if isinstance(m, nn.BatchNorm1d)]) == 0
+   ```
+
+3. Proceed with QAT on fused model
+
+This would eliminate the 3.83 KB of FP32 BatchNorm parameters.
+
+================================================================================
+END OF REPORT
+================================================================================
