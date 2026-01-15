@@ -1,4 +1,27 @@
 /***********************************************************/
+/*  COMPRESSED MODEL VERSION (INT8 + 40% Pruned + EMA)    */
+/***********************************************************/
+/*
+ * This sketch uses the compressed model with:
+ * - 42 neurons in FC1 (40% pruned from 64)
+ * - INT8 quantization
+ * - EMA filter (alpha=0.3) applied BEFORE normalization
+ *
+ * Model file: model_weights_int8_pruned42.h
+ *
+ * PREPROCESSING PIPELINE (matches Python training):
+ * 1. Read raw IMU data (6 channels: ax, ay, az, gx, gy, gz)
+ * 2. Apply EMA filter with alpha=0.3 to all channels
+ * 3. Normalize filtered values:
+ *    - Accelerometer: divide by MAX_ACC (10 m/s²)
+ *    - Gyroscope: divide by MAX_GYRO (2 rad/s)
+ * 4. Feed to neural network for inference
+ *
+ * CRITICAL: EMA filter MUST be applied before normalization,
+ * otherwise model performance will degrade (trained on filtered data).
+ */
+
+/***********************************************************/
 /*                Libraries                                */
 /***********************************************************/
 #include <BLEDevice.h>
@@ -75,6 +98,24 @@ Eigen::VectorXf filtered_buffer_vectors[NUM_CHANNELS];
 Eigen::VectorXf imu_cache; // a cache to append IMU values
 Eigen::MatrixXf input_tensor; // will be resized in setup
 
+/*************************************************************************************/
+/*                     EMA FILTER CONFIGURATION (NEW)                                */
+/*************************************************************************************/
+// EMA Filter Configuration (matches Python training: alpha=0.3)
+const float EMA_ALPHA = 0.3;
+
+// EMA filter state for 6 sensor channels (ax, ay, az, gx, gy, gz)
+// Initialized to 0, first sample will initialize them
+float ema_acc_x = 0.0;
+float ema_acc_y = 0.0;
+float ema_acc_z = 0.0;
+float ema_gyro_x = 0.0;
+float ema_gyro_y = 0.0;
+float ema_gyro_z = 0.0;
+
+// Flag to track first sample (for EMA initialization)
+bool ema_initialized = false;
+
 // regular operation
 int counter;
 uint8_t fingers_state = 0; // 0 - opened, 1 - closed, 2 - point (index finger only)
@@ -89,7 +130,7 @@ class MyClientCallback : public BLEClientCallbacks {
   }
 
   void onDisconnect(BLEClient* pclient) {
-    
+
     isconnected = false;
     Serial.println("onDisconnect");
     // doScan = true;
@@ -98,10 +139,10 @@ class MyClientCallback : public BLEClientCallbacks {
 };
 
 bool connectToServer() {
-  
+
     Serial.print("Forming a connection to ");
     Serial.println(myDevice->getAddress().toString().c_str());
-    
+
     BLEClient*  pClient  = BLEDevice::createClient();
     Serial.println(" - Created client");
 
@@ -130,7 +171,7 @@ bool connectToServer() {
       return false;
     }
     Serial.println(" - Found our Execute characteristic");
-    
+
     // Read the value of the characteristic.
     if(pRemoteCharExecute->canRead()) {
       // std::string value = pRemoteCharExecute->readValue();
@@ -138,7 +179,7 @@ bool connectToServer() {
       Serial.print("Execute: The characteristic value was: ");
       Serial.println(value.c_str());
     }
-    
+
     // Trigger Charachteristics:
     // Obtain a reference to the service we are after in the remote BLE server.
     BLERemoteService* pRemoteTrigService = pClient->getService(serviceTrigUUID);
@@ -158,7 +199,7 @@ bool connectToServer() {
       return false;
     }
     Serial.println(" - Found our Trigger characteristic");
- 
+
     // Read the value of the characteristic.
     if(pRemoteCharTrigger->canRead()) {
       String value = pRemoteCharTrigger->readValue();
@@ -201,6 +242,62 @@ void InitBLE() {
   pBLEScan->start(1, false);
 }
 
+/*************************************************************************************/
+/*                         EMA FILTER FUNCTIONS (NEW)                                */
+/*************************************************************************************/
+/**
+ * Apply EMA (Exponential Moving Average) filter to a single sensor value.
+ * This matches the preprocessing used during model training.
+ *
+ * Formula: filtered[i] = alpha * raw[i] + (1 - alpha) * filtered[i-1]
+ *
+ * @param raw_value: Current raw sensor reading
+ * @param prev_filtered: Previous filtered value (state)
+ * @param alpha: Smoothing factor (0.3 for our model)
+ * @return: New filtered value
+ */
+float apply_ema_filter(float raw_value, float prev_filtered, float alpha) {
+    return alpha * raw_value + (1.0 - alpha) * prev_filtered;
+}
+
+/**
+ * Update all 6 EMA filter states with new IMU readings.
+ * Call this immediately after reading from IMU, before normalization.
+ *
+ * @param raw_acc_x/y/z: Raw accelerometer readings (m/s²)
+ * @param raw_gyro_x/y/z: Raw gyroscope readings (rad/s)
+ */
+void update_ema_filters(float raw_acc_x, float raw_acc_y, float raw_acc_z,
+                        float raw_gyro_x, float raw_gyro_y, float raw_gyro_z) {
+    // First sample: initialize EMA state with raw values
+    if (!ema_initialized) {
+        ema_acc_x = raw_acc_x;
+        ema_acc_y = raw_acc_y;
+        ema_acc_z = raw_acc_z;
+        ema_gyro_x = raw_gyro_x;
+        ema_gyro_y = raw_gyro_y;
+        ema_gyro_z = raw_gyro_z;
+        ema_initialized = true;
+        return;
+    }
+
+    // Apply EMA filter to all 6 channels
+    ema_acc_x = apply_ema_filter(raw_acc_x, ema_acc_x, EMA_ALPHA);
+    ema_acc_y = apply_ema_filter(raw_acc_y, ema_acc_y, EMA_ALPHA);
+    ema_acc_z = apply_ema_filter(raw_acc_z, ema_acc_z, EMA_ALPHA);
+    ema_gyro_x = apply_ema_filter(raw_gyro_x, ema_gyro_x, EMA_ALPHA);
+    ema_gyro_y = apply_ema_filter(raw_gyro_y, ema_gyro_y, EMA_ALPHA);
+    ema_gyro_z = apply_ema_filter(raw_gyro_z, ema_gyro_z, EMA_ALPHA);
+}
+
+/**
+ * Reset EMA filter state (call after gesture detection to prevent state bleed)
+ */
+void reset_ema_filters() {
+    ema_initialized = false;
+    // State will be reinitialized on next sample
+}
+
 /************************************************************************/
 /*                           IMU Functions:                             */
 /************************************************************************/
@@ -220,6 +317,7 @@ void setReports(void) {
 void setup() {
   Serial.begin(115200);
   Serial.println("Device setup started...");
+  Serial.println("COMPRESSED MODEL VERSION: INT8 + 40% Pruned + EMA Filter");
 
   // prepare led pins
   pinMode(GREEN_LED, OUTPUT); // green
@@ -278,9 +376,9 @@ void setup() {
   // }
 
   // turn on led to notify everything is working and turn it back off
-  setLedPins(LOW, HIGH, LOW); 
+  setLedPins(LOW, HIGH, LOW);
   delay(500);
-  setLedPins(LOW, LOW, LOW); 
+  setLedPins(LOW, LOW, LOW);
 }
 
 void loop() {
@@ -313,14 +411,24 @@ void loop() {
     current_buffer_size = buffer_vectors[0].size();
     if (current_buffer_size < BUFFER_SIZE_TWICE) {
 
-      // set accelerometer values into cache
-      imu_cache(0) = sensorValue.un.accelerometer.x / MAX_ACC;
-      imu_cache(1) = sensorValue.un.accelerometer.y / MAX_ACC;
-      imu_cache(2) = sensorValue.un.accelerometer.z / MAX_ACC;
+      // === MODIFIED: Apply EMA filter BEFORE normalization ===
+      // 1. Get raw accelerometer values
+      float raw_acc_x = sensorValue.un.accelerometer.x;
+      float raw_acc_y = sensorValue.un.accelerometer.y;
+      float raw_acc_z = sensorValue.un.accelerometer.z;
+
+      // 2. Apply EMA filter (CRITICAL: matches Python training)
+      update_ema_filters(raw_acc_x, raw_acc_y, raw_acc_z,
+                        ema_gyro_x, ema_gyro_y, ema_gyro_z);
+
+      // 3. Normalize FILTERED values (not raw!)
+      imu_cache(0) = ema_acc_x / MAX_ACC;
+      imu_cache(1) = ema_acc_y / MAX_ACC;
+      imu_cache(2) = ema_acc_z / MAX_ACC;
 
       // resize all six vectors to add one element each and add cache values
       for (int i = 0; i < NUM_CHANNELS; i++) {
-        buffer_vectors[i].conservativeResize(current_buffer_size + 1); 
+        buffer_vectors[i].conservativeResize(current_buffer_size + 1);
         buffer_vectors[i](current_buffer_size) = imu_cache(i);
       }
     }
@@ -338,24 +446,34 @@ void loop() {
     current_buffer_size = buffer_vectors[3].size();
     if (current_buffer_size < BUFFER_SIZE_TWICE) {
 
-      // set gyroscope values into cache
-      imu_cache(3) = sensorValue.un.gyroscope.x / MAX_GYRO;
-      imu_cache(4) = sensorValue.un.gyroscope.y / MAX_GYRO;
-      imu_cache(5) = sensorValue.un.gyroscope.z / MAX_GYRO;
+      // === MODIFIED: Apply EMA filter BEFORE normalization ===
+      // 1. Get raw gyroscope values
+      float raw_gyro_x = sensorValue.un.gyroscope.x;
+      float raw_gyro_y = sensorValue.un.gyroscope.y;
+      float raw_gyro_z = sensorValue.un.gyroscope.z;
+
+      // 2. Apply EMA filter
+      update_ema_filters(ema_acc_x, ema_acc_y, ema_acc_z,
+                        raw_gyro_x, raw_gyro_y, raw_gyro_z);
+
+      // 3. Normalize FILTERED values
+      imu_cache(3) = ema_gyro_x / MAX_GYRO;
+      imu_cache(4) = ema_gyro_y / MAX_GYRO;
+      imu_cache(5) = ema_gyro_z / MAX_GYRO;
 
       // resize all six vectors to add one element each and add cache values
       for (int i = 0; i < NUM_CHANNELS; i++) {
-        buffer_vectors[i].conservativeResize(current_buffer_size + 1); 
+        buffer_vectors[i].conservativeResize(current_buffer_size + 1);
         buffer_vectors[i](current_buffer_size) = imu_cache(i);
       }
     }
 
     break;
   }
-  
+
   if (doConnect == true) { //TRUE when we scanned and found the desired BLE server
     connectToServer();
-    
+
     if (isconnected)
       Serial.println("We are now connected to the BLE Server."); // connect to the server. TRUE if connection was established
     else
@@ -400,7 +518,7 @@ void loop() {
           msg = point_task;
           fingers_state = 2;
           new_state_requested = true;
-        } else if ((fingers_state == 1 && class_index == 1) || 
+        } else if ((fingers_state == 1 && class_index == 1) ||
                    (fingers_state == 2 && class_index == 2)) { // open all fingers
           msg = open_all_task;
           fingers_state = 0;
@@ -440,6 +558,9 @@ void loop() {
     Serial.print("Elapsed Time: ");
     Serial.print(elapsedTime);
     Serial.println(" microseconds");
+
+    // === MODIFIED: Reset EMA filters after gesture ===
+    reset_ema_filters();
 
     // return back to data collection
     for (int i = 0; i < NUM_CHANNELS; i++) {
