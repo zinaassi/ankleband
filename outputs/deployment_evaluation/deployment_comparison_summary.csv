@@ -1,0 +1,10 @@
+metric,baseline,optimized,improvement
+Weight Memory (KB),56.3,12.6,78%
+Parameter Count,13300,8790,34%
+Total FLOPs,35024,25872,26%
+Est. Inference (ms),0.70,0.17,4.1x
+Est. Power (%),100,30,70%
+Accuracy (%),96.06,96.18,+0.12%
+Recall (%),88.33,88.54,+0.21%
+Precision (%),94.85,94.83,-0.02%
+F1-Score (%),91.47,91.58,+0.11%
