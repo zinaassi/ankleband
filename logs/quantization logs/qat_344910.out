@@ -57,10 +57,7 @@ Preparing Model for QAT
 ======================================================================
 Quantization backend: qnnpack
 
-1. Fusing BatchNorm into Conv/Linear layers...
-  ✓ BatchNorm fusion will be handled by QAT preparation
-
-2. Inserting fake quantization nodes...
+1. Inserting fake quantization nodes...
   ✓ Fake quantization nodes inserted
   - Simulating INT8 quantization during training
   - Model stays in FP32 but learns quantization-friendly weights

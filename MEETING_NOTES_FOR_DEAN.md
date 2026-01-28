@@ -676,4 +676,3 @@ Median filters would require sorting, which is expensive for real-time use."
 
 ---
 
-**Good luck with Dean! You have solid work to present! 🎯**
