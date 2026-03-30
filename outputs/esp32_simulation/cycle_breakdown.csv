@@ -1,0 +1,16 @@
+Stage,Cycles,Percentage,INT8_MACs,FP_Ops,Source_Reference
+EMA filter,2160,2.4,0,1080,ema_filter.h::filterAll()
+Quantize conv input,3240,3.5,0,720,computeConv1d():128-134
+Conv1D (INT8),23420,25.7,3600,200,computeConv1d():138-158
+Dequantize conv output,1000,1.1,0,200,"dequantize():111-116, called at line 73"
+BatchNorm1 (FP32),5000,5.5,0,1200,computeBatchNorm1():167-173
+ReLU1 (FP32),800,0.9,0,0,applyReLU_FP32():222-228
+Quantize FC1 input,1800,2.0,0,400,"quantize():99-108, called at line 79"
+"FC1 (INT8, 200->42)",50778,55.6,8400,42,computeFC1():188-202
+Dequantize FC1 output,210,0.2,0,42,"dequantize(), called at line 84"
+BatchNorm2 (FP32),1050,1.2,0,252,computeBatchNorm2():176-181
+ReLU2 (FP32),168,0.2,0,0,applyReLU_FP32()
+Quantize FC2 input,378,0.4,0,84,"quantize(), called at line 91"
+"FC2 (INT8, 42->5)",1280,1.4,210,5,computeFC2():205-216
+Argmax,20,0.0,0,0,argmax():244-253
+TOTAL,91304,100.0,12210,4225,

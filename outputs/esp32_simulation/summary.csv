@@ -1,0 +1,14 @@
+Metric,Value,Unit
+Model memory (weights+BN+biases),12.60,KB
+Total SRAM footprint,20.03,KB
+SRAM utilization,3.9,%
+Remaining SRAM,500.0,KB
+Inference latency @ 240 MHz,380,us
+Inference latency @ 240 MHz,0.380,ms
+Throughput @ 240 MHz,2629,inferences/s
+Energy per inference,37.66,uJ
+CPU duty cycle @ 100 Hz,3.80,%
+Average power @ 100 Hz,67.26,mW
+Total INT8 MACs,12210,
+Total FP32 operations,4225,
+Total CPU cycles,91304,

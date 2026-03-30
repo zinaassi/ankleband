@@ -1,0 +1,14 @@
+Metric,Value,Unit
+Inference time @ 240 MHz,380,us
+Inference time @ 240 MHz,0.380,ms
+Throughput @ 240 MHz,2629,inferences/s
+Inference time @ 160 MHz,571,us
+Inference time @ 160 MHz,0.571,ms
+Throughput @ 160 MHz,1752,inferences/s
+Inference time @ 80 MHz,1141,us
+Inference time @ 80 MHz,1.141,ms
+Throughput @ 80 MHz,876,inferences/s
+Energy per inference @ 240 MHz,37.66,uJ
+CPU duty cycle @ 100 Hz,3.80,%
+"Avg current @ 100 Hz, 240 MHz",20.38,mA
+"Avg power @ 100 Hz, 240 MHz",67.26,mW

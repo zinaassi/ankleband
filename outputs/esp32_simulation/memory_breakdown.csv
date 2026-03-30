@@ -1,0 +1,16 @@
+Category,Component,Bytes,KB
+Model,INT8 weights (Conv+FC1+FC2),8790,8.58
+Model,FP32 biases,228,0.22
+Model,FP32 BatchNorm parameters,3872,3.78
+Model,Quantization parameters,15,0.015
+Model,SUBTOTAL,12905,12.60
+Runtime,Static inference buffers,1230,1.20
+Runtime,Conv input quant buffer (stack),360,0.35
+Runtime,Input data buffer (FP32),1440,1.41
+Runtime,EMA filter state,30,0.029
+Runtime,Object overhead,45,0.044
+Runtime,SUBTOTAL,3105,3.03
+Code,Inference engine (.text estimate),4500,4.39
+TOTAL,Complete SRAM footprint,20510,20.03
+Reference,ESP32 total SRAM,532480,520
+Reference,Utilization,3.9%,
