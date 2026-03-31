@@ -709,7 +709,9 @@ All layers exhibit weight distributions well-suited for symmetric INT8 quantizat
 
 #### 8.3.4 ESP32 Deployment Performance
 
-Table 8.5 presents the estimated inference performance on the ESP32-WROOM-32 (Xtensa LX6 @ 240 MHz), derived from instruction-level cycle simulation.
+In the absence of physical ESP32 hardware, inference performance was estimated using instruction-level cycle simulation. The complete INT8 inference pipeline — including EMA filtering, convolution, fully-connected layers, batch normalization, and quantization/dequantization operations — was analyzed by mapping each arithmetic operation to its corresponding Xtensa LX6 ISA cycle cost. Total cycle counts were converted to latency at 240 MHz. This methodology provides a conservative estimate, accounting for computational cost while excluding cache and memory effects.
+
+Table 8.5 presents the estimated inference performance on the ESP32-WROOM-32 (Xtensa LX6 @ 240 MHz).
 
 **Table 8.5: ESP32 Inference Performance**
 
